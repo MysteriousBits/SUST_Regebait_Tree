@@ -1,0 +1,85 @@
+\usepackage[hmargin=0.8cm, vmargin={1cm, 0.8cm}]{geometry}
+\usepackage{multicol}
+\usepackage{titlesec}
+\usepackage{tocloft}
+\usepackage{listings}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+
+% Define a color for codes
+\definecolor{codecolor}{rgb}{0.1,0.1,0.1}
+
+% small monospace for code
+\lstset{
+    basicstyle=\ttfamily\footnotesize\color{codecolor},
+    keepspaces=true,
+    breaklines=true,
+    tabsize=2,
+    showstringspaces=false,
+    emptylines=*1,
+    numbers=none,
+    aboveskip=1pt,
+    columns=fullflexible
+}
+
+% Set coloumn dividers
+\setlength{\columnsep}{0.5cm} % space between columns
+\setlength{\columnseprule}{0.2pt} % Multicol separation line with
+\setlength{\columnsep}{20pt} % Multicol separation margin
+
+% Compact TOC
+\renewcommand{\cfttoctitlefont}{\large\bfseries} % small TOC title
+\renewcommand{\contentsname}{} % remove "Contents"
+\setlength{\cftbeforetoctitleskip}{-1em}
+\setlength{\cftaftertoctitleskip}{0em}           % end author block
+
+\renewcommand{\chapter}{
+  \global\@topnum\z@
+  \secdef
+  \@chapter
+  \@schapter
+}
+
+
+% --- Chapter style ---
+\titleformat{\chapter}[block]
+  {\Large\bfseries} % font size + bold
+  {}                % no "Chapter X"
+  {0pt}             % no extra spacing
+  {\thechapter\quad} % (remove if you don't want numbers at all)
+
+\titlespacing*{\chapter}
+  {0pt}   % left margin
+  {1em}   % space before
+  {0.5em} % space after
+
+% --- Section style (small, not bold, no rule) ---
+\titleformat{\section}[block]
+  {\bfseries\normalsize} % font: normal, not bold
+  {} % no label/number in front
+  {0pt} % no separation
+  {\thesection\quad} % just print the title
+  [\titleline{\rule{\linewidth}{0.2pt}}]
+
+\newcommand{\sectionend}{
+  % \vspace{0.5em}%
+  \hrule height 0.2pt%
+  % \vspace{1em}%
+}
+
+% page number at top right
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\fancyheadoffset{0pt}
+\fancyfootoffset{0pt}
+\setlength\headsep{5pt}
+\setlength{\headheight}{30pt}
+
+\fancypagestyle{plain}{%
+  \fancyhf{}
+  \fancyhead[R]{\thepage}
+}

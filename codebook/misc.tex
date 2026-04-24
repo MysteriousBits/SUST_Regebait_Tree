@@ -1,0 +1,44 @@
+\chapter{Miscellaneous}
+
+\section{Generationg Permutations}
+\begin{lstlisting}[language=C++]
+VI a;
+//...
+
+sort(all(a));
+do
+{
+    // Process permutation...
+} while (next_permutation(all(a)));
+\end{lstlisting}
+\sectionend
+
+\section{Iterating over Submasks}
+\begin{lstlisting}[language=C++]
+int n = 17;
+
+for (int mask = 0; mask < (1 << n); ++mask)
+{
+    for (int sub = mask; sub; sub = (sub - 1) & mask)
+    {
+        // Process submask...
+    }
+}
+\end{lstlisting}
+\sectionend
+
+\section{pbds}
+\begin{lstlisting}[language=C++]
+// ordered set
+ordered_set<int> st;
+// ordered multiset
+ordered_set<int, less_equal<int>> multi;
+
+// insert element
+st.insert(x);
+// get index
+st.order_of_key(x);
+// access by index
+st.find_by_order(idx);
+\end{lstlisting}
+\sectionend

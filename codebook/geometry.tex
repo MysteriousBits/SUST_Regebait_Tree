@@ -1,0 +1,188 @@
+\chapter{Geometry}
+
+\section{Common}
+\begin{lstlisting}[language=C++]
+#define EPS 1e-12
+#define pi 3.141592653589793115997963468544185161590576171875L
+
+bool feq(const long double& a, const long double& b)
+{
+    long double del = fabsl(a - b);
+    if (del <= EPS) return true;
+
+    return del <= EPS * max(fabsl(a), fabsl(b));
+}
+
+\end{lstlisting}
+\sectionend
+
+\section{Vector2d}
+\begin{lstlisting}[language=C++]
+struct vector2d
+{
+    long double x, y;
+
+    bool operator==(const vector2d& p) const
+    {
+        return feq(x, p.x) && feq(y, p.y);
+    }
+
+    vector2d operator+(const vector2d& p) const
+    {
+        return {x + p.x, y + p.y};
+    }
+
+    vector2d operator-(const vector2d& p) const
+    {
+        return {x - p.x, y - p.y};
+    }
+
+    vector2d operator*(long double scalar) const
+    {
+        return {scalar * x, scalar * y};
+    }
+
+    friend vector2d operator*(long double s, const vector2d& v)
+    {
+        return {v.x * s, v.y * s};
+    }
+
+    vector2d operator/(long double scalar) const
+    {
+        return {x / scalar, y / scalar};
+    }
+
+    long double norm2() const
+    {
+        return x * x + y * y;
+    }
+
+    long double magnitude() const
+    {
+        return sqrtl(norm2());
+    }
+
+    vector2d unit() const
+    {
+        long double m = magnitude();
+        if (feq(m, 0)) return {0, 0};
+        return {x / m, y / m};
+    }
+
+    vector2d normal() const
+    {
+        vector2d v{y, -x};
+        return v.unit();
+    }
+};
+
+long double dist(const vector2d& p1, const vector2d& p2)
+{
+    return (p1 - p2).magnitude();
+}
+
+long double dot(const vector2d& v1, const vector2d& v2)
+{
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+long double angle(const vector2d& v1, const vector2d& v2)
+{
+    long double m = v1.magnitude() * v2.magnitude();
+    if (feq(m, 0)) return 0;
+
+    long double v = dot(v1, v2) / m;
+    return acosl(min(1.0L, max(-1.0L, v)));
+}
+
+long double cross(const vector2d& v1, const vector2d& v2)
+{
+    return v1.x * v2.y - v1.y * v2.x;
+}
+
+\end{lstlisting}
+\sectionend
+
+\section{Vector3d}
+\begin{lstlisting}[language=C++]
+struct vector3d
+{
+    long double x, y, z;
+
+    bool operator==(const vector3d& p) const
+    {
+        return feq(x, p.x) && feq(y, p.y) && feq(z, p.z);
+    }
+
+    vector3d operator+(const vector3d& p) const
+    {
+        return {x + p.x, y + p.y, z + p.z};
+    }
+
+    vector3d operator-(const vector3d& p) const
+    {
+        return {x - p.x, y - p.y, z - p.z};
+    }
+
+    vector3d operator*(long double scalar) const
+    {
+        return {x * scalar, y * scalar, z * scalar};
+    }
+
+    friend vector3d operator*(long double s, const vector3d& v)
+    {
+        return {v.x * s, v.y * s, v.z * s};
+    }
+
+    vector3d operator/(long double scalar) const
+    {
+        return {x / scalar, y / scalar, z / scalar};
+    }
+
+    long double norm2() const
+    {
+        return x * x + y * y + z * z;
+    }
+
+    long double magnitude() const
+    {
+        return sqrtl(norm2());
+    }
+
+    vector3d unit() const
+    {
+        long double m = magnitude();
+        if (feq(m, 0)) return {0, 0, 0};
+        return *this / m;
+    }
+};
+
+long double dist(const vector3d& p1, const vector3d& p2)
+{
+    return (p1 - p2).magnitude();
+}
+
+long double dot(const vector3d& v1, const vector3d& v2)
+{
+    return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+long double angle(const vector3d& v1, const vector3d& v2)
+{
+    long double m = v1.magnitude() * v2.magnitude();
+    if (feq(m, 0)) return 0;
+
+    long double v = dot(v1, v2) / m;
+    return acosl(min(1.0L, max(-1.0L, v)));
+}
+
+vector3d cross(const vector3d& a, const vector3d& b)
+{
+    return {
+        a.y * b.z - a.z * b.y,
+        a.z * b.x - a.x * b.z,
+        a.x * b.y - a.y * b.x
+    };
+}
+\end{lstlisting}
+\sectionend
