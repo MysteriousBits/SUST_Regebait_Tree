@@ -4,99 +4,88 @@
 \begin{lstlisting}[language=C++]
 struct trienode
 {
-    bool endmark;
-    vector<int> child;
+  bool endmark;
+  vector<int> child;
 
-    trienode(int sz)
-    {
-        endmark = false;
-        child.resize(sz, 0);
-    }
+  trienode(int sz) {
+    endmark = false;
+    child.resize(sz, 0);
+  }
 };
 
 struct trie
 {
-    int sz;
-    char fst;
-    vector<trienode> nodes;
+  int sz;
+  char fst;
+  vector<trienode> nodes;
 
-    trie(int alpha_sz, char alpha_start)
-    {
-        sz = alpha_sz;
-        fst = alpha_start;
+  trie(int alpha_sz, char alpha_start) {
+    sz = alpha_sz;
+    fst = alpha_start;
 
-        // root at idx 0
+    // root at idx 0
+    nodes.pb(trienode(sz));
+  }
+
+  void insert(string& s) {
+    int cur = 0;
+    for (char c : s) {
+      if (!nodes[cur].child[c - fst]) {
+        nodes[cur].child[c - fst] = nodes.size();
         nodes.pb(trienode(sz));
+      }
+
+      cur = nodes[cur].child[c - fst];
     }
 
-    void insert(string& s)
-    {
-        int cur = 0;
-        for (char c : s)
-        {
-            if (!nodes[cur].child[c - fst])
-            {
-                nodes[cur].child[c - fst] = nodes.size();
-                nodes.pb(trienode(sz));
-            }
+    nodes[cur].endmark = true;
+  }
 
-            cur = nodes[cur].child[c - fst];
-        }
+  bool search(string& s) {
+    int cur = 0;
+    for (char c : s) {
+      if (!nodes[cur].child[c - fst])
+        return false;
 
-        nodes[cur].endmark = true;
+      cur = nodes[cur].child[c - fst];
     }
 
-    bool search(string& s)
-    {
-        int cur = 0;
-        for (char c : s)
-        {
-            if (!nodes[cur].child[c - fst])
-                return false;
+    return nodes[cur].endmark; 
+  }
 
-            cur = nodes[cur].child[c - fst];
-        }
+  bool erase(string& s) {
+    int cur = 0;
+    for (char c : s) {
+      if (!nodes[cur].child[c - fst])
+        return false;
 
-        return nodes[cur].endmark; 
+      cur = nodes[cur].child[c - fst];
     }
 
-    bool erase(string& s)
-    {
-        int cur = 0;
-        for (char c : s)
-        {
-            if (!nodes[cur].child[c - fst])
-                return false;
+    if (!nodes[cur].endmark) return false;
 
-            cur = nodes[cur].child[c - fst];
-        }
-
-        if (!nodes[cur].endmark) return false;
-
-        nodes[cur].endmark = false;
-        return true;
-    }
+    nodes[cur].endmark = false;
+    return true;
+  }
 };
 \end{lstlisting}
 \sectionend
 
 \section{Z Algorithm}
 \begin{lstlisting}[language=C++]
-VI z(string s)
-{
-    int n = s.size();
-    VI z(n);
+VI z(string s) {
+  int n = s.size();
+  VI z(n);
 
-    int l = 0, r = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        if (i <= r) z[i] = min(z[i - l], r - i + 1);
+  int l = 0, r = 0;
+  for (int i = 0; i < n; ++i) {
+    if (i <= r) z[i] = min(z[i - l], r - i + 1);
 
-        while (i + z[i] < n && s[z[i]] == s[i + z[i]])
-            l = i, r = i + z[i]++;
-    }
+    while (i + z[i] < n && s[z[i]] == s[i + z[i]])
+      l = i, r = i + z[i]++;
+  }
 
-    return z;
+  return z;
 }
 \end{lstlisting}
 \sectionend

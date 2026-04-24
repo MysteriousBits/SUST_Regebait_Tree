@@ -4,38 +4,34 @@
 \begin{lstlisting}[language=C++]
 struct Node
 {
-    int u;
-    ll dist;
+  int u;
+  ll dist;
 
-    bool operator< (const Node& v) const
-    {
-        return dist > v.dist;
-    }
+  bool operator< (const Node& v) const
+  {
+    return dist > v.dist;
+  }
 };
 
-void dijkstra(int start, vector<ll>& dis, vector<VPI>& adj)
-{
-    priority_queue<Node> q;
-    dis[start] = 0;
-    q.push({start, 0});
+void dijkstra(int start, vector<ll>& dis, vector<VPI>& adj) {
+  priority_queue<Node> q;
+  dis[start] = 0;
+  q.push({start, 0});
 
-    while (!q.empty())
-    {
-        Node node = q.top();
-        int u = node.u;
-        q.pop();
+  while (!q.empty()) {
+    Node node = q.top();
+    int u = node.u;
+    q.pop();
 
-        if (dis[u] < node.dist) continue;
+    if (dis[u] < node.dist) continue;
 
-        for (auto e : adj[u])
-        {
-            if (node.dist + e.ss < dis[e.ff])
-            {
-                dis[e.ff] = node.dist + e.ss;
-                q.push({e.ff, dis[e.ff]});
-            }
-        }
+    for (auto e : adj[u]) {
+      if (node.dist + e.ss < dis[e.ff]) {
+        dis[e.ff] = node.dist + e.ss;
+        q.push({e.ff, dis[e.ff]});
+      }
     }
+  }
 }
 \end{lstlisting}
 \sectionend
@@ -44,81 +40,70 @@ void dijkstra(int start, vector<ll>& dis, vector<VPI>& adj)
 \begin{lstlisting}[language=C++]
 struct LCA
 {
-    int step = 0;
-    VI vis_start, vis_end;
-    VVI st;
+  int step = 0;
+  VI vis_start, vis_end;
+  VVI st;
 
-    int k;
-    VVI& tree;
+  int k;
+  VVI& tree;
 
-    LCA(VVI& tree) : tree(tree)
-    {
-        init(tree.size() - 1);
+  LCA(VVI& tree) : tree(tree) {
+    init(tree.size() - 1);
+  }
+
+  void build_st(int u, int p) {
+    st[u][0] = p;
+    for (int i = 1; i <= k; ++i)
+      st[u][i] = st[st[u][i - 1]][i - 1];
+  }
+
+  void dfs(int u, int p) {
+    vis_start[u] = step++;
+    build_st(u, p);
+
+    for (auto v : tree[u]) {
+      if (v != p) dfs(v, u);
     }
 
-    void build_st(int u, int p)
-    {
-        st[u][0] = p;
-        for (int i = 1; i <= k; ++i)
-            st[u][i] = st[st[u][i - 1]][i - 1];
+    vis_end[u] = step++;
+  }
+
+  bool is_ancestor(int a, int b) {
+    return vis_start[a] < vis_start[b] && vis_end[a] > vis_end[b];
+  }
+
+  int get(int a, int b) {
+    if (a == b) return a;
+    if (is_ancestor(a, b)) return a;
+    if (is_ancestor(b, a)) return b;
+
+    for (int i = k; i >= 0; --i) {
+      if (!is_ancestor(st[a][i], b)) a = st[a][i];
     }
 
-    void dfs(int u, int p)
-    {
-        vis_start[u] = step++;
-        build_st(u, p);
+    return st[a][0];
+  }
 
-        for (auto v : tree[u])
-        {
-            if (v != p) dfs(v, u);
-        }
+  void init(int n) {
+    vis_start.assign(n + 1, 0);
+    vis_end.assign(n + 1, 0);
 
-        vis_end[u] = step++;
+    k = __lg(2 * n - 1);
+    st.assign(n + 1, VI(k + 1));
+    dfs(1, 1);
+  }
+
+  // Extra
+  int get_ancestor(int u, int n) {
+    for (int i = 0; n > 0; ++i) {
+      if (n & (1 << i)) {
+        u = st[u][i];
+        n -= (1 << i);
+      }
     }
 
-    bool is_ancestor(int a, int b)
-    {
-        return vis_start[a] < vis_start[b] && vis_end[a] > vis_end[b];
-    }
-
-    int get(int a, int b)
-    {
-        if (a == b) return a;
-        if (is_ancestor(a, b)) return a;
-        if (is_ancestor(b, a)) return b;
-
-        for (int i = k; i >= 0; --i)
-        {
-            if (!is_ancestor(st[a][i], b)) a = st[a][i];
-        }
-
-        return st[a][0];
-    }
-
-    void init(int n)
-    {
-        vis_start.assign(n + 1, 0);
-        vis_end.assign(n + 1, 0);
-
-        k = __lg(2 * n - 1);
-        st.assign(n + 1, VI(k + 1));
-        dfs(1, 1);
-    }
-
-    // Extra
-    int get_ancestor(int u, int n)
-    {
-        for (int i = 0; n > 0; ++i)
-        {
-            if (n & (1 << i))
-            {
-                u = st[u][i];
-                n -= (1 << i);
-            }
-        }
-
-        return u;
-    }
+    return u;
+  }
 };
 \end{lstlisting}
 \sectionend
@@ -131,44 +116,39 @@ int disc[MAXN], low[MAXN];
 bool instk[MAXN];
 int cur_time;
 
-void dfs_scc(int u, VVI& g)
-{
-    disc[u] = low[u] = ++cur_time;
-    instk[u] = true;
-    stk.pb(u);
+void dfs_scc(int u, VVI& g) {
+  disc[u] = low[u] = ++cur_time;
+  instk[u] = true;
+  stk.pb(u);
 
-    for (int v : g[u])
-    {
-        if (!disc[v])
-        {
-            dfs_scc(v, g);
-            low[u] = min(low[u], low[v]);
-        }
-        else if (instk[v])
-            low[u] = min(low[u], disc[v]);
+  for (int v : g[u]) {
+    if (!disc[v]) {
+      dfs_scc(v, g);
+      low[u] = min(low[u], low[v]);
     }
+    else if (instk[v])
+      low[u] = min(low[u], disc[v]);
+  }
 
-    if (low[u] < disc[u]) return;
+  if (low[u] < disc[u]) return;
 
-    scc.pb(VI());
-    bool rem = true;
-    while (rem)
-    {
-        int v = stk.back();
-        stk.pop_back();
-        instk[v] = false;
-        scc.back().pb(v);
-        rem = v != u;
-    }
+  scc.pb(VI());
+  bool rem = true;
+  while (rem) {
+    int v = stk.back();
+    stk.pop_back();
+    instk[v] = false;
+    scc.back().pb(v);
+    rem = v != u;
+  }
 }
 
-void tarjan(VVI& g)
-{
-    cur_time = 0;
-    int n = g.size();
+void tarjan(VVI& g) {
+  cur_time = 0;
+  int n = g.size();
 
-    for (int i = 0; i < n; ++i) disc[i] = 0;
-    for (int u = 1; u < n; ++u) if (!disc[u]) dfs_scc(u, g);
+  for (int i = 0; i < n; ++i) disc[i] = 0;
+  for (int u = 1; u < n; ++u) if (!disc[u]) dfs_scc(u, g);
 }
 \end{lstlisting}
 \sectionend
@@ -180,67 +160,60 @@ void tarjan(VVI& g)
 VI heavy, chain, label, par, sz, dep;
 int timer;
 
-void dfsz(int u, int p, VVI& tree)
-{
-    sz[u] = 1;
-    par[u] = p;
-    dep[u] = dep[p] + 1;
+void dfsz(int u, int p, VVI& tree) {
+  sz[u] = 1;
+  par[u] = p;
+  dep[u] = dep[p] + 1;
 
-    int mx = -1;
-    for (int v : tree[u])
-    {
-        if (v == p) continue;
+  int mx = -1;
+  for (int v : tree[u]) {
+    if (v == p) continue;
 
-        dfsz(v, u, tree);
-        sz[u] += sz[v];
-        if (sz[v] > mx) mx = sz[v], heavy[u] = v;
-    }
+    dfsz(v, u, tree);
+    sz[u] += sz[v];
+    if (sz[v] > mx) mx = sz[v], heavy[u] = v;
+  }
 }
 
-void dfshld(int u, int p, VVI& tree, int head)
-{
-    label[u] = timer++;
-    chain[u] = head;
+void dfshld(int u, int p, VVI& tree, int head) {
+  label[u] = timer++;
+  chain[u] = head;
 
-    if (heavy[u] != -1) dfshld(heavy[u], u, tree, head);
+  if (heavy[u] != -1) dfshld(heavy[u], u, tree, head);
 
-    for (int v : tree[u])
-    {
-        if (v == p || v == heavy[u]) continue;
+  for (int v : tree[u]) {
+    if (v == p || v == heavy[u]) continue;
 
-        dfshld(v, u, tree, v);
-    }
+    dfshld(v, u, tree, v);
+  }
 }
 
-void inithld(int n, VVI& tree)
-{
-    heavy = VI(n + 1, -1);
-    chain = VI(n + 1);
-    label = VI(n + 1);
-    sz = VI(n + 1);
-    par = VI(n + 1);
-    dep = VI(n + 1);
+void inithld(int n, VVI& tree) {
+  heavy = VI(n + 1, -1);
+  chain = VI(n + 1);
+  label = VI(n + 1);
+  sz = VI(n + 1);
+  par = VI(n + 1);
+  dep = VI(n + 1);
 
-    timer = 1;
-    dfsz(1, 0, tree);
-    dfshld(1, 0, tree, 1);
+  timer = 1;
+  dfsz(1, 0, tree);
+  dfshld(1, 0, tree, 1);
 }
 
-int qryup(int u, int v)
-{
-    if (dep[u] < dep[v]) swap(u, v);
+int qryup(int u, int v) {
+  if (dep[u] < dep[v]) swap(u, v);
 
-    int head = chain[u];
-    int ret = 0; // init value
-    while (dep[head] > dep[v])
-    {
-        // ret = ...(label[head], label[u]);
-        u = par[head];
-        head = chain[u];
-    }
+  int head = chain[u];
+  int ret = 0; // init value
+  while (dep[head] > dep[v]) {
+    // ret = ...(label[head], label[u]);
+    u = par[head];
+    head = chain[u];
+  }
 
-    // ret = ...(label[v], label[u]);
-    return ret;
+  // ret = ...(label[v], label[u]);
+  return ret;
 }
 \end{lstlisting}
 \sectionend
@@ -249,66 +222,57 @@ int qryup(int u, int v)
 \begin{lstlisting}[language=C++]
 struct CD
 {
-    vector<set<int>> tree;
-    vector<int> par, sz;
+  vector<set<int>> tree;
+  vector<int> par, sz;
 
-    CD(vector<vector<int>>& tree)
-    {
-        for (auto& v : tree)
-        {
-            this->tree.emplace_back(v.begin(), v.end());
-        }
-
-        par.resize(tree.size());
-        sz.resize(tree.size());
-        build(1, 0);
+  CD(vector<vector<int>>& tree) {
+    for (auto& v : tree) {
+      this->tree.emplace_back(v.begin(), v.end());
     }
 
-    void build(int u, int p)
-    {
-        dfs(u, p);
-        int centroid = dfs(u, p, sz[u]);
-        par[centroid] = p;
+    par.resize(tree.size());
+    sz.resize(tree.size());
+    build(1, 0);
+  }
 
-        vector<int> adj(tree[centroid].begin(), tree[centroid].end());
-        for (int v : adj)
-        {
-            tree[v].erase(centroid);
-            tree[centroid].erase(v);
+  void build(int u, int p) {
+    dfs(u, p);
+    int centroid = dfs(u, p, sz[u]);
+    par[centroid] = p;
 
-            build(v, centroid);
-        }
+    vector<int> adj(tree[centroid].begin(), tree[centroid].end());
+    for (int v : adj) {
+      tree[v].erase(centroid);
+      tree[centroid].erase(v);
+
+      build(v, centroid);
+    }
+  }
+
+  void dfs(int u, int p) {
+    sz[u] = 1;
+
+    for (int v : tree[u]) {
+      if (v == p) continue;
+
+      dfs(v, u);
+      sz[u] += sz[v];
+    }
+  }
+
+  int dfs(int u, int p, int n) {
+    for (int v : tree[u]) {
+      if (v == p) continue;
+
+      if (sz[v] > n / 2) return dfs(v, u, n);
     }
 
-    void dfs(int u, int p)
-    {
-        sz[u] = 1;
+    return u;
+  }
 
-        for (int v : tree[u])
-        {
-            if (v == p) continue;
-
-            dfs(v, u);
-            sz[u] += sz[v];
-        }
-    }
-
-    int dfs(int u, int p, int n)
-    {
-        for (int v : tree[u])
-        {
-            if (v == p) continue;
-
-            if (sz[v] > n / 2) return dfs(v, u, n);
-        }
-
-        return u;
-    }
-
-    int operator[](int i)
-    {
-        return par[i];
-    }
+  int operator[](int i) {
+    return par[i];
+  }
 };
 \end{lstlisting}
 \sectionend

@@ -6,71 +6,69 @@
 using namespace std;
 
 // Template
-// ==============================================
-    // pbds
-    // #include <ext/pb_ds/assoc_container.hpp>
-    // #include <ext/pb_ds/tree_policy.hpp>
-    // using namespace __gnu_pbds;
-    // template<typename T, typename comp = less<T>>
-    // using ordered_set =  tree<T, null_type, comp, rb_tree_tag, tree_order_statistics_node_update>;
+// =======================================
+  // pbds
+  // #include <ext/pb_ds/assoc_container.hpp>
+  // #include <ext/pb_ds/tree_policy.hpp>
+  // using namespace __gnu_pbds;
+  // template<typename T, typename comp = less<T>>
+  // using ordered_set =  tree<T, null_type, comp, rb_tree_tag, tree_order_statistics_node_update>;
 
-    // Debugging
-    #ifdef LOCAL
-    #include "debug.h"
-    #else
-    #define debug(...)
-    #define see(x)
-    #endif
+  // Debugging
+  #ifdef LOCAL
+  #include "debug.h"
+  #else
+  #define debug(...)
+  #define see(x)
+  #endif
 
-    typedef long long ll;
-    typedef vector<int> VI;
-    typedef vector<long long> VLL;
-    typedef vector<bool> VB;
-    typedef vector<vector<int>> VVI;
-    typedef pair<int, int> PI;
-    typedef pair<ll, ll> PLL;
-    typedef vector<pair<int, int>> VPI;
+  typedef long long ll;
+  typedef vector<int> VI;
+  typedef vector<long long> VLL;
+  typedef vector<bool> VB;
+  typedef vector<vector<int>> VVI;
+  typedef pair<int, int> PI;
+  typedef pair<ll, ll> PLL;
+  typedef vector<pair<int, int>> VPI;
 
-    #define pb push_back
-    #define ff first
-    #define ss second
-    #define mp make_pair
-    #define all(a) a.begin(), a.end()
-    #define revall(a) a.rbegin(), a.rend()
+  #define pb push_back
+  #define ff first
+  #define ss second
+  #define mp make_pair
+  #define all(a) a.begin(), a.end()
+  #define revall(a) a.rbegin(), a.rend()
 
-    #define loop(i, s, e) for (int i = s; i < e; ++i)
-    #define inp(v) for (auto& x : v) cin >> x
-    #define outp(v) for (int i = 0, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
+  #define loop(i, s, e) for (int i = s; i < e; ++i)
+  #define inp(v) for (auto& x : v) cin >> x
+  #define outp(v) for (int i = 0, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
 
-    #define nl "\n"
-    #define yep cout << "YES\n"
-    #define nope cout << "NO\n"
+  #define nl "\n"
+  #define yep cout << "YES\n"
+  #define nope cout << "NO\n"
 
-    #define INF (int) 1e9
-    #define INFL (ll) 1e18
-    // #define MOD 998244353
-    #define MOD 1000000007
-    #define MAXN 300002
-// ==============================================
+  #define INF (int) 1e9
+  #define INFL (ll) 1e18
+  // #define MOD 998244353
+  #define MOD 1000000007
+  #define MAXN 300002
+// =======================================
 
-void solve()
-{   
+void solve() {   
 }
 
-int main()
-{
-    ios_base::sync_with_stdio(false);
-    cin.tie(NULL);
+int main() {
+  ios_base::sync_with_stdio(false);
+  cin.tie(NULL);
 
-    int t = 1;
-    cin >> t;
-    while(t--) solve();
+  int t = 1;
+  cin >> t;
+  while(t--) solve();
 
-    #ifdef LOCAL
-    cerr << "Execution time: " << 1000.f * clock() / CLOCKS_PER_SEC << " ms." << nl;
-    #endif
-    
-    return 0;
+  #ifdef LOCAL
+  cerr << "Execution time: " << 1000.f * clock() / CLOCKS_PER_SEC << " ms." << nl;
+  #endif
+  
+  return 0;
 }
 \end{lstlisting}
 \sectionend
@@ -83,9 +81,8 @@ using namespace std;
 #define see(x) cerr << #x << ": " << x << nl
 
 template<typename... Args>
-void debug(Args... args)
-{
-    ((cerr << " " << args), ...) << "\n";
+void debug(Args... args) {
+  ((cerr << " " << args), ...) << "\n";
 }
 \end{lstlisting}
 \sectionend
@@ -93,18 +90,18 @@ void debug(Args... args)
 \section{sublime.build}
 \begin{lstlisting}
 {
-    "shell_cmd": "g++ -Wall -std=c++20 -O2 -DLOCAL $file -o $file_base_name && bash -c 'ulimit -S -f 10000; timeout 5 ./$file_base_name < input.in > output.out 2> error.log'",
-    "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
-    "working_dir": "${file_path}",
-    "selector": "source.c++, source.c, source.cpp",
+  "shell_cmd": "g++ -Wall -std=c++20 -O2 -DLOCAL $file -o $file_base_name && bash -c 'ulimit -S -f 10000; timeout 5 ./$file_base_name < input.in > output.out 2> error.log'",
+  "file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+  "working_dir": "${file_path}",
+  "selector": "source.c++, source.c, source.cpp",
 
-    "variants":
-    [
-        {
-            "name": "sanitize",
-            "shell_cmd": "g++ -Wall -std=c++20 -fsanitize=address -fsanitize=undefined -DLOCAL $file -o $file_base_name && bash -c 'ulimit -S -f 10000; timeout 5 ./$file_base_name < input.in > output.out 2> error.log'"
-        }
-    ]
+  "variants":
+  [
+    {
+      "name": "sanitize",
+      "shell_cmd": "g++ -Wall -std=c++20 -fsanitize=address -fsanitize=undefined -DLOCAL $file -o $file_base_name && bash -c 'ulimit -S -f 10000; timeout 5 ./$file_base_name < input.in > output.out 2> error.log'"
+    }
+  ]
 }
 
 \end{lstlisting}
@@ -113,48 +110,48 @@ void debug(Args... args)
 \section{tasks.json (vs code)}
 \begin{lstlisting}
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "cp",
-            "type": "shell",
-            "command": "",
-            "args": [
-                "g++",
-                "-Wall",
-                "-std=c++20",
-                "-O2",
-                "-DLOCAL",
-                "\"${file}\"",
-                "-o",
-                "\"${fileDirname}/${fileBasenameNoExtension}\"",
-                "&&",
-                "\"${fileDirname}/${fileBasenameNoExtension}\"",
-                "<",
-                "input.in",
-                ">",
-                "output.out",
-                "2>",
-                "error.log"
-            ],
-            "group": "build",
-            "presentation": {
-                "reveal": "silent"
-            },
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": ["relative", "${workspaceRoot}"],
-                "pattern": {
-                "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                "file": 1,
-                "line": 2,
-                "column": 3,
-                "severity": 4,
-                "message": 5
-                }
-            }
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "cp",
+      "type": "shell",
+      "command": "",
+      "args": [
+        "g++",
+        "-Wall",
+        "-std=c++20",
+        "-O2",
+        "-DLOCAL",
+        "\"${file}\"",
+        "-o",
+        "\"${fileDirname}/${fileBasenameNoExtension}\"",
+        "&&",
+        "\"${fileDirname}/${fileBasenameNoExtension}\"",
+        "<",
+        "input.in",
+        ">",
+        "output.out",
+        "2>",
+        "error.log"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "silent"
+      },
+      "problemMatcher": {
+        "owner": "cpp",
+        "fileLocation": ["relative", "${workspaceRoot}"],
+        "pattern": {
+        "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
+        "file": 1,
+        "line": 2,
+        "column": 3,
+        "severity": 4,
+        "message": 5
         }
-    ]
+      }
+    }
+  ]
 }
 \end{lstlisting}
 \sectionend

@@ -8,7 +8,7 @@ VI a;
 sort(all(a));
 do
 {
-    // Process permutation...
+  // Process permutation...
 } while (next_permutation(all(a)));
 \end{lstlisting}
 \sectionend
@@ -17,12 +17,10 @@ do
 \begin{lstlisting}[language=C++]
 int n = 17;
 
-for (int mask = 0; mask < (1 << n); ++mask)
-{
-    for (int sub = mask; sub; sub = (sub - 1) & mask)
-    {
-        // Process submask...
-    }
+for (int mask = 0; mask < (1 << n); ++mask) {
+  for (int sub = mask; sub; sub = (sub - 1) & mask) {
+    // Process submask...
+  }
 }
 \end{lstlisting}
 \sectionend

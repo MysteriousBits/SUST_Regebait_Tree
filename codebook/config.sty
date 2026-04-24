@@ -9,21 +9,22 @@
 % Define a color for codes
 \definecolor{codecolor}{rgb}{0.1,0.1,0.1}
 
-% small monospace for code
 \lstset{
-    basicstyle=\ttfamily\footnotesize\color{codecolor},
-    keepspaces=true,
-    breaklines=true,
-    tabsize=2,
-    showstringspaces=false,
-    emptylines=*1,
-    numbers=none,
-    aboveskip=1pt,
-    columns=fullflexible
+  basicstyle=\ttfamily\footnotesize\color{codecolor},
+  keepspaces=true,
+  breaklines=true,
+  breakatwhitespace=false,
+  tabsize=1,
+  showstringspaces=false,
+  emptylines=*0,
+  numbers=none,
+  aboveskip=5pt,
+  columns=flexible,
+  linewidth=\linewidth,
+  xrightmargin=5pt
 }
 
 % Set coloumn dividers
-\setlength{\columnsep}{0.5cm} % space between columns
 \setlength{\columnseprule}{0.2pt} % Multicol separation line with
 \setlength{\columnsep}{20pt} % Multicol separation margin
 
@@ -33,38 +34,40 @@
 \setlength{\cftbeforetoctitleskip}{-1em}
 \setlength{\cftaftertoctitleskip}{0em}           % end author block
 
+\makeatletter % <--- Start "At Letter" mode
 \renewcommand{\chapter}{
-  \global\@topnum\z@
-  \secdef
-  \@chapter
-  \@schapter
+ \global\@topnum\z@
+ \secdef
+ \@chapter
+ \@schapter
 }
+\makeatother % <--- End "At Letter" mode
 
 
 % --- Chapter style ---
 \titleformat{\chapter}[block]
-  {\Large\bfseries} % font size + bold
-  {}                % no "Chapter X"
-  {0pt}             % no extra spacing
-  {\thechapter\quad} % (remove if you don't want numbers at all)
+ {\Large\bfseries} % font size + bold
+ {}                % no "Chapter X"
+ {0pt}             % no extra spacing
+ {\thechapter\quad} % (remove if you don't want numbers at all)
 
 \titlespacing*{\chapter}
-  {0pt}   % left margin
-  {1em}   % space before
-  {0.5em} % space after
+ {0pt}   % left margin
+ {1em}   % space before
+ {0.5em} % space after
 
 % --- Section style (small, not bold, no rule) ---
 \titleformat{\section}[block]
-  {\bfseries\normalsize} % font: normal, not bold
-  {} % no label/number in front
-  {0pt} % no separation
-  {\thesection\quad} % just print the title
-  [\titleline{\rule{\linewidth}{0.2pt}}]
+ {\bfseries\normalsize} % font: normal, not bold
+ {} % no label/number in front
+ {0pt} % no separation
+ {\thesection\quad} % just print the title
+ [\titleline{\rule{\linewidth}{0.2pt}}]
 
 \newcommand{\sectionend}{
-  % \vspace{0.5em}%
-  \hrule height 0.2pt%
-  % \vspace{1em}%
+ % \vspace{0.5em}%
+ \hrule height 0.2pt%
+ % \vspace{1em}%
 }
 
 % page number at top right
@@ -80,6 +83,6 @@
 \setlength{\headheight}{30pt}
 
 \fancypagestyle{plain}{%
-  \fancyhf{}
-  \fancyhead[R]{\thepage}
+ \fancyhf{}
+ \fancyhead[R]{\thepage}
 }

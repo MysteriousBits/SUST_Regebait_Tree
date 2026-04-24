@@ -4,31 +4,27 @@
 \begin{lstlisting}[language=C++]
 struct fenwick
 {
-    int n;
-    vector<ll> tree;
+  int n;
+  vector<ll> tree;
 
-    fenwick(int s)
-    {
-        n = s;
-        tree.assign(n + 1, 0);
-    }
+  fenwick(int s) {
+    n = s;
+    tree.assign(n + 1, 0);
+  }
 
-    ll get(int i)
-    {
-        ll res = 0;
-        for(; i > 0; i -= i & -i) res += tree[i];
-        return res;
-    }
+  ll get(int i) {
+    ll res = 0;
+    for(; i > 0; i -= i & -i) res += tree[i];
+    return res;
+  }
 
-    void add(int i, int x)
-    {
-        for (; i <= n; i += i & -i) tree[i] += x;
-    }
-    
-    ll rsq(int l, int r)
-    {
-        return get(r) - get(l - 1);
-    }
+  void add(int i, int x) {
+    for (; i <= n; i += i & -i) tree[i] += x;
+  }
+  
+  ll rsq(int l, int r) {
+    return get(r) - get(l - 1);
+  }
 };
 \end{lstlisting}
 \sectionend
@@ -38,123 +34,113 @@ struct fenwick
 template<typename T>
 struct segtree
 {
-    #define left(u) 2 * u + 1
-    #define right(u) 2 * u + 2
+  #define left(u) 2 * u + 1
+  #define right(u) 2 * u + 2
 
-    int n;
-    T init_val;
-    vector<T> tree;
-    function<T (T, T)> f;
+  int n;
+  T init_val;
+  vector<T> tree;
+  function<T (T, T)> f;
 
-    bool is_lazy = false;
-    T init_lazy;
-    vector<T> lazy;
-    function<void (T&, T, int, int)> apply_lazy;
-    function<void (T&, T)> merge_lazy;
+  bool is_lazy = false;
+  T init_lazy;
+  vector<T> lazy;
+  function<void (T&, T, int, int)> apply_lazy;
+  function<void (T&, T)> merge_lazy;
 
-    segtree() {} // Dummy constructor for global declaration
-    
-    segtree(int sz, function<T (T, T)> f, T val = 0)
-    {
-        n = sz;
-        this->f = f;
-        init_val = val;
+  segtree() {} // Dummy constructor for global declaration
+  
+  segtree(int sz, function<T (T, T)> f, T val = 0) {
+    n = sz;
+    this->f = f;
+    init_val = val;
 
-        tree.assign(1 << (__lg(n - 1) + 2), init_val);
+    tree.assign(1 << (__lg(n - 1) + 2), init_val);
+  }
+
+  // apply(tree[u], lazy[u], l, r)
+  // merge(lazy[left(u)], lazy[u])
+  void make_lazy(function<void (T&, T, int, int)> apply, function<void (T&, T)> merge, T init = 0) {
+    is_lazy = true;
+    init_lazy = init;
+    apply_lazy = apply;
+    merge_lazy = merge;
+
+    lazy.assign(tree.size(), init_lazy);
+  }
+
+  void build(vector<T>& a) { _build(0, 0, n - 1, a); }
+  void update(int i, T x) { _update(0, 0, n - 1, i, x); }
+  void update(int l, int r, T x) { _update_range(0, 0, n - 1, l, r, x); }
+  T get(int l, int r) { return _get(0, 0, n - 1, l, r); }
+
+  void _build(int u, int l, int r, vector<T>& a) {
+    if (l == r) {
+      tree[u] = a[l];
+      return;
     }
 
-    // apply(tree[u], lazy[u], l, r)
-    // merge(lazy[left(u)], lazy[u])
-    void make_lazy(function<void (T&, T, int, int)> apply, function<void (T&, T)> merge, T init = 0)
-    {
-        is_lazy = true;
-        init_lazy = init;
-        apply_lazy = apply;
-        merge_lazy = merge;
+    int mid = (l + r) / 2;
+    _build(left(u), l, mid, a);
+    _build(right(u), mid + 1, r, a);
+    tree[u] = f(tree[left(u)], tree[right(u)]);
+  }
 
-        lazy.assign(tree.size(), init_lazy);
+  void _update(int u, int l, int r, int i, T x) {
+    if (l == r) {
+      tree[u] = x;
+      return;
     }
 
-    void build(vector<T>& a) { _build(0, 0, n - 1, a); }
-    void update(int i, T x) { _update(0, 0, n - 1, i, x); }
-    void update(int l, int r, T x) { _update_range(0, 0, n - 1, l, r, x); }
-    T get(int l, int r) { return _get(0, 0, n - 1, l, r); }
+    int mid = (l + r) / 2;
+    if (i <= mid) _update(left(u), l, mid, i, x);
+    else _update(right(u), mid + 1, r, i, x);
+    tree[u] = f(tree[left(u)], tree[right(u)]);
+  }
 
-    void _build(int u, int l, int r, vector<T>& a)
-    {
-        if (l == r)
-        {
-            tree[u] = a[l];
-            return;
-        }
+  void propagate(int u, int l, int r) {
+    if (lazy[u] == init_lazy || l == r) return;
 
-        int mid = (l + r) / 2;
-        _build(left(u), l, mid, a);
-        _build(right(u), mid + 1, r, a);
-        tree[u] = f(tree[left(u)], tree[right(u)]);
+    int m = (l + r) / 2;
+    apply_lazy(tree[left(u)], lazy[u], l, m);
+    merge_lazy(lazy[left(u)], lazy[u]);
+    apply_lazy(tree[right(u)], lazy[u], m + 1, r);
+    merge_lazy(lazy[right(u)], lazy[u]);
+
+    lazy[u] = init_lazy;
+  }
+
+  void _update_range(int u, int tl, int tr, int l, int r, T x) {
+    if (l > tr || r < tl) return;
+    if (tl >= l && tr <= r) {
+      apply_lazy(tree[u], x, tl, tr);
+      merge_lazy(lazy[u], x);
+      return;
     }
 
-    void _update(int u, int l, int r, int i, T x)
-    {
-        if (l == r)
-        {
-            tree[u] = x;
-            return;
-        }
+    propagate(u, tl, tr);
 
-        int mid = (l + r) / 2;
-        if (i <= mid) _update(left(u), l, mid, i, x);
-        else _update(right(u), mid + 1, r, i, x);
-        tree[u] = f(tree[left(u)], tree[right(u)]);
-    }
+    int mid = (tl + tr) / 2;
+    _update_range(left(u), tl, mid, l, r, x);
+    _update_range(right(u), mid + 1, tr, l, r, x);
 
-    void propagate(int u, int l, int r)
-    {
-        if (lazy[u] == init_lazy || l == r) return;
+    tree[u] = f(tree[left(u)], tree[right(u)]);
+  }
 
-        int m = (l + r) / 2;
-        apply_lazy(tree[left(u)], lazy[u], l, m);
-        merge_lazy(lazy[left(u)], lazy[u]);
-        apply_lazy(tree[right(u)], lazy[u], m + 1, r);
-        merge_lazy(lazy[right(u)], lazy[u]);
+  T _get(int u, int tl, int tr, int l, int r) {
+    if (l > tr || r < tl) return init_val;
 
-        lazy[u] = init_lazy;
-    }
+    if (l <= tl && r >= tr) return tree[u];
 
-    void _update_range(int u, int tl, int tr, int l, int r, T x)
-    {
-        if (l > tr || r < tl) return;
-        if (tl >= l && tr <= r)
-        {
-            apply_lazy(tree[u], x, tl, tr);
-            merge_lazy(lazy[u], x);
-            return;
-        }
+    if (is_lazy) propagate(u, tl, tr);
 
-        propagate(u, tl, tr);
+    int mid = (tl + tr) / 2;
+    return f(_get(left(u), tl, mid, l, r),
+         _get(right(u), mid + 1, tr, l, r));
+  }
 
-        int mid = (tl + tr) / 2;
-        _update_range(left(u), tl, mid, l, r, x);
-        _update_range(right(u), mid + 1, tr, l, r, x);
-
-        tree[u] = f(tree[left(u)], tree[right(u)]);
-    }
-
-    T _get(int u, int tl, int tr, int l, int r)
-    {
-        if (l > tr || r < tl) return init_val;
-
-        if (l <= tl && r >= tr) return tree[u];
-
-        if (is_lazy) propagate(u, tl, tr);
-
-        int mid = (tl + tr) / 2;
-        return f(_get(left(u), tl, mid, l, r),
-                 _get(right(u), mid + 1, tr, l, r));
-    }
-
-    #undef left
-    #undef right
+  #undef left
+  #undef right
 };
 \end{lstlisting}
 \sectionend
@@ -163,38 +149,33 @@ struct segtree
 \begin{lstlisting}[language=C++]
 struct dsu
 {
-    vector<int> parent, size;
+  vector<int> parent, size;
  
-    dsu(int n)
-    {
-        parent.resize(n + 1);
-        size.resize(n + 1);
+  dsu(int n) {
+    parent.resize(n + 1);
+    size.resize(n + 1);
  
-        for (int i = 1; i <= n; ++i)
-        {
-            parent[i] = i;
-            size[i] = 1;
-        }
+    for (int i = 1; i <= n; ++i) {
+      parent[i] = i;
+      size[i] = 1;
     }
+  }
 
-    int find(int u)
-    {
-        if (parent[u] == u) return u;
-        return parent[u] = find(parent[u]);
-    }
+  int find(int u) {
+    if (parent[u] == u) return u;
+    return parent[u] = find(parent[u]);
+  }
  
-    void merge(int u, int v)
-    {
-        u = find(u);
-        v = find(v);
+  void merge(int u, int v) {
+    u = find(u);
+    v = find(v);
  
-        if (u != v)
-        {
-            if (size[u] < size[v]) swap(u, v);
-            parent[v] = u;
-            size[u] += size[v];
-        }
+    if (u != v) {
+      if (size[u] < size[v]) swap(u, v);
+      parent[v] = u;
+      size[u] += size[v];
     }
+  }
 };
 \end{lstlisting}
 
@@ -203,135 +184,122 @@ struct dsu
 template<typename T>
 struct node
 {
-    T val;
-    int l, r;
+  T val;
+  int l, r;
 };
 
 template<typename T>
 struct persistent_segtree
 {
-    int n;
-    T init_val;
-    vector<node<T>> nodes;
-    vector<int> version;
-    function<T (T, T)> f;
+  int n;
+  T init_val;
+  vector<node<T>> nodes;
+  vector<int> version;
+  function<T (T, T)> f;
 
-    persistent_segtree() {}
-    
-    persistent_segtree(int sz, function<T (T, T)> f, T val = 0)
-    {
-        n = sz;
-        this->f = f;
-        init_val = val;
+  persistent_segtree() {}
+  
+  persistent_segtree(int sz, function<T (T, T)> f, T val = 0) {
+    n = sz;
+    this->f = f;
+    init_val = val;
 
-        build(vector<T>(n, init_val));
+    build(vector<T>(n, init_val));
+  }
+
+  persistent_segtree(vector<T>& a, function<T (T, T)> f, T val = 0) {
+    n = a.size();
+    this->f = f;
+    init_val = val;
+
+    build(a);
+  }
+
+  int build(vector<T> a) {
+    int root = _build(0, n - 1, a);
+    version.pb(root);
+
+    return version.size() - 1;
+  }
+
+  int update(int i, T x, int v = -1) {
+    if (v == -1) v = version.size() - 1;
+    int root = _update(version[v], 0, n - 1, i, x);
+    version.pb(root);
+    return version.size() - 1;
+  }
+
+  T get(int l, int r, int v) {
+    return _get(version[v], 0, n - 1, l, r);
+  }
+
+  // version is 1 indexed (0 is the initial before updates)
+  T get_kth(int ver_l, int ver_r, int k) {
+    return _get_kth(version[ver_l - 1], version[ver_r], 0, n - 1, k);
+  }
+
+  int _build(int l, int r, vector<T>& a) {
+    int root = nodes.size();
+    nodes.pb({});
+
+    if (l == r) {
+      nodes[root].val = a[l];
+      return root;
     }
 
-    persistent_segtree(vector<T>& a, function<T (T, T)> f, T val = 0)
-    {
-        n = a.size();
-        this->f = f;
-        init_val = val;
+    int mid = (l + r) / 2;
+    int new_child = _build(l, mid, a);
+    nodes[root].l = new_child;
+    new_child = _build(mid + 1, r, a);
+    nodes[root].r = new_child;
+    nodes[root].val = f(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
+    return root;
+  }
 
-        build(a);
+  int _update(int u, int l, int r, int i, T x) {
+    int root = nodes.size();
+    node<T> old = nodes[u];
+    nodes.pb(old);
+
+    if (l == r) {
+      nodes[root].val = x;
+      return root;
     }
 
-    int build(vector<T> a)
+    int mid = (l + r) / 2;
+    if (i <= mid) {
+      int newl = _update(nodes[u].l, l, mid, i, x);
+      nodes[root].l = newl;
+    }
+    else
     {
-        int root = _build(0, n - 1, a);
-        version.pb(root);
-
-        return version.size() - 1;
+      int newr = _update(nodes[u].r, mid + 1, r, i, x);
+      nodes[root].r = newr;
     }
 
-    int update(int i, T x, int v = -1)
-    {
-        if (v == -1) v = version.size() - 1;
-        int root = _update(version[v], 0, n - 1, i, x);
-        version.pb(root);
-        return version.size() - 1;
-    }
+    nodes[root].val = f(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
 
-    T get(int l, int r, int v)
-    {
-        return _get(version[v], 0, n - 1, l, r);
-    }
+    return root;
+  }
 
-    // version is 1 indexed (0 is the initial before updates)
-    T get_kth(int ver_l, int ver_r, int k)
-    {
-        return _get_kth(version[ver_l - 1], version[ver_r], 0, n - 1, k);
-    }
+  T _get(int u, int tl, int tr, int l, int r) {
+    if (l > tr || r < tl) return init_val;
+    if (l <= tl && r >= tr) return nodes[u].val;
 
-    int _build(int l, int r, vector<T>& a)
-    {
-        int root = nodes.size();
-        nodes.pb({});
+    int mid = (tl + tr) / 2;
+    return f(_get(nodes[u].l, tl, mid, l, r),
+      _get(nodes[u].r, mid + 1, tr, l, r));
+  }
 
-        if (l == r)
-        {
-            nodes[root].val = a[l];
-            return root;
-        }
+  int _get_kth(int u, int v, int l, int r, int k) {
+    if (l == r) return l;
 
-        int mid = (l + r) / 2;
-        int new_child = _build(l, mid, a);
-        nodes[root].l = new_child;
-        new_child = _build(mid + 1, r, a);
-        nodes[root].r = new_child;
-        nodes[root].val = f(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
-        return root;
-    }
-
-    int _update(int u, int l, int r, int i, T x)
-    {
-        int root = nodes.size();
-        node<T> old = nodes[u];
-        nodes.pb(old);
-
-        if (l == r)
-        {
-            nodes[root].val = x;
-            return root;
-        }
-
-        int mid = (l + r) / 2;
-        if (i <= mid)
-        {
-            int newl = _update(nodes[u].l, l, mid, i, x);
-            nodes[root].l = newl;
-        }
-        else
-        {
-            int newr = _update(nodes[u].r, mid + 1, r, i, x);
-            nodes[root].r = newr;
-        }
-
-        nodes[root].val = f(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
-
-        return root;
-    }
-
-    T _get(int u, int tl, int tr, int l, int r)
-    {
-        if (l > tr || r < tl) return init_val;
-        if (l <= tl && r >= tr) return nodes[u].val;
-
-        int mid = (tl + tr) / 2;
-        return f(_get(nodes[u].l, tl, mid, l, r),
-            _get(nodes[u].r, mid + 1, tr, l, r));
-    }
-
-    int _get_kth(int u, int v, int l, int r, int k)
-    {
-        if (l == r) return l;
-
-        int mid = (l + r) / 2;
-        int kl = nodes[nodes[v].l].val - nodes[nodes[u].l].val;
-        if (kl >= k)
-            return _get_kth(nodes[u].l, nodes[v].l, l, mid, k);
-        else return _get_kth(nodes[u].r, nodes[v].r, mid + 1, r, k - kl);
-    }
+    int mid = (l + r) / 2;
+    int kl = nodes[nodes[v].l].val - nodes[nodes[u].l].val;
+    if (kl >= k)
+      return _get_kth(nodes[u].l, nodes[v].l, l, mid, k);
+    else return _get_kth(nodes[u].r, nodes[v].r, mid + 1, r, k - kl);
+  }
 };
 \end{lstlisting}
 \sectionend
