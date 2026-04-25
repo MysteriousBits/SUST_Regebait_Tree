@@ -2,8 +2,7 @@
 
 \section{Trie}
 \begin{lstlisting}[language=C++]
-struct trienode
-{
+struct trienode {
   bool endmark;
   vector<int> child;
 
@@ -13,8 +12,7 @@ struct trienode
   }
 };
 
-struct trie
-{
+struct trie {
   int sz;
   char fst;
   vector<trienode> nodes;

@@ -18,27 +18,22 @@ bool feq(const long double& a, const long double& b) {
 
 \section{Vector2d}
 \begin{lstlisting}[language=C++]
-struct vector2d
-{
+struct vector2d {
   long double x, y;
 
-  bool operator==(const vector2d& p) const
-  {
+  bool operator==(const vector2d& p) const {
     return feq(x, p.x) && feq(y, p.y);
   }
 
-  vector2d operator+(const vector2d& p) const
-  {
+  vector2d operator+(const vector2d& p) const {
     return {x + p.x, y + p.y};
   }
 
-  vector2d operator-(const vector2d& p) const
-  {
+  vector2d operator-(const vector2d& p) const {
     return {x - p.x, y - p.y};
   }
 
-  vector2d operator*(long double scalar) const
-  {
+  vector2d operator*(long double scalar) const {
     return {scalar * x, scalar * y};
   }
 
@@ -46,30 +41,25 @@ struct vector2d
     return {v.x * s, v.y * s};
   }
 
-  vector2d operator/(long double scalar) const
-  {
+  vector2d operator/(long double scalar) const {
     return {x / scalar, y / scalar};
   }
 
-  long double norm2() const
-  {
+  long double norm2() const {
     return x * x + y * y;
   }
 
-  long double magnitude() const
-  {
+  long double magnitude() const {
     return sqrtl(norm2());
   }
 
-  vector2d unit() const
-  {
+  vector2d unit() const {
     long double m = magnitude();
     if (feq(m, 0)) return {0, 0};
     return {x / m, y / m};
   }
 
-  vector2d normal() const
-  {
+  vector2d normal() const {
     vector2d v{y, -x};
     return v.unit();
   }
@@ -100,27 +90,22 @@ long double cross(const vector2d& v1, const vector2d& v2) {
 
 \section{Vector3d}
 \begin{lstlisting}[language=C++]
-struct vector3d
-{
+struct vector3d {
   long double x, y, z;
 
-  bool operator==(const vector3d& p) const
-  {
+  bool operator==(const vector3d& p) const {
     return feq(x, p.x) && feq(y, p.y) && feq(z, p.z);
   }
 
-  vector3d operator+(const vector3d& p) const
-  {
+  vector3d operator+(const vector3d& p) const {
     return {x + p.x, y + p.y, z + p.z};
   }
 
-  vector3d operator-(const vector3d& p) const
-  {
+  vector3d operator-(const vector3d& p) const {
     return {x - p.x, y - p.y, z - p.z};
   }
 
-  vector3d operator*(long double scalar) const
-  {
+  vector3d operator*(long double scalar) const {
     return {x * scalar, y * scalar, z * scalar};
   }
 
@@ -128,23 +113,19 @@ struct vector3d
     return {v.x * s, v.y * s, v.z * s};
   }
 
-  vector3d operator/(long double scalar) const
-  {
+  vector3d operator/(long double scalar) const {
     return {x / scalar, y / scalar, z / scalar};
   }
 
-  long double norm2() const
-  {
+  long double norm2() const {
     return x * x + y * y + z * z;
   }
 
-  long double magnitude() const
-  {
+  long double magnitude() const {
     return sqrtl(norm2());
   }
 
-  vector3d unit() const
-  {
+  vector3d unit() const {
     long double m = magnitude();
     if (feq(m, 0)) return {0, 0, 0};
     return *this / m;
