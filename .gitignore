@@ -17,3 +17,6 @@
 *.ilg
 *.ind
 *.xdy
+
+# Editor
+.vscode

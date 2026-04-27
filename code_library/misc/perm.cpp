@@ -1,0 +1,6 @@
+VI a;
+//...
+sort(all(a));
+do {
+  // Process permutation...
+} while (next_permutation(all(a)));

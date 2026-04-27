@@ -5,6 +5,13 @@
 \usepackage{listings}
 \usepackage{fancyhdr}
 \usepackage{xcolor}
+\usepackage{bookmark}
+\usepackage{hyperref}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{enumitem}
 
 % Define a color for codes
 \definecolor{codecolor}{rgb}{0.1,0.1,0.1}
@@ -24,6 +31,7 @@
   xrightmargin=2pt
 }
 
+
 % Set coloumn dividers
 \setlength{\columnseprule}{0.2pt} % Multicol separation line with
 \setlength{\columnsep}{15pt} % Multicol separation margin
@@ -31,8 +39,18 @@
 % Compact TOC
 \renewcommand{\cfttoctitlefont}{\large\bfseries} % small TOC title
 \renewcommand{\contentsname}{} % remove "Contents"
+\setcounter{tocdepth}{1}
+
+\hypersetup{
+    colorlinks=true,      % False: boxed links; True: colored text
+    linkcolor=black,      % For a codebook, black is best for printing
+    urlcolor=blue,        % Keep URLs blue if you have them
+    pdftitle={Your Team Name Codebook},
+}
+
+% Author block
 \setlength{\cftbeforetoctitleskip}{-1em}
-\setlength{\cftaftertoctitleskip}{0em}           % end author block
+\setlength{\cftaftertoctitleskip}{0em}
 
 \makeatletter % <--- Start "At Letter" mode
 \renewcommand{\chapter}{
@@ -64,10 +82,26 @@
  {\thesection\quad} % just print the title
  [\titleline{\rule{\linewidth}{0.2pt}}]
 
+ % --- Subsection: Small, Bold, No Rule ---
+\titleformat{\subsection}[block]
+  {\bfseries\small} % Slightly smaller than section
+  {}
+  {0pt}
+  {\thesubsection\quad}
+
+% --- Subsubsection: Normal font, Bold, In-line ---
+% This "runin" style puts the text on the same line as the title to save vertical space
+\titleformat{\subsubsection}[runin]
+  {\bfseries\small}
+  {}
+  {0pt}
+  {\thesubsubsection\quad}
+  [:\quad] % Adds a colon and space after the subsubsection title
+
 \newcommand{\sectionend}{
- % \vspace{0.5em}%
+% \vspace{0.5em}%
 %  \hrule height 0.2pt%
- \vspace{-1em}%
+%  \vspace{1em}%
 }
 
 % page number at top right
@@ -85,4 +119,12 @@
 \fancypagestyle{plain}{%
  \fancyhf{}
  \fancyhead[R]{\thepage}
+}
+
+% Usage: \startcode{folder/file.cpp}
+\newcommand{\code}[2]{%
+  \section{#1}
+  \vspace{-1em}
+  \lstinputlisting{../code_library/#2}%
+  \sectionend
 }

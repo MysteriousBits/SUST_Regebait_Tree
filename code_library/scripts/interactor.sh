@@ -1,0 +1,1 @@
+socat EXEC:"./interactor" EXEC:"./soln"

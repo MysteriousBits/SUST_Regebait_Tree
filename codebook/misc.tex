@@ -1,28 +1,10 @@
 \chapter{Miscellaneous}
 
-\section{Generationg Permutations}
-\begin{lstlisting}[language=C++]
-VI a;
-//...
+\code{Generationg Permutations}{misc/perm.cpp}
 
-sort(all(a));
-do {
-  // Process permutation...
-} while (next_permutation(all(a)));
-\end{lstlisting}
-\sectionend
+\code{Iterating over Submasks}{misc/submask.cpp}
 
-\section{Iterating over Submasks}
-\begin{lstlisting}[language=C++]
-int n = 17;
-
-for (int mask = 0; mask < (1 << n); ++mask) {
-  for (int sub = mask; sub; sub = (sub - 1) & mask) {
-    // Process submask...
-  }
-}
-\end{lstlisting}
-\sectionend
+\code{Random}{misc/rand.cpp}
 
 \section{pbds}
 \begin{lstlisting}[language=C++]
@@ -37,16 +19,5 @@ st.insert(x);
 st.order_of_key(x);
 // access by index
 st.find_by_order(idx);
-\end{lstlisting}
-\sectionend
-
-\section{Random}
-\begin{lstlisting}[language=C++]
-mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-int randint(int l, int r) {
-  uniform_int_distribution<int> dist(l, r);
-  return dist(rng);
-}
 \end{lstlisting}
 \sectionend
