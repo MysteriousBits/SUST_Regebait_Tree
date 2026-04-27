@@ -17,6 +17,8 @@
 *.ilg
 *.ind
 *.xdy
+*.dvi
+*.gz
 
 # Editor
 .vscode
