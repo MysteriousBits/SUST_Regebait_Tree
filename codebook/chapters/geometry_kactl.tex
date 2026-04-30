@@ -65,7 +65,7 @@ Useful for rotational sweeping. Sometimes also represents points or vectors.]%
   // sweeps j such that (j-i) represents the number of positively oriented triangles with vertices at 0 and i
 ]
 
-\codeWithDesciption{Circle Intersection}{geometry/CircleIntersection.h}
+\codeWithDescription{Circle Intersection}{geometry/CircleIntersection.h}
 [Computes the pair of points at which two circles intersect. Returns false in case of no intersection.]
 
 \codeWithDescription{Circle Tangents}{geometry/CircleTangents.h}
@@ -73,16 +73,16 @@ Useful for rotational sweeping. Sometimes also represents points or vectors.]%
  Can return 0, 1, or 2 tangents -- 0 if one circle contains the other (or overlaps it, in the internal case, or if the circles are the same);
  1 if the circles are tangent to each other (in which case .first = .second and the tangent line is perpendicular to the line between the centers).
  .first and .second give the tangency points at circle 1 and 2 respectively.
- To find the tangents of a circle with a point set r2 to 0. O(n)
+ To find the tangents of a circle with a point set r2 to 0. $O(n)$
  ]
 
  \codeWithDescription{Minimum Enclosing Circle}{geometry/MinimumEnclosingCircle.h}
- [Computes the minimum circle that encloses a set of points. O(n)]
+ [Computes the minimum circle that encloses a set of points. $O(n)$]
 
  \codeWithDescription{Inside Polygon}{geometry/InsidePolygon.h}
  [
  Returns true if p lies within the polygon. If strict is true, it returns false for 
- points on the boundary. The algorithm uses products in intermediate steps so watch out for overflow. O(n)
+ points on the boundary. The algorithm uses products in intermediate steps so watch out for overflow. $O(n)$
  ]
  []
  [vector<P> v = {P{4,4}, P{1,2}, P{2,1}};
@@ -94,37 +94,37 @@ Useful for rotational sweeping. Sometimes also represents points or vectors.]%
 Watch out for overflow if using int as T!]
 
 \codeWithDescription{Polygon Center}{geometry/PolygonCenter.h}
-[Returns the center of mass for a polygon. Time: O(n)]
+[Returns the center of mass for a polygon. Time: $O(n)$]
 
 \codeWithDescription{Convex Hull}{geometry/ConvexHull.h}
 [Returns a vector of the points of the convex hull in counter-clockwise order.
-Points on the edge of the hull between two other points are not considered part of the hull. O(nlogn)
+Points on the edge of the hull between two other points are not considered part of the hull. $O(nlogn)$
 ]%
 % [graphics/geometry/ConvexHull]
 % []
 
 \codeWithDescription{Hull Diameter}{geometry/HullDiameter.h}
-[Returns the two points with max distance on a convex hull (ccw, no duplicate/collinear points). O(n)]
+[Returns the two points with max distance on a convex hull (ccw, no duplicate/collinear points). $O(n)$]
 
 \codeWithDescription{Point Inside Hull}{geometry/PointInsideHull.h}
 [
  Determine whether a point t lies inside a convex hull (CCW
  order, with no collinear points). Returns true if point lies within
- the hull. If strict is true, points on the boundary aren't included. O(logN)
+ the hull. If strict is true, points on the boundary aren't included. $O(logN)$
 ]
 
 \codeWithDescription{Line Hull Intersection}{geometry/LineHullIntersection.h}
 [Line-convex polygon intersection. The polygon must be ccw and have no collinear points.
  lineHull(line, poly) returns a pair describing the intersection of a line with the polygon:
-  \begin{itemize*}
+  \begin{itemize}
     \item $(-1, -1)$ if no collision,
     \item $(i, -1)$ if touching the corner $i$,
     \item $(i, i)$ if along side $(i, i+1)$,
     \item $(i, j)$ if crossing sides $(i, i+1)$ and $(j, j+1)$.
-  \end{itemize*}
+  \end{itemize}
   In the last case, if a corner $i$ is crossed, this is treated as happening on side $(i, i+1)$.
   The points are returned in the same order as the line hits the polygon.
- \texttt{extrVertex} returns the point of a hull with the max projection onto a line. O(logN)]
+ \texttt{extrVertex} returns the point of a hull with the max projection onto a line. $O(logN)$]
 
 \codeWithDescription{Closest Pair}{geometry/ClosestPair.h}
 [Finds the closest pair of points. O(nlogn)]
@@ -136,7 +136,7 @@ Points on the edge of the hull between two other points are not considered part 
 [lass to handle points in 3D space.	T can be e.g. double or long long.]
 
 \codeWithDescription{3D Convex Hull}{geometry/3dHull.h}
-[Computes all faces of the 3-dimension hull of a point set. *No four points must be coplanar*, or else random results will be returned. All faces will point outwards. Time: O(n^2)]
+[Computes all faces of the 3-dimension hull of a point set. *No four points must be coplanar*, or else random results will be returned. All faces will point outwards. Time: $O(n^2)$]
 
 \codeWithDescription{Spherical Distance}{geometry/sphericalDistance.h}
 [Returns the shortest distance on the sphere with radius radius between the points
