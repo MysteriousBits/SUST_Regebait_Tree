@@ -13,6 +13,10 @@
 \usepackage{graphicx}
 \usepackage{enumitem}
 
+% for codeWithDescription
+\usepackage{xparse}
+\usepackage{wrapfig}
+
 % Define a color for codes
 \definecolor{codecolor}{rgb}{0.1,0.1,0.1}
 
@@ -125,6 +129,33 @@
 \newcommand{\code}[2]{%
   \section{#1}
   \vspace{-1em}
+  \lstinputlisting{../code_library/#2}%
+  \sectionend
+}
+
+\input{insbox.tex}
+
+% Usage: \codeWithDescription{SectionTitle}{filepath}[DescriptionText][ImagePath]
+\NewDocumentCommand{\codeWithDescription}{ m m o o }{%
+  \section{#1}%
+  \vspace{-0.5em}%
+  %
+  \hspace{1pt}
+  \IfValueT{#3}{%
+    \IfValueTF{#4}{%
+      % \InsertBoxR{LinesBefore}{Box}[ExtraLinesToShorten]
+      \InsertBoxR{0}{%
+        \makebox[0.30\linewidth][r]{%
+          \includegraphics[width=0.25\linewidth]{#4}%
+          \hspace{5pt}% Adds a small gutter so text doesn't touch the image
+        }%
+      }[0]% <--- This [2] tells LaTeX to shorten 2 extra lines to prevent overlap
+      \noindent\footnotesize\textbf{Description:} #3\par
+    }{%
+      \noindent\footnotesize\textbf{Description:} #3\par
+    }%
+    \vspace{0.5em}%
+  }%
   \lstinputlisting{../code_library/#2}%
   \sectionend
 }
