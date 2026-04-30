@@ -3,3 +3,35 @@
 \code{Trie}{string/trie.cpp}
 
 \code{Z Algorithm}{string/zalgo.cpp}
+
+\codeWithDescription{KMP}{string/KMP.h}
+[pi[x] computes the length of the longest prefix of s that ends at x, other than s[0...x] itself (abacaba -> 0010123).
+ Can be used to find all occurrences of a string. Time: O(n)]
+
+\codeWithDescription{Suffix Array}{string/SuffixArray.h}
+[Builds suffix array for a string. \texttt{sa[i]} is the starting index of the suffix which
+ is $i$'th in the sorted suffix array. The returned vector is of size $n+1$, and \texttt{sa[0] = n}.
+ The \texttt{lcp} array contains longest common prefixes for neighbouring strings in the suffix array:
+ \texttt{lcp[i] = lcp(sa[i], sa[i-1])}, \texttt{lcp[0] = 0}. The input string must not contain any nul chars.
+ Time: O(nlogn)
+ ]
+
+\codeWithDescription{Manacher}{string/Manacher.h}
+[
+    For each position in a string, computes p[0][i] = half length of longest even 
+    palindrome around pos i, p[1][i] = longest odd (half rounded down). Time: O(N)
+]
+
+\codeWithDescription{Aho Corasick}{string/AhoCorasick.h}
+[
+    Aho-Corasick automaton, used for multiple pattern matching. Initialize with 
+    AhoCorasick ac(patterns); the automaton start node will be at index 0. find(word) returns 
+    for each position the index of the longest word that ends there, or -1 if none. findAll($-$, word) 
+    finds all words (up to $N \sqrt N$ many if no duplicate patterns) that start at each position 
+    (shortest first). Duplicate patterns are allowed; empty patterns are not. To find the longest 
+    words that start at each position, reverse all input. For large alphabets, split each symbol into 
+    chunks, with sentinel bits for symbol boundaries. Time: construction takes $O(26N)$, 
+    where $N =$ sum of length of patterns. find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$
+]
+
+\code{Hashing}{string/hashing.h}
