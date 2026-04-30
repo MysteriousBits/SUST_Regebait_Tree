@@ -135,27 +135,33 @@
 
 \input{insbox.tex}
 
-% Usage: \codeWithDescription{SectionTitle}{filepath}[DescriptionText][ImagePath]
-\NewDocumentCommand{\codeWithDescription}{ m m o o }{%
+% Usage: \codeWithDescription{SectionTitle}{filepath}[DescriptionText][ImagePath][UsageCode]
+\NewDocumentCommand{\codeWithDescription}{ m m o o o }{%
   \section{#1}%
   \vspace{-0.5em}%
-  %
   \hspace{1pt}
-  \IfValueT{#3}{%
-    \IfValueTF{#4}{%
-      % \InsertBoxR{LinesBefore}{Box}[ExtraLinesToShorten]
+  %
+  \IfValueT{#3}{% Description
+    \IfValueTF{#4}{% Image exists
       \InsertBoxR{0}{%
         \makebox[0.30\linewidth][r]{%
           \includegraphics[width=0.25\linewidth]{#4}%
-          \hspace{5pt}% Adds a small gutter so text doesn't touch the image
+          \hspace{5pt}%
         }%
-      }[0]% <--- This [2] tells LaTeX to shorten 2 extra lines to prevent overlap
+      }[2]%
       \noindent\footnotesize\textbf{Description:} #3\par
-    }{%
+    }{% No image
       \noindent\footnotesize\textbf{Description:} #3\par
     }%
-    \vspace{0.5em}%
   }%
+  %
+  \IfValueT{#5}{% Usage (The 5th argument)
+    \vspace{0.2em}
+    \noindent\footnotesize\textbf{Usage:} \\
+    \indent\texttt{\footnotesize\detokenize{#5}}\par
+    \vspace{0.3em}
+  }%
+  %
   \lstinputlisting{../code_library/#2}%
   \sectionend
 }
