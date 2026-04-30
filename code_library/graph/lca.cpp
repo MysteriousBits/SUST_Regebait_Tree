@@ -1,10 +1,9 @@
 struct LCA {
-  int step = 0;
-  VI vis_start, vis_end;
-  VVI st;
-  int k;
-  VVI& tree;
-  LCA(VVI& tree) : tree(tree) { init(tree.size() - 1); }
+  int step = 0, k = 0;
+  vector<int> vis_start, vis_end;
+  vector<vector<int>> st;
+  vector<vector<int>>& tree;
+  LCA(vector<vector<int>>& tree) : tree(tree) { init(tree.size() - 1); }
   void build_st(int u, int p) {
     st[u][0] = p;
     for (int i = 1; i <= k; ++i) st[u][i] = st[st[u][i - 1]][i - 1];
@@ -33,7 +32,7 @@ struct LCA {
     vis_start.assign(n + 1, 0);
     vis_end.assign(n + 1, 0);
     k = __lg(2 * n - 1);
-    st.assign(n + 1, VI(k + 1));
+    st.assign(n + 1, vector<int>(k + 1));
     dfs(1, 1);
   }
   // Extra
