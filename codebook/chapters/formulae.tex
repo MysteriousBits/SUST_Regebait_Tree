@@ -102,7 +102,7 @@
     \item The number of ways to connect the $\displaystyle 2n$ points on a circle to form $n$ disjoint i.e. non-intersecting chords.
     \item The number of monotonic lattice paths from point $\displaystyle (0,0)$ to point $\displaystyle (n,n)$ in a square lattice of size $n\times n$, which do not pass above the main diagonal (i.e. connecting $\displaystyle (0,0)$ to $\displaystyle (n,n)$).
     \item The number of rooted full binary trees with $n$+$\displaystyle 1$ leaves (vertices are not numbered). A rooted binary tree is full if every vertex has either two children or no children.
-    \item Number of permutations of $\displaystyle {1, \dots, n}$ that avoid the pattern $\displaystyle 123$ (or any of the other patterns of length $3$); that is, the number of permutations with no three-term increasing sub-sequence. For $n = 3$, these permutations are $\displaystyle 132,\ 213,\ 231,\ 312$ and $321.$\displaystyle For $n = 4$, they are $\displaystyle 1432,\ 2143,\ 2413,\ 2431,\ 3142,\ 3214,\\ \ 3241,\ 3412,\ 3421,\ 4132,\ 4213,\ 4231,\ 4312$ and $4321.$
+    \item Number of permutations of $\{1, \dots, n\}$ that avoid the pattern $123$ (or any of the other patterns of length $3$); that is, the number of permutations with no three-term increasing subsequence. For $n = 3$, these permutations are $132, 213, 231, 312$ and $321$. For $n = 4$, they are $1432, 2143, 2413, 2431, 3142, 3214, 3241, 3412, 3421, 4132, 4213, 4231, 4312$ and $4321.$
     \item \textbf{Balanced Parentheses count with prefix:}
     The count of balanced parentheses sequences consisting of $n+k$ pairs of parentheses where the first $\displaystyle \displaystyle k$ symbols are open brackets. Let the number be $\displaystyle C_n^{(k)}$, then
     \[\displaystyle \displaystyle C_n^{(k)} = \frac{k+1}{n+k+1} \binom{2n+k}{n}\]
@@ -336,7 +336,7 @@ n = a_1^2 + a_2^2 + \dots + a_k^2
     \item The function is multiplicative.
     This means that if $\displaystyle \gcd(m, n) = 1$, $\displaystyle \phi(m \cdot n) = \phi(m) \cdot \phi(n)$.
     \item $\displaystyle \phi(n) = n\prod_{p |n}(1 - \frac{1}{p} )$
-    \item If p is prime and (k \geq 1), then,
+    \item If $p$ is prime and $(k \geq 1)$, then:
     $\displaystyle \phi(p^k) = p^{k - 1}(p - 1) = p^k(1 - \frac{1}{p})$
     \item $J_k(n)$, the Jordan totient function, is the number of $\displaystyle \displaystyle k$-tuples of positive integers all less than or equal to n that form a coprime $\displaystyle (k + 1)$-tuple together with $n$. It is a generalization of Euler’s totient, $\displaystyle \phi(n) = J_1(n)$.
     \(J_k(n) = n^k\prod_{p |n}(1 - \frac{1}{p^k})\)
@@ -446,7 +446,7 @@ n = a_1^2 + a_2^2 + \dots + a_k^2
     A sequence of non-negative integers $d_1 \geq d_2 \geq \cdots \geq d_n$ can be represented as the degree sequence of finite simple graph on $n$ vertices if and only if $d_1 + d_2 + \cdots + d_n$ is even and
     \[\displaystyle \sum_{i = 1}^k {d_i \leq k(k - 1)} + \sum_{i = k + 1}^n \min(d_i, k)\]
     holds for every $\displaystyle \displaystyle k$ in $\displaystyle 1 \leq k \leq n$.
-    \item f_n = \sum_{i=0}^{n} \binom{n}{i} g_i \Rightarrow g_n = \sum_{i=0}^{n} (-1)^{n-i} \binom{n}{i} f_i
+    \item $f_n = \sum_{i=0}^{n} \binom{n}{i} g_i \Rightarrow g_n = \sum_{i=0}^{n} (-1)^{n-i} \binom{n}{i} f_i$
 \end{enumerate}
 \subsection{Traingle}
 \begin{itemize}[leftmargin=*]
@@ -554,4 +554,3 @@ Through $\mathbf{a}$, normal $\mathbf{n}$. Eq: $(\mathbf{r} - \mathbf{a}) \cdot 
     \item $2\tan^{-1}x = \tan^{-1}\left(\frac{2x}{1-x^2}\right) = \sin^{-1}\left(\frac{2x}{1+x^2}\right) = \cos^{-1}\left(\frac{1-x^2}{1+x^2}\right)$
     \item $\tan^{-1}x + \cot^{-1}x = \frac{\pi}{2}$
 \end{itemize}
-\end{multicols}
