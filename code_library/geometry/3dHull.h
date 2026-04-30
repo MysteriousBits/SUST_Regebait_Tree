@@ -1,19 +1,3 @@
-/**
- * Author: Johan Sannemo
- * Date: 2017-04-18
- * Source: derived from https://gist.github.com/msg555/4963794 by Mark Gordon
- * Description: Computes all faces of the 3-dimension hull of a point set.
- *  *No four points must be coplanar*, or else random results will be returned.
- *  All faces will point outwards.
- * Time: O(n^2)
- * Status: tested on SPOJ CH3D
- */
-#pragma once
-
-#include "Point3D.h"
-
-typedef Point3D<double> P3;
-
 struct PR {
 	void ins(int x) { (a == -1 ? a : b) = x; }
 	void rem(int x) { (a == x ? a : b) = -1; }

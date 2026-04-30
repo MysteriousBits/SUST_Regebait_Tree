@@ -1,15 +1,3 @@
-/**
- * Author: Ulf Lundstrom with inspiration from tinyKACTL
- * Date: 2009-04-14
- * License: CC0
- * Source:
- * Description: Class to handle points in 3D space.
- * 	T can be e.g. double or long long.
- * Usage:
- * Status: tested, except for phi and theta
- */
-#pragma once
-
 template<class T> struct Point3D {
 	typedef Point3D P;
 	typedef const P& R;
