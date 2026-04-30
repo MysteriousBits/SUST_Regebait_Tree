@@ -1,5 +1,3 @@
-#include "Point.h"
-
 template<class P>
 pair<int, P> lineInter(P s1, P e1, P s2, P e2) {
 	auto d = (e1 - s1).cross(e2 - s2);
