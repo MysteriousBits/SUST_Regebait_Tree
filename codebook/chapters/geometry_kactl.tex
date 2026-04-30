@@ -1,8 +1,33 @@
 \chapter{geometry}
 
+\codeWithDescription{Point 2D}{geometry/Point.h}
+[Description: Class to handle points in the plane. T can be e.g. double or long long. (Avoid int.)]
+
 \codeWithDescription{Line Intersection}{geometry/lineIntersection.h}%
 [If a unique intersection point of the lines going through s1,e1 and s2,e2 exists \{1, point\} is returned. 
 If no intersection point exists \{0, (0,0)\} is returned and if infinitely many exists \{-1, (0,0)\} is returned. 
 The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates. 
 Products of three coordinates are used in intermediate steps so watch out for overflow if using int or ll.]%
 [graphics/geometry/lineIntersection]
+
+\codeWithDescription{Segment Distance}{geometry/SegmentDistance.h}
+[Returns the shortest distance between point p and the line segment from point s to e.]
+[graphics/geometry/SegmentDistance]
+[
+    Point<double> a, b(2,2), p(1,1);
+ 	bool onSegment = segDist(a,b,p) < 1e-10;
+]
+
+\codeWithDescription{Segment Intersection}{geometry/SegmentIntersection.h}
+[
+If a unique intersection point between the line segments going from s1 to e1 and from s2 to e2 exists then it is returned.
+If no intersection point exists an empty vector is returned.
+If infinitely many exist a vector with 2 elements is returned, containing the endpoints of the common line segment.
+The wrong position will be returned if P is Point<ll> and the intersection point does not have integer coordinates.
+Products of three coordinates are used in intermediate steps so watch out for overflow if using int or long long.
+]
+[graphics/geometry/SegmentIntersection]
+[vector<P> inter = segInter(s1,e1,s2,e2);
+ if (sz(inter)==1)
+   cout << "segments intersect at " << inter[0] << endl;
+]
