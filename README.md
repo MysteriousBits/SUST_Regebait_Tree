@@ -51,3 +51,11 @@ Run the following command from the root directory to handle all passes (Table of
 cd codebook
 latexmk -pdf -synctex=1 -interaction=nonstopmode codebook.tex
 ```
+
+### Reset the cache 
+Sometimes, build failure will generate cache and the cache needs to be resetted in order to do a correct compilation.
+Run the following command in order to reset cache (sometimes)
+
+```
+latexmk -C 
+```
