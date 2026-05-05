@@ -1,0 +1,7 @@
+\chapter{Numerical}
+
+\codeWithDescription{NTT}{numerical/ntt.cpp}%
+[ntt(a) computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, where $g=\text{root}^{(mod-1)/N}$. $N$ must be a power of 2. Useful for convolution modulo specific nice primes. For manual convolution: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs must be in {$[0, mod)$}. \\
+\textbf{Time:} $O(N \log N)$]
+
+\vspace{1em}
