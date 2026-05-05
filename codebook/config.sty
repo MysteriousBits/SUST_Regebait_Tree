@@ -18,7 +18,7 @@
 \usepackage{wrapfig}
 
 % Define a color for codes
-\definecolor{codecolor}{rgb}{0.1,0.1,0.1}
+\definecolor{codecolor}{rgb}{0.2,0.2,0.2}
 
 \lstset{
   basicstyle=\ttfamily\small\color{codecolor},
@@ -49,7 +49,7 @@
     colorlinks=true,      % False: boxed links; True: colored text
     linkcolor=black,      % For a codebook, black is best for printing
     urlcolor=blue,        % Keep URLs blue if you have them
-    pdftitle={Your Team Name Codebook},
+    pdftitle={SUST_Ragebait_Tree},
 }
 
 % Author block
@@ -102,12 +102,6 @@
   {\thesubsubsection\quad}
   [:\quad] % Adds a colon and space after the subsubsection title
 
-\newcommand{\sectionend}{
-% \vspace{0.5em}%
-%  \hrule height 0.2pt%
-%  \vspace{1em}%
-}
-
 % page number at top right
 \pagestyle{fancy}
 \fancyhf{}
@@ -130,47 +124,54 @@
   \section{#1}
   \vspace{-1em}
   \lstinputlisting{../code_library/#2}%
-  \sectionend
 }
 
-\input{insbox.tex}
+\newlength{\cwdImgWidth}
+\setlength{\cwdImgWidth}{0.1\linewidth}
 
-% Usage: \codeWithDescription{SectionTitle}{filepath}[Description][Image][Usage]
+% \codeWithDescription{Title}{filepath}[Description][Image][Usage]
 \NewDocumentCommand{\codeWithDescription}{ m m o o o }{%
   \section{#1}%
   \vspace{-0.5em}%
-  \hspace{1pt}
   %
   \IfValueT{#3}{%
-    % Check if Image (#4) exists AND is not empty
-    \IfValueTF{#4}{%
-      \if\relax\detokenize{#4}\relax
-        % IMAGE ARG IS EMPTY [] - Standard full-width description
+    \noindent\begin{minipage}{\linewidth}%
+      % --- Description + optional image ---
+      \IfValueTF{#4}{%
+        \if\relax\detokenize{#4}\relax
+          % empty image arg → full-width description
+          \noindent\footnotesize\textbf{Description:} #3\par
+        \else
+          % description on left, image on right
+          \noindent
+          \begin{minipage}[t]{\dimexpr\linewidth-\cwdImgWidth-0.5em\relax}%
+            \vspace{0pt}%
+            \footnotesize\textbf{Description:} #3%
+          \end{minipage}%
+          \hspace{0.3em}%
+          \begin{minipage}[t]{\cwdImgWidth}%
+            \vspace{0pt}%
+            \includegraphics[width=\linewidth]{#4}%
+          \end{minipage}%
+          \par
+        \fi
+      }{%
         \noindent\footnotesize\textbf{Description:} #3\par
-      \else
-        % IMAGE ARG HAS A PATH - Use wrapping logic
-        \InsertBoxR{0}{%
-          \makebox[0.30\linewidth][r]{%
-            \includegraphics[width=0.25\linewidth]{#4}%
-            \hspace{5pt}%
-          }%
-        }[2]%
-        \noindent\footnotesize\textbf{Description:} #3\par
-      \fi
-    }{%
-      % IMAGE ARG IS TOTALLY MISSING - Standard full-width description
-      \noindent\footnotesize\textbf{Description:} #3\par
-    }%
-    \vspace{0.5em}%
+      }%
+      \vspace{0.2em}%
+      % --- Optional usage ---
+      \IfValueT{#5}{%
+        \noindent\footnotesize\textbf{Usage:}\\
+        \indent\texttt{\footnotesize\detokenize{#5}}\par
+        \vspace{0.2em}%
+      }%
+    \end{minipage}%
+    \par\vspace{0.2em}%
   }%
   %
-  \IfValueT{#5}{% Usage Block
-    \vspace{0.2em}
-    \noindent\footnotesize\textbf{Usage:} \\
-    \indent\texttt{\footnotesize\detokenize{#5}}\par
-    \vspace{0.3em}
-  }%
-  %
+  \noindent{\color{lightgray}\rule{\linewidth}{0.2pt}}%
+  \vspace*{-0.5em}%
   \lstinputlisting{../code_library/#2}%
-  \sectionend
+  \vspace*{-1.5em}%
+  \par
 }
