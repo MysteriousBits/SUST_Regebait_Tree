@@ -12,20 +12,9 @@
 
 \code{Random}{misc/rand.cpp}
 
-\section{pbds}
-\begin{lstlisting}[language=C++]
-// ordered set
-ordered_set<int> st;
-// ordered multiset
-ordered_set<int, less_equal<int>> multi;
+\code{Index compression}{misc/index_compression.cpp}
 
-// insert element
-st.insert(x);
-// get index
-st.order_of_key(x);
-// access by index
-st.find_by_order(idx);
-\end{lstlisting}
+\section{pbds}{misc/pbds.cpp}
 
 \codeWithDescription{Digit Range Sum}{misc/DigitRangeSum.h}
 [Gives the digit sum of the numbers in the range [l,r]. I have encountered this problem twice.]
