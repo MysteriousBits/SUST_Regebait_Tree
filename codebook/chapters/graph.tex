@@ -9,3 +9,16 @@
 \code{HLD}{graph/hld.cpp}
 
 \code{Centroid Decomposition}{graph/cd.cpp}
+
+\codeWithDescription{Min Cost Max Flow}{graph/mcmf.cpp}%
+[Min-cost max-flow. If costs can be negative, call \texttt{setpi} before \texttt{maxflow}, but note that negative cost cycles are not supported. To obtain the actual flow, look at positive values only. \\
+\textbf{Time:} {$O(F E \log V)$} where $F$ is max flow; {$O(VE)$} for \texttt{setpi}.]
+
+\codeWithDescription{EdmondKarp}{graph/edmond.cpp}
+[Flow algorithm with guaranteed complexity {$O(VE^2)$}. To get edge flow values, compare capacities before and after, and take the positive values only.]
+
+\codeWithDescription{HopcroftKarp}{graph/hopcroft.cpp}
+[Fast bipartite matching algorithm. Graph $g$ should be a list of neighbors of the left partition, and $r$ should be a vector full of $-1$'s of the same size as the right partition. Returns the size of the matching. $r[i]$ will be the match for vertex $i$ on the right side, or $-1$ if it's not matched. \\
+\textbf{Time:} {$O(E \sqrt{V})$}]
+
+\vspace{1em}
