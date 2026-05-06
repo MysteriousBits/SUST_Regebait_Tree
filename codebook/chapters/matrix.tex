@@ -1,0 +1,36 @@
+\chapter{Matrix}
+
+\code{The Matrix Class}{matrix/matrix_class.cpp}
+\codeWithDescription{Gaussian Elimination}{matrix/gaussian_elimination.cpp}
+[Input : Mat a of size n x (m+1), where the last column is the RHS (b vector)
+         i.e. a represents the augmented matrix [A | b]
+ Output: Fills `ans` with solution vector x such that A*x = b (mod p)
+         Returns -1  → no solution exists
+         Returns  0  → unique solution
+         Returns  k  → infinitely many solutions with k free variables]
+[]
+[  Mat aug(n, m + 1);
+   fill aug.a[i][j] with coefficients, aug.a[i][m] with RHS
+   vector<int> sol;
+   int result = Gauss(aug, sol);
+   if (result == -1)     // no solution
+   else if (result == 0) // unique solution in sol
+   else                  // result = number of free variables]
+
+\codeWithDescription{Determinant}{matrix/determinant.cpp}
+[Determinant of a matrix.]
+[]
+[
+Mat a(n, n);
+// fill a.a[i][j]
+int d = Det(a);   // d = det(A) mod p]
+
+\codeWithDescription{Matrix Inverse}{matrix/matrix_inverse.cpp}
+[Inverse of a matrix]
+[]
+[
+Mat a(n, n), inv;
+// fill a.a[i][j]
+if (Inv(a, inv)) { /* use inv */ }
+else             { /* singular */ }
+]
