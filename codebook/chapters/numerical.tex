@@ -10,15 +10,11 @@
    Rounding is safe if $(\sum a_i^2 + \sum b_i^2)\log_2{N} < 9\cdot10^{14}$
    (in practice $10^{16}$; higher for random inputs).
    Otherwise, use NTT/FFTMod.
-   Time: O(N \log N) with $N = |A|+|B|$ ($\tilde 1s$ for $N=2^{22}$)
+   Time: $O(N \log N)$ with $N = |A|+|B|$ ($\tilde 1s$ for $N=2^{22}$)
 ]
-\codeWithDescription{FFT With mod M}{numerical/fftmod.cpp}
-[
- Higher precision FFT, can be used for convolutions modulo arbitrary integers
- as long as $N\log_2N\cdot \text{mod} < 8.6 \cdot 10^{14}$ (in practice $10^{16}$ or higher).
- Inputs must be in $[0, \text{mod})$.
- Time: O(N \log N), where $N = |A|+|B|$ (twice as slow as NTT or FFT)
-]
+\codeWithDescription{FFT With mod M}{numerical/fftmod.cpp}%
+[Higher precision FFT, can be used for convolutions modulo arbitrary integers as long as $N\log_2N\cdot \text{mod} < 8.6 \cdot 10^{14}$ (in practice $10^{16}$ or higher). Inputs must be in {$[0, \text{mod})$}. \\
+\textbf{Time:} {$O(N \log N)$}, where $N = |A|+|B|$ (twice as slow as NTT or FFT)]
 
 \codeWithDescription{NTT}{numerical/ntt.cpp}%
 [ntt(a) computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, where $g=\text{root}^{(mod-1)/N}$. $N$ must be a power of 2. Useful for convolution modulo specific nice primes. For manual convolution: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs must be in {$[0, mod)$}. \\
@@ -28,7 +24,6 @@
 [Transform to a basis with fast convolutions of the form
  $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
  where $\oplus$ is one of AND, OR, XOR. The size of $a$ must be a power of two.
- Time: O(N \log N)]
-[][]
+ Time: $O(N \log N)$]
 
 \vspace{1em}
