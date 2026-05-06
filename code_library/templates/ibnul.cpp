@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 // Template
-// ====================================
+// ==============================================
 // pbds
 // #include <ext/pb_ds/assoc_container.hpp>
 // #include <ext/pb_ds/tree_policy.hpp>
 // using namespace __gnu_pbds;
-// template<typename T, typename comp = less<T>>
-// using ordered_set =  tree<T, null_type, comp, rb_tree_tag,
+// template<typename T>
+// using ordered_set =  tree<T, null_type, less<T>, rb_tree_tag,
 // tree_order_statistics_node_update>;
 // Debugging
 #ifdef LOCAL
@@ -31,10 +31,10 @@ typedef vector<pair<int, int>> VPI;
 #define all(a) a.begin(), a.end()
 #define revall(a) a.rbegin(), a.rend()
 #define loop(i, s, e) for (int i = s; i < e; ++i)
-#define inp(v) \
-  for (auto& x : v) cin >> x
-#define outp(v, st) \
-  for (int i = st, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
+#define inp(v)
+for (auto& x : v) cin >> x
+#define outp(v, st)
+for (int i = st, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
 #define nl "\n"
 #define yep cout << "YES\n"
 #define nope cout << "NO\n"
@@ -44,7 +44,7 @@ typedef vector<pair<int, int>> VPI;
 #define MOD 998244353
 // #define MOD 1000000007
 #define MAXN 2002
-// ====================================
+// =============================================
 void solve(int tc) {}
 int main() {
   ios_base::sync_with_stdio(false);
