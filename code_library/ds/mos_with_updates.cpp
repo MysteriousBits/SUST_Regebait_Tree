@@ -1,23 +1,23 @@
+/// @note: Store query indices as [l, r). DON'T FORGET TO MAKE R EXCLUSIVE
 struct mos_update {
-    void add(int ind, int end) { ... }
-    void del(int ind, int end) { ... }
-    void apply(int pos, int val) { ... }
-    int calc() { ... }
-
-    int a[N];
+    ll a[100005];
     int L, R; // needed by apply
+    ll ans;
+    mos_update() { /* ... */ }
+    void add(int ind, int end) { /* ... */ }
+    void del(int ind, int end) { /* ... */ }
 
     void apply(int pos, int val) {
         if (L <= pos && pos < R) { del(pos, -1); a[pos] = val; add(pos, -1); }
         else                     { a[pos] = val; }
     }
-
     // Q[i] = {l, r, t}
     // U[i] = {pos, old_val, new_val}
-    vector<int> mo(vector<vi> Q, vector<vi> U) {
+    vector<ll> mo(vector<vector<int>>& Q, vector<vector<int>>& U, int n) {
         L = 0, R = 0; int T = 0;
-        int blk = max(1, (int)pow(sz(Q), 0.666));
-        vi s(sz(Q)), res = s;
+        ans = 0;
+        int blk = max(1, (int)pow(Q.size(), 0.666));
+        vll s(Q.size()), res(Q.size());
 
         iota(all(s), 0);
         sort(all(s), [&](int i, int j) {
@@ -38,9 +38,8 @@ struct mos_update {
             while (R < qr) add(R++, 1);
             while (L < ql) del(L++, 0);
             while (R > qr) del(--R, 1);
-
-            res[qi] = calc();
+            res[qi] = ans;
         }
         return res;
     }
-}
+};
