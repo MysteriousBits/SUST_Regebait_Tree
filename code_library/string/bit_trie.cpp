@@ -47,7 +47,7 @@ int get_min(int x) {
 void deleteall(int root) {
   if (trie[root][0]) deleteall(trie[root][0]);
   if (trie[root][1]) deleteall(trie[root][1]);
-  trie[root][0] = trie[root][1] = 0;  // clear child pointers
+  trie[root][0] = trie[root][1] = 0;
   triesz[root] = 0;
 }
 

@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 // Template
-// ==============================================
+// =================================
 // pbds
 // #include <ext/pb_ds/assoc_container.hpp>
 // #include <ext/pb_ds/tree_policy.hpp>
@@ -44,7 +44,7 @@ for (int i = st, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
 #define MOD 998244353
 // #define MOD 1000000007
 #define MAXN 2002
-// =============================================
+// =================================
 void solve(int tc) {}
 int main() {
   ios_base::sync_with_stdio(false);
