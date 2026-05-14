@@ -24,7 +24,7 @@ template<bool EDGES> struct HLD {
     ST st; // Embedded Segment Tree
     
     HLD(int _n, vector<vector<int>>& _adj) : n(_n), par(_n+1), sz(_n+1, 1), 
-                 dep(_n+1), root(_n+1), pos(_n+1), adj(_adj) {
+                 dep(_n+1), root(_n+1), pos(_n+1), adj(_adj), st(_n) {
         tim = 1;
         dfs_sz(1, 0, 0);
         dfs_hld(1, 1);
