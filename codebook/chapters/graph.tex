@@ -7,9 +7,9 @@
 \textbf{Time:} {$O(VE)$}]
 
 \codeWithDescription{Biconnected Component}{graph/biconnectedcomp.cpp}
-[Finds all biconnected components in an undirected graph and runs a callback for the edges in each. In a biconnected component, there are at least two internally disjoint paths between any two nodes. Note that a node can be in several components. An edge not in a component is a bridge. \\
-\textbf{Usage:} \texttt{int eid = 0; ed.resize(N); for each (a,b): ed[a].emplace\_back(b, eid), ed[b].emplace\_back(a, eid++); bicomps([\&](const vi\& edgelist) \{...\});} \\
-\textbf{Time:} {$O(E + V)$}]
+[Finds biconnected components, bridges, and articulation points in a simple undirected graph. \\
+\textbf{Usage:} Build adj list via \texttt{ed[u].push\_back(\{v, edge\_id\})}. Call \texttt{bicomps(n, f)} where \texttt{f(comp)} is called for each component (vector of edge IDs). After call, \texttt{bridges} contains bridge edges and \texttt{isArt[i]} is 1 for articulation points. \\
+\textbf{Time:} {$O(V + E)$}]
 
 \code{LCA}{graph/lca.cpp}
 

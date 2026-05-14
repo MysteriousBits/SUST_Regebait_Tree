@@ -20,3 +20,16 @@ int hopcroftKarp(vector<vi>& g, vi& r) {
     rep(i, 0, n) if (l[i] == -1) res += dfs(dfs, i);
   }
 }
+// --- Shortened usage ---
+int main() {
+    int n, m, k; cin >> n >> m >> k;
+    vi r(n + m, -1); vector<vi> g(n + m);
+    rep(i, 0, k) {
+        int u, v; cin >> u >> v;
+        g[u-1].push_back(v + n - 1); // Map right side to [n, n+m)
+    }
+    int matchingSize = hopcroftKarp(g, r);
+    // r[i] stores the left-side match for right-side node i
+    for (int i = n; i < n + m; i++)
+        if (r[i] != -1) cout << r[i] + 1 << " " << i - n + 1 << endl;
+}
