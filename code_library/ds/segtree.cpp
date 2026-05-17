@@ -13,8 +13,8 @@ struct ST {
       return;
     }
     int mid = (b + e) >> 1;
-    build(lc, b, mid);
-    build(rc, mid + 1, e);
+    build(lc, b, mid, a);
+    build(rc, mid + 1, e, a);
     pull(nd);
   }
   void upd(int nd, int b, int e, int i, T v) {
