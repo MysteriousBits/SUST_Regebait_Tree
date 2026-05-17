@@ -6,4 +6,23 @@
 
 \code{Sieve, SPF, Phi}{nt/sieve.cpp}
 
+\codeWithDescription{Extended GCD}{nt/extgcd.cpp}
+[Finds solutions $(x0, y0)$ in $ax+by = 1$. (Check formulae for more details)]
+
 \code{CRT}{nt/crt.cpp}
+
+\codeWithDescription{Diophantine Equation}{nt/diophantine.cpp}
+[Solves $ax+by = c$ where $gcd(a,b) | c$. Find any solution returns $x \in [minx, maxx]$ and $y \in [miny, maxy]$. If $solves=true$, 
+the function returns all solution pairs $(x,y)$. (Check formulae for more details)]
+
+\codeWithDescription{Miller Rabin Prime Test}{nt/miller_rabin.cpp}
+[Deterministic Miller-Rabin primality test.
+ Guaranteed to work for numbers up to $7 \cdot 10^{18}$.
+ \textbf{Time:} 7 times the complexity of $a^b \mod c$.]
+[]
+
+\codeWithDescription{Pollar Rho Factorization}{nt/pollard_rho.cpp}
+[Pollard-rho randomized factorization algorithm. Returns prime
+ factors of a number, in arbitrary order (e.g. 2299 -> \{11, 19, 11\}).
+ Time: $O(n^{1/4})$, less for numbers with small factors.
+][]
