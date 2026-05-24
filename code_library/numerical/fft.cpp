@@ -30,9 +30,9 @@ void fft(vector<C>& a) {
             }
 }
 
-vd conv(const vd& a, const vd& b) {
+vector<ll> conv(const vector<ll>& a, const vector<ll>& b) {
     if (a.empty() || b.empty()) return {};
-    vd res(a.size() + b.size() - 1);
+    vector<ll> res(a.size() + b.size() - 1);
     int L = 32 - __builtin_clz((int)res.size()), n = 1 << L;
     vector<C> in(n), out(n);
     copy(a.begin(), a.end(), in.begin());
@@ -41,6 +41,9 @@ vd conv(const vd& a, const vd& b) {
     for (C& x : in) x *= x;
     for (int i = 0; i < n; i++) out[i] = in[-i & (n - 1)] - conj(in[i]);
     fft(out);
-    for (int i = 0; i < (int)res.size(); i++) res[i] = imag(out[i]) / (4 * n);
+    
+    for (int i = 0; i < (int)res.size(); i++) {
+        res[i] = (ll)round(imag(out[i]) / (4 * n));
+    }
     return res;
 }
