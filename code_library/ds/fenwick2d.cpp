@@ -1,22 +1,36 @@
 struct FT2 {
-	vector<vi> ys; vector<FT> ft;
-	FT2(int limx) : ys(limx) {}
-	void fakeUpdate(int x, int y) {
-		for (; x < sz(ys); x |= x + 1) ys[x].push_back(y);
-	}
-	void init() {
-		for (vi& v : ys) sort(all(v)), ft.emplace_back(sz(v));
-	}
-	int ind(int x, int y) {
-		return (int)(lower_bound(all(ys[x]), y) - ys[x].begin()); }
-	void update(int x, int y, ll dif) {
-		for (; x < sz(ys); x |= x + 1)
-			ft[x].update(ind(x, y), dif);
-	}
-	ll query(int x, int y) {
-		ll sum = 0;
-		for (; x; x &= x - 1)
-			sum += ft[x-1].query(ind(x-1, y));
-		return sum;
-	}
+  vector<vector<ll>> ys; 
+  vector<FT> ft;
+  FT2(int limx) : ys(limx + 1) {}
+  void fakeUpdate(int x, int y) {
+    for (; x < ys.size(); x += x & -x) {
+      ys[x].push_back(y);
+    }
+  }
+  void init() {
+    ft.clear();
+    ft.resize(ys.size(), FT(0));
+    for (int i = 0; i < ys.size(); ++i) {
+      sort(ys[i].begin(), ys[i].end());
+      ys[i].erase(unique(ys[i].begin(), ys[i].end()), ys[i].end());
+      ft[i] = FT(ys[i].size());
+    }
+  }
+  int update(int x, int y) {
+    return lower_bound(ys[x].begin(), ys[x].end(), y - ys[x].begin()) + 1; 
+  }
+  int query(int x, int y) {
+    return upper_bound(ys[x].begin(), ys[x].end(), y) - ys[x].begin();
+  }
+  void update(int x, int y, ll dif) {
+    for (; x < ys.size(); x += x & -x)
+      ft[x].update(update(x, y), dif);
+  }
+  ll query(int x, int y) {
+    ll sum = 0;
+    for (; x > 0; x -= x & -x) {
+      sum += ft[x].query(query(x, y));
+    }
+    return sum;
+  }
 };
