@@ -18,12 +18,13 @@ struct PST {
     n = a.size();
     build(a);
   }
-  int build(vector<T> a) {
+  int build(const vector<T>& a) {
+    nodes.reserve(20 * n);
     int root = _build(0, n - 1, a);
     version.push_back(root);
     return version.size() - 1;
   }
-  int _build(int l, int r, vector<T>& a) {
+  int _build(int l, int r, const vector<T>& a) {
     int root = nodes.size();
     nodes.push_back({});
     if (l == r) {
@@ -78,7 +79,7 @@ struct PST {
   int _get_kth(int u, int v, int l, int r, int k) {
     if (l == r) return l;
     int mid = (l + r) / 2;
-    int kl = nodes[nodes[v].l].val - nodes[nodes[u].l].val;
+    T kl = nodes[nodes[v].l].val - nodes[nodes[u].l].val;
     if (kl >= k)
       return _get_kth(nodes[u].l, nodes[v].l, l, mid, k);
     else
