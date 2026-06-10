@@ -6,6 +6,8 @@
 [Calculates shortest paths from $s$ in a graph that might have negative edge weights. Unreachable nodes get \texttt{dist = inf}; nodes reachable through negative-weight cycles get \texttt{dist = -inf}. Assumes $V^2 \max |w| < \infty$ to prevent overflow. \\
 \textbf{Time:} {$O(VE)$}]
 
+\code{Floyd Warshal}{graph/floyd_warshall.cpp}
+
 \codeWithDescription{Biconnected Component}{graph/biconnectedcomp.cpp}
 [Finds biconnected components, bridges, and articulation points in a simple undirected graph. \\
 \textbf{Usage:} Build adj list via \texttt{ed[u].push\_back(\{v, edge\_id\})}. Call \texttt{bicomps(n, f)} where \texttt{f(comp)} is called for each component (vector of edge IDs). After call, \texttt{bridges} contains bridge edges and \texttt{isArt[i]} is 1 for articulation points. \\
@@ -30,4 +32,6 @@ we can reach $u$ from $v$ and vice versa.]
 % \code{Heavy Light Decomposition}{graph/hld_nahdi.cpp}
 
 \code{Centroid Decomposition}{graph/cd.cpp}
+
+\code{Arpa's Trick}{graph/arpas_trick.cpp}
 \vspace{1em}
