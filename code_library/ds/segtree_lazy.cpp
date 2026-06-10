@@ -3,18 +3,18 @@ struct ST {
 #define lc (n << 1)
 #define rc ((n << 1) | 1)
   vector<T> t, lazy;
-  T identity = INF, lazy_identity = 0;  // 0 for sum, 1e18 for min etc
+  T identity = 0, lazy_identity = 0;  // 0 for sum, 1e18 for min etc
   ST(int n) { lazy.resize(4 * n, lazy_identity), t.resize(4 * n, identity); }
   inline void push(int n, int b, int e) {
     if (lazy[n] == lazy_identity) return;
-    t[n] = t[n] + lazy[n];
+    t[n] = t[n] + lazy[n] * (e - b + 1); // apply lazy
     if (b != e) {
       lazy[lc] = lazy[lc] + lazy[n];
       lazy[rc] = lazy[rc] + lazy[n];
     }
     lazy[n] = lazy_identity;
   }
-  inline T combine(T a, T b) { return min(a, b); }
+  inline T combine(T a, T b) { return a + b; }
   inline void pull(int n) { t[n] = combine(t[lc], t[rc]); }
   void build(int n, int b, int e, vector<T>& a) {
     lazy[n] = lazy_identity;

@@ -23,10 +23,8 @@ struct ST {
       return;
     }
     int mid = (b + e) >> 1;
-    if (i <= mid)
-      upd(lc, b, mid, i, v);
-    else
-      upd(rc, mid + 1, e, i, v);
+    if (i <= mid) upd(lc, b, mid, i, v);
+    else upd(rc, mid + 1, e, i, v);
     pull(nd);
   }
   T query(int nd, int b, int e, int i, int j) {
