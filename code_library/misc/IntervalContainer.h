@@ -1,4 +1,4 @@
-set<pii>::iterator addInterval(set<pii>& is, int L, int R) {
+set<pair<int, int>>::iterator addInterval(set<pair<int, int>>& is, int L, int R) {
 	if (L == R) return is.end();
 	auto it = is.lower_bound({L, R}), before = it;
 	while (it != is.end() && it->first <= R) {
@@ -13,7 +13,7 @@ set<pii>::iterator addInterval(set<pii>& is, int L, int R) {
 	return is.insert(before, {L,R});
 }
 
-void removeInterval(set<pii>& is, int L, int R) {
+void removeInterval(set<pair<int, int>>& is, int L, int R) {
 	if (L == R) return;
 	auto it = addInterval(is, L, R);
 	auto r2 = it->second;
