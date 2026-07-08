@@ -17,14 +17,14 @@ struct Point {
   T cross(P p) const { return x * p.y - y * p.x; }
   T cross(P a, P b) const { return (a - *this).cross(b - *this); }
   T dist2() const { return x * x + y * y; }
-  double dist() const { return sqrt((double)dist2()); }
+  long double dist() const { return sqrt((long double)dist2()); }
   // angle to x-axis in interval [-pi, pi]
-  double angle() const { return atan2(y, x); }
+  long double angle() const { return atan2(y, x); }
   P unit() const { return *this / dist(); }  // makes dist()=1
   P perp() const { return P(-y, x); }        // rotates +90 degrees
   P normal() const { return perp().unit(); }
   // returns point rotated 'a' radians ccw around the origin
-  P rotate(double a) const {
+  P rotate(long double a) const {
     return P(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a));
   }
   friend ostream& operator<<(ostream& os, P p) {
