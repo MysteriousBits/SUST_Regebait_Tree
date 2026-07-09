@@ -21,11 +21,15 @@ Products of three coordinates are used in intermediate steps so watch out for ov
 
 \code{Line Equation}{geometry/line_equation.cpp}
 
+\codeWithDescription{Line Distance}{geometry/lineDistance.h}
+[Returns the signed perpendicular distance from point $p$ to the line through points $a$ and $b$. The distance is positive if $p$ is to the left of the line $a \rightarrow b$, and negative otherwise.]
+[graphics/geometry/lineDistance]
+
 \codeWithDescription{Segment Distance}{geometry/SegmentDistance.h}
 [Returns the shortest distance between point p and the line segment from point s to e.]
 [graphics/geometry/SegmentDistance]
 [
-    Point<double> a, b(2,2), p(1,1);
+  Point<double> a, b(2,2), p(1,1);
  	bool onSegment = segDist(a,b,p) < 1e-10;
 ]
 
