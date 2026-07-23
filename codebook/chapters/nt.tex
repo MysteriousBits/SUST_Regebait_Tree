@@ -13,12 +13,16 @@
 If it goes above $lim$, it simply returns $lim+1$.]
 
 \codeWithDescription{Extended GCD}{nt/extgcd.cpp}
-[Finds solutions $(x0, y0)$ in $ax+by = 1$. (Check formulae for more details)]
+[Finds solutions $(x, y)$ in $ax+by = gcd(a, b)$.]
 
 \codeWithDescription{CRT}{nt/crt.cpp}
-[Computes the unique solution $x$ to a system of congruences $x \equiv a_i \pmod{m_i}$ using the Chinese Remainder Theorem. Assumes all moduli are pairwise coprime and the answer fits in \texttt{ll}. \\
-\textbf{Usage:} Store congruences as \texttt{\{remainder, modulus\}} pairs in \texttt{mods}. Call \texttt{crt(mods)} to obtain the smallest non-negative solution modulo the product of all moduli. Requires \texttt{extended\_gcd()} and \texttt{modinv()}. \\
-\textbf{Time:} {$O(k \log M)$}]
+[Finds $x$ such that $x \mod m1 = a1, x \mod m2 = a2$. $m1$ and $m2$ may not be coprime.
+Here, $x$ is unique modulo $m = lcm(m1, m2)$. returns $(x, m)$. on failure, $m = -1$.
+]
+[]
+[
+    cout << (int)CRT(1, 31, 0, 7).first << '\n';
+]
 
 \codeWithDescription{Diophantine Equation}{nt/diophantine.cpp}
 [Solves $ax+by = c$ where $gcd(a,b) | c$. Find any solution returns $x \in [minx, maxx]$ and $y \in [miny, maxy]$. If $solves=true$, 

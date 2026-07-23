@@ -1,18 +1,9 @@
-ll modinv(ll a, ll m) {
-  ll x, y;
-  extended_gcd(a, m, x, y);
-  x %= m;
-  return x < 0 ? x + m : x;
-}
-ll crt(vector<pair<ll, ll>>& mods) {
-  ll mod = 1;
-  for (auto& p : mods) mod *= p.ss;
-  ll ans = 0;
-  for (auto [x, p] : mods) {
-    ll m = mod / p;
-    m = (m * modinv(m, p)) % mod;
-    m = (m * x) % mod;
-    ans = (ans + m) % mod;
-  }
-  return ans;
+pair<T, T> CRT(T a1, T m1, T a2, T m2) {
+  T p, q;
+  T g = extended_euclid(m1, m2, p, q);
+  if (a1 % g != a2 % g) return make_pair(0, -1);
+  T m = m1 / g * m2;
+  p = (p % m + m) % m;
+  q = (q % m + m) % m;
+  return make_pair((p * a2 % m * (m1 / g) % m + q * a1 % m * (m2 / g) % m) %  m, m);
 }
