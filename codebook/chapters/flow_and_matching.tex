@@ -13,5 +13,6 @@
 \textbf{Time:} {$O(VE\log U)$}]
 
 \codeWithDescription{HopcroftKarp}{flow_matching/hopcroft.cpp}
-[Fast bipartite matching. \texttt{g} is the adjacency list of the left partition. \texttt{r} is a vector of -1s of size equal to the right partition; after the call, \texttt{r[i]} is the left-side match of right vertex $i$, or -1 if unmatched. Returns the size of the maximum matching. \\
+[Fast bipartite matching. \texttt{n} and \texttt{m} are size of left and right partitions. \texttt{g} is the \textbf{1 based indexed} adjacency list of the left partition. \texttt{l} is a vector of 0s of size \texttt{n + 1};
+after the call, \texttt{l[i]} is the right-side match of left vertex $i$, or 0 if unmatched. Returns the size of the maximum matching. \\
 \textbf{Time:} {$O(E\sqrt{V})$}]
