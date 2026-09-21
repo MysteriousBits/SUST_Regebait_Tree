@@ -27,7 +27,14 @@ struct Point {
   P rotate(double a) const {
     return P(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a));
   }
+  P project(P p) const { return *this * ((double)dot(p) / dist2()); }
+  double scalar_project(P p) const { return (double)dot(p) / dist(); }
+  P reflect(P p) const { return project(p) * 2 - p; }
+  // Orientation test: >0 for left turn, <0 for right turn, 0 if collinear
+  T side(P p1, P p2) const { return (p1 - *this).cross(p2 - *this); }
   friend ostream& operator<<(ostream& os, P p) {
     return os << "(" << p.x << "," << p.y << ")";
   }
+  // Same direction, length r (returns *this if degenerate)
+  P truncate(double r) const { double k = dist(); return !sgn(k) ? *this : *this * (r / k); }
 };
