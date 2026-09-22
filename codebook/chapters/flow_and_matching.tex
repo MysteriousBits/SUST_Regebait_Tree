@@ -1,9 +1,5 @@
 \chapter{Flow and Matching}
 
-\codeWithDescription{Min Cost Max Flow}{flow_matching/mcmf.cpp}%
-[Min-cost max-flow. If costs can be negative, call \texttt{setpi} before \texttt{maxflow}, but note that negative cost cycles are not supported. To obtain the actual flow, look at positive values only. \\
-\textbf{Time:} {$O(F E \log V)$} where $F$ is max flow; {$O(VE)$} for \texttt{setpi}.]
-
 % Replaced edmond karp with dinic
 % \codeWithDescription{EdmondKarp}{flow_matching/edmond.cpp}
 % [Flow algorithm with guaranteed complexity {$O(VE^2)$}. To get edge flow values, compare capacities before and after, and take the positive values only.]
@@ -11,6 +7,11 @@
 \codeWithDescription{Dinic}{flow_matching/dinic.cpp}
 [Flow algorithm with complexity $O(VE\log U)$ where $U = \max |\text{cap}|$. $O(\min(E^{1/2}, V^{2/3})E)$ if $U = 1$; $O(\sqrt{V}E)$ for bipartite matching. \\
 \textbf{Time:} {$O(VE\log U)$}]
+
+\codeWithDescription{Min Cost Max Flow}{flow_matching/mcmf.cpp}%
+[Build graph with \texttt{add\_edge()}. \texttt{min\_cost\_flow()} returns \texttt{\{max\_flow, min\_cost\}}. Costs can be negative/zero. No negative cycles are allowed.
+\texttt{flow(edge\_id)} returns flow through an edge, where id is 0-based index of edges as they were added.\\
+\textbf{Time:} {$O(VE + F E \log V)$} where $F$ is max flow.]
 
 \codeWithDescription{HopcroftKarp}{flow_matching/hopcroft.cpp}
 [Fast bipartite matching. \texttt{n} and \texttt{m} are size of left and right partitions. \texttt{g} is the \textbf{1 based indexed} adjacency list of the left partition. \texttt{l} is a vector of 0s of size \texttt{n + 1};
