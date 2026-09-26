@@ -1,7 +1,7 @@
 struct CHT {
   deque<pair<ll, ll>> hull;
   bool increasing; // true for increasing slope
-  CHT(bool increasing) : increasing(increasing) {}
+  CHT(bool increasing = false) : increasing(increasing) {}
   ll f(ll x, int i) { return hull[i].first * x + hull[i].second; }
   bool bad(pair<ll, ll> l1, pair<ll, ll> l2, pair<ll, ll> l3) {
     __int128 lhs = (__int128)(l1.first - l3.first) * (l2.second - l1.second);
