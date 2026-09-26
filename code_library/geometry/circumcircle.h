@@ -1,5 +1,3 @@
-#pragma once
-#include "Point.h"
 typedef Point<double> P;
 double ccRadius(const P& A, const P& B, const P& C) {
   return (B - A).dist() * (C - B).dist() * (A - C).dist() /
