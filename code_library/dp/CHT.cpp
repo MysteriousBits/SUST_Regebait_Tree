@@ -1,37 +1,36 @@
 struct CHT {
-  vector<ll> m, b;
-  int ptr = 0;
-  bool bad(int l1, int l2, int l3) {
-    return 1.0 * (b[l3] - b[l1]) * (m[l1] - m[l2]) <=
-           1.0 * (b[l2] - b[l1]) *
-               (m[l1] - m[l3]);  //(slope dec+query min),(slope inc+query max)
-    return 1.0 * (b[l3] - b[l1]) * (m[l1] - m[l2]) >
-           1.0 * (b[l2] - b[l1]) *
-               (m[l1] - m[l3]);  //(slope dec+query max), (slope inc+query min)}
-    void add(ll _m, ll _b) {
-      m.push_back(_m);
-      b.push_back(_b);
-      int s = m.size();
-      while (s >= 3 && bad(s - 3, s - 2, s - 1)) {
-        s--;
-        m.erase(m.end() - 2);
-        b.erase(b.end() - 2);
-      }
+  deque<pair<ll, ll>> hull;
+  bool increasing; // true for increasing slope
+  CHT(bool increasing) : increasing(increasing) {}
+  ll f(ll x, int i) { return hull[i].first * x + hull[i].second; }
+  bool bad(pair<ll, ll> l1, pair<ll, ll> l2, pair<ll, ll> l3) {
+    __int128 lhs = (__int128)(l1.first - l3.first) * (l2.second - l1.second);
+    __int128 rhs = (__int128)(l1.first - l2.first) * (l3.second - l1.second);
+    return increasing ? lhs >= rhs : lhs <= rhs;
+  }
+  void addline(ll m, ll c) {
+    if (!hull.empty() && hull.back().first == m) {
+      if (c >= hull.back().second) return;
+      hull.pop_back();
     }
-    ll f(int i, ll x) { return m[i] * x + b[i]; }
-    //(slope dec+query min), (slope inc+query max) -> x increasing
-    //(slope dec+query max), (slope inc+query min) -> x decreasing
-    ll query(ll x) {
-      if (ptr >= m.size()) ptr = m.size() - 1;
-      while (ptr < m.size() - 1 && f(ptr + 1, x) < f(ptr, x)) ptr++;
-      return f(ptr, x);
+    while (hull.size() > 1 && bad({m, c}, hull.back(), hull[hull.size() - 2]))
+      hull.pop_back();
+    hull.push_back({m, c});
+  }
+  ll query_monotonic(ll x) { // works O(1) if slope decreasing, x increasing or vice-versa
+    while (hull.size() > 1 && f(x, 0) >= f(x, 1)) hull.pop_front();
+    return f(x, 0);
+  }
+  ll query(ll x) { // arbitrary query with binary search, O(logn)
+    if (hull.size() == 1) return f(x, 0);
+    int l = 0, r = hull.size() - 2;
+    while (l < r) {
+      int mid = (l + r + 1) / 2;
+      if (f(x, mid) > f(x, mid + 1))
+        l = mid;
+      else
+        r = mid - 1;
     }
-    ll bs(int l, int r, ll x) {
-      int mid = (l + r) / 2;
-      if (mid + 1 < m.size() && f(mid + 1, x) < f(mid, x))
-        return bs(mid + 1, r, x);  // > for max
-      if (mid - 1 >= 0 && f(mid - 1, x) < f(mid, x))
-        return bs(l, mid - 1, x);  // > for max
-      return f(mid, x);
-    }
-  };
+    return f(x, l + 1);
+  }
+};
