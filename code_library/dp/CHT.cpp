@@ -1,34 +1,33 @@
-struct CHT {
-  deque<pair<ll, ll>> hull;
-  bool increasing; // true for increasing slope
-  CHT(bool increasing = false) : increasing(increasing) {}
-  ll f(ll x, int i) { return hull[i].first * x + hull[i].second; }
-  bool bad(pair<ll, ll> l1, pair<ll, ll> l2, pair<ll, ll> l3) {
-    __int128 lhs = (__int128)(l1.first - l3.first) * (l2.second - l1.second);
-    __int128 rhs = (__int128)(l1.first - l2.first) * (l3.second - l1.second);
-    return increasing ? lhs >= rhs : lhs <= rhs;
+struct CHT { // min query, upper hull (left to right)
+  struct Line { ll m, c; ll f(ll x) { return m * x + c; } };
+  deque<Line> hull;
+
+  bool bad(Line l1, Line l2, Line l3) {
+    return (__int128)(l3.c - l1.c) * (l1.m - l2.m)
+        <= (__int128)(l2.c - l1.c) * (l1.m - l3.m);
   }
-  void addline(ll m, ll c) {
-    if (!hull.empty() && hull.back().first == m) {
-      if (c >= hull.back().second) return;
+  void add(ll m, ll c) { // lines must be added with decreasing slope
+    Line l = {m, c};
+    if (!hull.empty() && hull.back().m == m) {
+      if (c >= hull.back().c) return;
       hull.pop_back();
     }
-    while (hull.size() > 1 && bad({m, c}, hull.back(), hull[hull.size() - 2]))
+    while (hull.size() > 1 && bad(hull[hull.size()-2], hull.back(), l))
       hull.pop_back();
-    hull.push_back({m, c});
+    hull.push_back(l);
   }
-  ll query_monotonic(ll x) { // works O(1) if slope decreasing, x increasing or vice-versa
-    while (hull.size() > 1 && f(x, 0) >= f(x, 1)) hull.pop_front();
-    return f(x, 0);
-  }
-  ll query(ll x) { // arbitrary query with binary search, O(logn)
-    if (hull.size() == 1) return f(x, 0);
-    int l = 0, r = hull.size() - 2;
+  ll query(ll x) { // O(log n), arbitrary x
+    int l = 0, r = hull.size() - 1;
     while (l < r) {
-      int mid = (l + r + 1) / 2;
-      if (f(x, mid) > f(x, mid + 1)) l = mid;
-      else r = mid - 1;
+      int mid = (l + r) / 2;
+      if (hull[mid].f(x) > hull[mid+1].f(x)) l = mid + 1;
+      else r = mid;
     }
-    return f(x, l + 1);
+    return hull[l].f(x);
+  }
+  ll query_monotone(ll x) { // O(1) amortized, x must be increasing
+    while (hull.size() > 1 && hull[0].f(x) > hull[1].f(x))
+      hull.pop_front();
+    return hull[0].f(x);
   }
 };
