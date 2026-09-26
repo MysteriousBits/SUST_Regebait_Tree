@@ -26,10 +26,8 @@ struct CHT {
     int l = 0, r = hull.size() - 2;
     while (l < r) {
       int mid = (l + r + 1) / 2;
-      if (f(x, mid) > f(x, mid + 1))
-        l = mid;
-      else
-        r = mid - 1;
+      if (f(x, mid) > f(x, mid + 1)) l = mid;
+      else r = mid - 1;
     }
     return f(x, l + 1);
   }
