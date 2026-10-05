@@ -18,10 +18,10 @@ int dfs(int j, vector<vector<int>>& g) {
   }
   return val[j] = low;
 }
-void get_sccs(vector<vector<int>>& g) {
-  int n = g.size();
-  val.assign(n, 0); comp.assign(n, -1);
+void get_sccs(vector<vector<int>>& g) { // 1-indexed
+  int n = g.size() - 1;
+  val.assign(n + 1, 0); comp.assign(n + 1, -1);
   z.clear(); sccs.clear();
   Time = ncomps = 0;
-  for (int i = 0; i < n; i++) if (comp[i] < 0) dfs(i, g);
+  for (int i = 1; i <= n; i++) if (comp[i] < 0) dfs(i, g);
 }

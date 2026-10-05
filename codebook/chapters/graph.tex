@@ -27,13 +27,12 @@ Graph must be \textbf{cleared} between test cases. \\
 % Nahdi's scc
 \codeWithDescription{SCC}{graph/scc_nahdi.cpp}
 [Finds strongly connected components in a directed graph. 
-If vertices $u, v$ belong to the same component, 
-we can reach $u$ from $v$ and vice versa.]
-[]
-[scc(graph, (vi& v) { ... }) visits all components
- in reverse topological order. comp[i] holds the component
- index of a node (a component only has edges to components with
- lower index). ncomps will contain the number of components. O(E+V)]
+If vertices $u, v$ belong to the same component, $u$ and $v$ is reachable from each other.
+\texttt{get\_sccs(graph)} finds all components.
+\texttt{sccs} contains the components in reverse topological order. comp[i] holds the component
+index of node $i$ (a component only has edges to components with lower index).
+ncomps contains the number of components. \\
+\textbf{Time:} {$O(E+V)$}]
 
 \code{HLD}{graph/hld.cpp}
 % \code{Heavy Light Decomposition}{graph/hld_nahdi.cpp}
