@@ -1,21 +1,29 @@
-struct fenwick {
-  int n;
-  vector<ll> tree;
-  fenwick(int s) {
-    n = s;
-    tree.assign(n + 1, 0);
+struct FT {
+  int n; vector<ll> s;
+  FT(int n) : n(n + 1), s(n + 1) {}
+  void update(int pos, ll dif) {
+    for (; pos < n; pos += pos & -pos) s[pos] += dif;
   }
-  ll get(int i) {
+  ll query(int pos) {
     ll res = 0;
-    for (; i > 0; i -= i & -i) res += tree[i];
+    for (; pos > 0; pos -= pos & -pos) res += s[pos];
     return res;
   }
-  void add(int i, ll x) {
-    for (; i <= n; i += i & -i) tree[i] += x;
+  ll query(int l, int r) { 
+    return query(r) - query(l - 1); 
   }
-  void add(int l, int r, ll x) {
-    add(l, x);
-    if (r < n) add(r + 1, -x);
+  void update(int l, int r, ll dif) {
+    update(l, dif);
+    if (r + 1 < n) update(r + 1, -dif);
   }
-  ll get(int l, int r) { return get(r) - get(l - 1); }
+  int lower_bound(ll sum) {
+    if (sum <= 0) return 0;
+    int pos = 0;
+    for (int pw = 1 << 25; pw; pw >>= 1) {
+      if (pos + pw < n && s[pos+pw] < sum) {
+        pos |= pw, sum -= s[pos];
+      }
+    }
+    return pos + 1;
+  }
 };

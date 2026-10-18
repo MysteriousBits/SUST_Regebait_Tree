@@ -1,6 +1,6 @@
-VI Z(string& s) {
+vector<int> Z(string& s) {
   int n = s.size();
-  VI z(n);
+  vector<int> z(n);
   int l = 0, r = 0;
   for (int i = 0; i < n; ++i) {
     if (i <= r) z[i] = min(z[i - l], r - i + 1);

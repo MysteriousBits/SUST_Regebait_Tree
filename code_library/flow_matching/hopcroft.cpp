@@ -1,35 +1,31 @@
-int hopcroftKarp(vector<vi>& g, vi& r) {
-  int n = sz(g), res = 0;
-  vi l(n, -1), q(n), d(n);
-  auto dfs = [&](auto f, int u) -> bool {
-    int t = exchange(d[u], 0) + 1;
-    for (int v : g[u])
-      if (r[v] == -1 || (d[r[v]] == t && f(f, r[v])))
-        return l[u] = v, r[v] = u, 1;
-    return 0;
+int hopcroft(int n, int m, vector<vector<int>>& g, vector<int>& l) {
+  vector<int> r(m + 1), d(n + 1), ptr(n + 1);
+  auto dfs = [&](auto&& f, int u) -> bool {
+    if (!u) return true;
+    for (int& p = ptr[u]; p < (int)g[u].size(); ++p) {
+      int v = g[u][p];
+      if (d[r[v]] == d[u] + 1 && f(f, r[v]))
+        return l[u] = v, r[v] = u, true;
+    }
+    return false;
   };
-  for (int t = 0, f = 0;; t = f = 0, d.assign(n, 0)) {
-    rep(i, 0, n) if (l[i] == -1) q[t++] = i, d[i] = 1;
-    rep(i, 0, t) for (int v : g[q[i]]) {
-      if (r[v] == -1)
-        f = 1;
-      else if (!d[r[v]])
-        d[r[v]] = d[q[i]] + 1, q[t++] = r[v];
+  int match = 0;
+  while (true) {
+    d.assign(n + 1, n + 2);
+    queue<int> q;
+    for (int u = 1; u <= n; ++u)
+      if (!l[u]) q.push(u), d[u] = 0;
+    while (!q.empty()) {
+      int u = q.front(); q.pop();
+      for (int v : g[u]) {
+        if (d[r[v]] != n + 2) continue;
+        if (r[v]) q.push(r[v]);
+        d[r[v]] = d[u] + 1;
+      }
     }
-    if (!f) return res;
-    rep(i, 0, n) if (l[i] == -1) res += dfs(dfs, i);
+    if (d[0] == n + 2) return match;
+    ptr.assign(n + 1, 0);
+    for (int u = 1; u <= n; ++u)
+      if (!l[u]) match += dfs(dfs, u);
   }
-}
-// --- Shortened usage ---
-int main() {
-    int n, m, k; cin >> n >> m >> k;
-    vi r(n + m, -1); vector<vi> g(n + m);
-    rep(i, 0, k) {
-        int u, v; cin >> u >> v;
-        g[u-1].push_back(v + n - 1); // Map right side to [n, n+m)
-    }
-    int matchingSize = hopcroftKarp(g, r);
-    // r[i] stores the left-side match for right-side node i
-    for (int i = n; i < n + m; i++)
-        if (r[i] != -1) cout << r[i] + 1 << " " << i - n + 1 << endl;
 }
