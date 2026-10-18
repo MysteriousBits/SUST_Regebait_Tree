@@ -1,25 +1,30 @@
-
-struct dsu {
-  vector<int> parent, size;
-  dsu(int n) {
-    parent.resize(n + 1);
-    size.resize(n + 1);
-    for (int i = 1; i <= n; ++i) {
-      parent[i] = i;
-      size[i] = 1;
-    }
+struct DSU {
+  vector<vector<pair<int, int>>> par;
+  int time = 0; //initial time
+  DSU(int n) : par(n + 1, {{-1, 0}}) {}
+  bool merge(int u, int v) {
+    ++time;
+    if ((u = root(u, time)) == (v = root(v, time))) return 0;
+    if (par[u].back().first > par[v].back().first) swap(u, v);
+    par[u].push_back({par[u].back().first + par[v].back().first, time});
+    par[v].push_back({u, time}); //par[v] = u
+    return 1;
   }
-  int find(int u) {
-    if (parent[u] == u) return u;
-    return parent[u] = find(parent[u]);
+  bool same(int u, int v, int t) {
+    return root(u, t) == root(v, t);
   }
-  void merge(int u, int v) {
-    u = find(u);
-    v = find(v);
-    if (u != v) {
-      if (size[u] < size[v]) swap(u, v);
-      parent[v] = u;
-      size[u] += size[v];
+  int root(int u, int t) { //root of u at time t
+    if (par[u].back().first >= 0 && par[u].back().second <= t) return root(par[u].back().first, t);
+    return u;
+  }
+  int size(int u, int t) { //size of the component of u at time t
+    u = root(u, t);
+    int l = 0, r = (int) par[u].size() - 1, ans = 0;
+    while (l <= r) {
+      int mid = l + r >> 1;
+      if (par[u][mid].second <= t) ans = mid, l = mid + 1;
+      else r = mid - 1;
     }
+    return -par[u][ans].first;
   }
 };

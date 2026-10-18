@@ -18,8 +18,6 @@ void compress(vector<int>& a) {
 int ind(vi& a, int val) {
     return lower_bound(all(a), val) - a.begin();
 }
-
-
 struct ST2D {
   #define lc (nd << 1)
   #define rc ((nd << 1) | 1)
@@ -36,7 +34,6 @@ struct ST2D {
     if (x <= mid) collect(lc, b, mid, x, y);
     else          collect(rc, mid + 1, e, x, y);
   }
-
   void build(int nd, int b, int e) {
     compress(ys[nd]);
     t[nd].assign(ys[nd].sz() * 2, 0);
@@ -46,7 +43,6 @@ struct ST2D {
     build(rc, mid + 1, e);
   }
   inline long long combine(long long a, long long b) { return max(a, b); }
-
   void upd_y(int nd, int y, long long v) {
     int m = ys[nd].sz();
     int i = ind(ys[nd], y) + m;
