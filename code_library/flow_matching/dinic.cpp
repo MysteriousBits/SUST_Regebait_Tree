@@ -1,3 +1,4 @@
+const int64_t inf = 1LL << 60; 
 struct Dinic {
   struct Edge {
     int to, rev; ll c, oc;

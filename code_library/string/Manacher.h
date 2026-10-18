@@ -11,14 +11,3 @@ array<vector<int>, 2> manacher(const string& s) {
 	}
 	return p;
 }
-bool is_palindrome(int l, int r, const array<vector<int>, 2>& p) {
-  int len = r - l + 1;
-  if (len <= 0) return true;
-  if (len % 2 == 1) {
-    int mid = (l + r) / 2;
-    return p[1][mid] >= len / 2;
-  } else {
-    int mid = (l + r + 1) / 2;
-    return p[0][mid] >= len / 2;
-  }
-}
