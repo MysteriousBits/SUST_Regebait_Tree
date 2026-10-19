@@ -1,8 +1,3 @@
-#include <bits/stdc++.h>
-using namespace std;
-
-const long long INF = 1e18;
-
 struct node {
   int p = 0, c[2] = {0, 0}, sz = 0, ssz = 0, vsz = 0, mn_id = 0;
   bool flip = false;
