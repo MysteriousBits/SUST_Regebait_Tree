@@ -1,53 +1,58 @@
-struct trienode {
-  int size;
-  bool endmark;
-  vector<int> child;
-  trienode(int sz) {
-    size = 0;
-    endmark = false;
-    child.resize(sz, 0);
+#define MAXN 4000005 // > total length of all strings combined
+int trie[MAXN][26], tsz[MAXN], nodes = 0;
+bool end[MAXN];
+
+void insert(const string& s, char fst = 'a') {
+  int cur = 0;
+  for (char c : s) {
+    int ch = c - fst;
+    if (!trie[cur][ch]) trie[cur][ch] = ++nodes;
+    tsz[cur]++;
+    cur = trie[cur][ch];
   }
-};
-struct trie {
-  int sz;
-  char fst;
-  vector<trienode> nodes;
-  // 26, 'a' for lowercase latin letters
-  trie(int alpha_sz, char alpha_start) {
-    sz = alpha_sz;
-    fst = alpha_start;
-    // root at idx 0
-    nodes.pb(trienode(sz));
+  tsz[cur]++;
+  end[cur] = true;
+}
+bool search(const string& s, char fst = 'a') {
+  int cur = 0;
+  for (char c : s) {
+    int ch = c - fst;
+    if (!trie[cur][ch] || !tsz[cur]) return false;
+    cur = trie[cur][ch];
   }
-  void insert(string& s) {
-    int cur = 0;
-    for (char c : s) {
-      if (!nodes[cur].child[c - fst]) {
-        nodes[cur].child[c - fst] = nodes.size();
-        nodes.pb(trienode(sz));
-      }
-      nodes[cur].size++;
-      cur = nodes[cur].child[c - fst];
+  return end[cur] && tsz[cur] > 0;
+}
+bool erase(const string& s, char fst = 'a') {
+  if (!search(s, fst)) return false;
+  int cur = 0;
+  for (char c : s) {
+    int ch = c - fst;
+    tsz[cur]--;
+    cur = trie[cur][ch];
+  }
+  tsz[cur]--;
+  if (!tsz[cur]) end[cur] = false;
+  return true;
+}
+void dfs(int u = 0, int depth = 0) {
+  // custom logic
+  for (int i = 0; i < 26; ++i) {
+    if (trie[u][i]) {
+      dfs(trie[u][i], depth + 1);
     }
-    nodes[cur].endmark = true;
-    nodes[cur].size++;
   }
-  bool search(string& s) {
-    int cur = 0;
-    for (char c : s) {
-      if (!nodes[cur].child[c - fst] || !nodes[cur].size) return false;
-      cur = nodes[cur].child[c - fst];
+}
+void deleteall(int root = 0) {
+  for (int i = 0; i < 26; ++i) {
+    if (trie[root][i]) {
+      deleteall(trie[root][i]);
+      trie[root][i] = 0;
     }
-    return nodes[cur].endmark;
   }
-  bool erase(string& s) {
-    if (!search(s)) return false;
-    int cur = 0;
-    for (char c : s) {
-      nodes[cur].size--;
-      cur = nodes[cur].child[c - fst];
-    }
-    if (!--nodes[cur].size) nodes[cur].endmark = false;
-    return true;
-  }
-};
+  tsz[root] = 0;
+  end[root] = false;
+}
+void cleanup() {
+  nodes = 0;
+  deleteall(0);
+}

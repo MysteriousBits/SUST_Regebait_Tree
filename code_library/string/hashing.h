@@ -1,30 +1,37 @@
-const int SZ = int(1e6) + 9;
-const int B1 = 151, B2 = 239;
-const int mod1 = 127657753, mod2 = 987654319;
-vector<int> P1(SZ, 1), P2(SZ, 1);
-void pow_cal() {
-  for (int i = 1; i < SZ; i++) {
-    P1[i] = (P1[i - 1] * B1) % mod1;
-    P2[i] = (P2[i - 1] * B2) % mod2;
+const ll a1 = 151, b1 = 127657753;
+const ll a2 = 239, b2 = 987654319;
+ll p1[maxN], p2[maxN];
+void pre() {
+  p1[0] = p2[0] = 1;
+  for (int i = 1; i < maxN; i++) {
+    p1[i] = (p1[i - 1] * a1) % b1;
+    p2[i] = (p2[i - 1] * a2) % b2;
   }
 }
-class Hash {
- public:
+struct Hash {
+  vector<ll> h1, h2;
   int n;
-  vector<int> H1, H2;
-  Hash(const string& s) {
-    n = s.size();
-    H1.assign(n + 1, 0);
-    H2.assign(n + 1, 0);
-    for (int i = 1; i <= n; i++) {
-      H1[i] = (H1[i - 1] + ((s[i - 1] - 'a' + 1) * P1[i]) % mod1) % mod1;
-      H2[i] = (H2[i - 1] + ((s[i - 1] - 'a' + 1) * P2[i]) % mod2) % mod2;
+  string s;
+  Hash(string s) : s(s), n(s.size()) {
+    h1.resize(n + 1, 0); h2.resize(n + 1, 0);
+    for (int i = 0; i < n; i++) {
+        h1[i + 1] = (h1[i] * a1 + s[i]) % b1;
+        h2[i + 1] = (h2[i] * a2 + s[i]) % b2;
     }
   }
-  pair<int, int> geth(int l, int r) {
-    int h1 = (((H1[r] - H1[l - 1] + mod1) % mod1) * P1[SZ - l]) % mod1;
-    int h2 = (((H2[r] - H2[l - 1] + mod2) % mod2) * P2[SZ - l]) % mod2;
-    return make_pair(h1, h2);
+  array<int,2> get(int l, int r) { // [l, r] 0-indexed
+    ll r1 = (h1[r + 1] - h1[l] * p1[r - l + 1]) % b1;
+    ll r2 = (h2[r + 1] - h2[l] * p2[r - l + 1]) % b2;
+    return {r1 < 0 ? r1 + b1 : r1, r2 < 0 ? r2 + b2 : r2};
   }
-  pair<int, int> geth() { return geth(1, n); }
+  // implement lcp, lcs, etc yourself
+  // if s+s+s... (1 or more times) = t -> true
+  bool repeat(string& s_in) {
+    int m = s_in.size();
+    if (m == 0 || n % m != 0 || n == 0) return false;
+    Hash temp(s_in);
+    if (get(0, m - 1) != temp.get(0, m - 1)) return false; 
+    if (n > m && get(0, n - m - 1) != get(m, n - 1)) return false; 
+    return true;
+  }
 };

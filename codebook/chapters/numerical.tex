@@ -16,7 +16,7 @@
 [Higher precision FFT, can be used for convolutions modulo arbitrary integers as long as $N\log_2N\cdot \text{mod} < 8.6 \cdot 10^{14}$ (in practice $10^{16}$ or higher). Inputs must be in {$[0, \text{mod})$}. \\
 \textbf{Time:} {$O(N \log N)$}, where $N = |A|+|B|$ (twice as slow as NTT or FFT)]
 
-\codeWithDescription{NTT}{numerical/ntt.cpp}%
+\codeWithDescription{NTT}{numerical/ntt_ykw.cpp}%
 [ntt(a) computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, where $g=\text{root}^{(mod-1)/N}$. $N$ must be a power of 2. Useful for convolution modulo specific nice primes. For manual convolution: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs must be in {$[0, mod)$}. \\
 \textbf{Time:} $O(N \log N)$]
 
@@ -25,3 +25,7 @@
  $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
  where $\oplus$ is one of AND, OR, XOR. The size of $a$ must be a power of two.
  Time: $O(N \log N)$]
+
+\code{GCD & LCM Convolution}{numerical/gcd_lcm_convolution.cpp}
+
+\code{Berlekamp Messey}{numerical/berlekamp_messey.cpp}
