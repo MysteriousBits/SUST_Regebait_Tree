@@ -1,16 +1,17 @@
 \chapter{Number Theory}
 
-\code{mini mod}{nt/minimod.cpp}
+% \code{mini mod}{nt/minimod.cpp}
 
-\code{Binomial Coeffecient}{nt/ncr.cpp}
+% \code{Binomial Coeffecient}{nt/ncr.cpp}
 
-\code{Sieve, SPF, Phi}{nt/sieve.cpp}
+\code{Phi sieve, Phi brute}{nt/phi.cpp}
+\code{Mobius Inversion}{nt/mobius.cpp}
 
 \code{Segmented Sieve}{nt/segmented_sieve.cpp}
 
-\codeWithDescription{Safe LCM}{nt/safe_lcm.cpp}
-[Finds lcm of $(a,b)$ where their lcm cannot go above $lim$. 
-If it goes above $lim$, it simply returns $lim+1$.]
+% \codeWithDescription{Safe LCM}{nt/safe_lcm.cpp}
+% [Finds lcm of $(a,b)$ where their lcm cannot go above $lim$. 
+% If it goes above $lim$, it simply returns $lim+1$.]
 
 \codeWithDescription{Extended GCD}{nt/extgcd.cpp}
 [Finds solutions $(x, y)$ in $ax+by = gcd(a, b)$. (Check formulae for more details)]
@@ -31,8 +32,33 @@ the function returns all solution pairs $(x,y)$. (Check formulae for more detail
 %  \textbf{Time:} 7 times the complexity of $a^b \mod c$.]
 % []
 
-\codeWithDescription{Pollar Rho Factorization}{nt/pollard_rho.cpp}
+\codeWithDescription{Miller Rabin & Pollar Rho}{nt/pollard_rho.cpp}
 [Pollard-rho randomized factorization algorithm. Returns prime
  factors of a number, in arbitrary order (e.g. 2299 -> \{11, 19, 11\}).
  Time: $O(n^{1/4})$, less for numbers with small factors.
 ][]
+
+\codeWithDescription{Mod Square Root}{nt/modsqrt.cpp}
+[
+  Tonelli-Shanks algorithm for modular square roots. Finds $x$ s.t. $x^2 = a \pmod p$ ($-x$ gives the other solution).
+  **Time:** O(\log^2 p) worst case, O(\log p) for most $p$
+]
+
+\codeWithDescription{Discrete Logarithm}{nt/modlog.cpp}[%
+  Solves $a^x \equiv b \pmod m$ for the smallest $x > 0$, using the Baby-Step Giant-Step algorithm.
+  Supports non-coprime $a$ and $m$ by explicitly checking small exponents $x \le \sqrt{m}$ before applying step shifts.
+  Can also compute the multiplicative order of $a$ via \texttt{modLog(a, 1, m)}.
+][][modLog(a, b, m) // returns x > 0 or -1]
+
+\codeWithDescription{Floor Sum}{nt/floor_sum_AP.cpp}
+[
+  Calculates $\sum_{i=0}^{n-1} \left\lfloor \frac{a \cdot i + b}{m} \right\rfloor$ in $O(\log m)$ time
+  Handles negative $a, b$ and values $\ge m$ by automatically normalizing parameters modulo $m$.
+  \textbf{Usage:} \texttt{fsum(n, m, a, b)}.
+  \textbf{Time:} $O(\log m)$
+]
+
+\code{Ballot Number}{nt/ballot_number.cpp}
+\code{Multiplicative Order}{nt/multiplicative_order.cpp}
+\code{Power Tower}{nt/power_tower.cpp}
+\code{Dirichlet Convolution}{nt/dirichlet_convolution.cpp}

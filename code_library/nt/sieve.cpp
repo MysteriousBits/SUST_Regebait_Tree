@@ -1,20 +1,19 @@
-vector<int> primes;
-bool isprime[MAXN];
-int spf[MAXN], phi[MAXN];
+int phi[MAXN];
 void sieve() {
-  for (int i = 0; i < MAXN; ++i) {
-      isprime[i] = true; spf[i] = i; phi[i] = i;
+  for (int i = 0; i < MAXN; ++i) phi[i] = i;
+  for (int i = 2; i < MAXN; ++i)
+    if (phi[i] == i)
+      for (int j = i; j < MAXN; j += i) phi[j] -= phi[j] / i;
+}
+
+int phi(int n) {
+  int res = n;
+  for (int i = 2; i * i <= n; i++) {
+    if (n % i == 0) {
+      while (n % i == 0) n /= i;
+      res -= res / i;
+    }
   }
-  isprime[0] = isprime[1] = false;
-  
-  for (ll i = 2; i < MAXN; ++i) {
-      if (isprime[i]) {
-          primes.push_back(i); phi[i] = i - 1; 
-          for (ll j = 2 * i; j < MAXN; j += i) {
-              isprime[j] = false;
-              if (spf[j] == j) spf[j] = i;
-              phi[j] -= phi[j] / i;
-          }
-      }
-  }
+  if (n > 1) res -= res / n;
+  return res;
 }
