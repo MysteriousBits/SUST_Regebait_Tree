@@ -1,6 +1,6 @@
-# SUST_Ragebait_Tree | Team Code Library & Codebook
+# En Passant | Team Code Library & Codebook
 
-Git repository for the **SUST_Ragebait_Tree** team. This repo contains our dsa code library, templates, scripts and the LaTeX-based codebook.
+Git repository for the **En Passant** team. This repo contains our dsa code library, templates, scripts and the LaTeX-based codebook.
 
 ---
 

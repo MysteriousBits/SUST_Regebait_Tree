@@ -1,5 +1,3 @@
-#pragma once
-#include "../../content/geometry/Point.h"
 typedef Point<double> P;
 #define arg(p, q) atan2(p.cross(q), p.dot(q))
 double circlePoly(P c, double r, vector<P> ps) {

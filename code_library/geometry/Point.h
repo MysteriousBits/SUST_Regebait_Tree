@@ -22,8 +22,7 @@ struct Point {
   long double dist() const { return sqrt((long double)dist2()); }
   long double dist(P p) const { return (*this - p).dist(); }
   // angle to x-axis in interval [-pi, pi]
-  long double angle() const { return atan2(y, x); }
-  // Directed angle from vector 'this' to vector 'p' in interval [-pi, pi]
+  double angle() const { return atan2(y, x); }
   long double angle(P p) const {
     return atan2((long double)this->cross(p), (long double)this->dot(p));
   }
@@ -34,13 +33,14 @@ struct Point {
   P rotate(long double a) const {
     return P(x * cos(a) - y * sin(a), x * sin(a) + y * cos(a));
   }
-  // Project point 'p' onto the line formed by vector 'this' originating from origin
-  P project(P p) const { return *this * ((long double)this->dot(p) / dist2()); }
-  // Returns the signed length of the projection of vector 'p' onto vector 'this'
-  long double scalar_project(P p) const { return (long double)this->dot(p) / dist(); }
-  // Reflect point 'p' across the line formed by vector 'this' originating from origin
+  P project(P p) const { return *this * ((double)dot(p) / dist2()); }
+  double scalar_project(P p) const { return (double)dot(p) / dist(); }
   P reflect(P p) const { return project(p) * 2 - p; }
+  // Orientation test: >0 for left turn, <0 for right turn, 0 if collinear
+  T side(P p1, P p2) const { return (p1 - *this).cross(p2 - *this); }
   friend ostream& operator<<(ostream& os, P p) {
     return os << "(" << p.x << "," << p.y << ")";
   }
+  // Same direction, length r (returns *this if degenerate)
+  P truncate(double r) const { double k = dist(); return !sgn(k) ? *this : *this * (r / k); }
 };

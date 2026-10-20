@@ -1,115 +1,79 @@
-template <typename T>
 struct PST {
+#define lc t[cur].l
+#define rc t[cur].r
   struct node {
-    T val;
-    int l, r;
-  };
-  int n;
-  T identity = 0;  // 0 for sum, INF for min etc
-  vector<node> nodes;
-  vector<int> version;
-  T merge(T x, T y) { return x + y; }
-  PST() {}
-  PST(int sz) {
-    n = sz;
-    build(vector<T>(n, identity));
+    int l = 0, r = 0, val = 0;
+  } t[40 * N];
+  int T = 0;
+  int combine(int a, int b) { return a + b; } // change
+  void pull(int cur) { t[cur].val = combine(t[lc].val, t[rc].val); }
+  int build(int b, int e) {
+    int cur = ++T;
+    if (b == e) return cur;
+    int mid = b + e >> 1;
+    lc = build(b, mid);
+    rc = build(mid + 1, e);
+    pull(cur);
+    return cur;
   }
-  PST(vector<T>& a) {
-    n = a.size();
-    build(a);
-  }
-  int build(const vector<T>& a) {
-    nodes.reserve(20 * n);
-    int root = _build(0, n - 1, a);
-    version.push_back(root);
-    return version.size() - 1;
-  }
-  int _build(int l, int r, const vector<T>& a) {
-    int root = nodes.size();
-    nodes.push_back({});
-    if (l == r) {
-      nodes[root].val = a[l];
-      return root;
+  // Build tree from initial vector
+  int build(int b, int e, const vector<int>& a) {
+    int cur = ++T;
+    if (b == e) {
+      t[cur].val = a[b];
+      return cur;
     }
-    int mid = (l + r) / 2;
-    int ch = _build(l, mid, a);
-    nodes[root].l = ch;
-    ch = _build(mid + 1, r, a);
-    nodes[root].r = ch;
-    nodes[root].val = merge(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
-    return root;
+    int mid = b + e >> 1;
+    lc = build(b, mid, a);
+    rc = build(mid + 1, e, a);
+    pull(cur);
+    return cur;
   }
-  int update(int i, T x, int v = -1) {
-    if (v == -1) v = version.size() - 1;
-    int root = _update(version[v], 0, n - 1, i, x);
-    version.push_back(root);
-    return version.size() - 1;
-  }
-  int _update(int u, int l, int r, int i, T x) {
-    int root = nodes.size();
-    node old = nodes[u];
-    nodes.push_back(old);
-    if (l == r) {
-      nodes[root].val = x;  // change = to += for add
-      return root;
+  int upd(int pre, int b, int e, int i, int v) {
+    int cur = ++T;
+    t[cur] = t[pre];
+    if (b == e) {
+      t[cur].val = v; // += for adding 
+      return cur;
     }
-    int mid = (l + r) / 2;
-    if (i <= mid) {
-      int ch = _update(nodes[u].l, l, mid, i, x);
-      nodes[root].l = ch;
-    } else {
-      int ch = _update(nodes[u].r, mid + 1, r, i, x);
-      nodes[root].r = ch;
-    }
-    nodes[root].val = merge(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
-    return root;
+    int mid = b + e >> 1;
+    if (i <= mid) lc = upd(t[pre].l, b, mid, i, v);
+    else rc = upd(t[pre].r, mid + 1, e, i, v);
+    pull(cur);
+    return cur;
   }
-  int update_batch(const vector<pair<int, T>>& up, int v = -1) {
-    if (v == -1) v = version.size() - 1;
-    if (up.empty()) { version.push_back(version[v]); return version.size() - 1; }
-    int root = _update_batch(version[v], 0, n - 1, up, 0, (int)up.size() - 1);
-    version.push_back(root);
-    return version.size() - 1;
-  }
-  // Updates values up[x].first with delta up[x].second. Assumes that up is sorted.
-  int _update_batch(int u, int l, int r, const vector<pair<int, T>>& up, int ql, int qr) {
-    if (ql > qr) return u;
-    int root = nodes.size();
-    nodes.push_back(nodes[u]);
- 
-    if (l == r) {
-      for (int i = ql; i <= qr; ++i) nodes[root].val += up[i].second;
-      return root;
+  // Batch update: applies a sorted vector of updates {index, delta} in range [ql, qr]
+  int upd_batch(int pre, int b, int e, const vector<pair<int, int>>& up, int ql, int qr) {
+    if (ql > qr) return pre;
+    int cur = ++T;
+    t[cur] = t[pre];
+    if (b == e) {
+      for (int i = ql; i <= qr; ++i) t[cur].val += up[i].second;
+      return cur;
     }
- 
-    int mid = (l + r) / 2;
+    int mid = b + e >> 1;
     int sp = upper_bound(up.begin() + ql, up.begin() + qr + 1, mid,
-      [](int m, const pair<int, T>& p) { return m < p.first; }) - up.begin();
- 
-    nodes[root].l = _update_batch(nodes[u].l, l, mid, up, ql, sp - 1);
-    nodes[root].r = _update_batch(nodes[u].r, mid + 1, r, up, sp, qr);
-    nodes[root].val = merge(nodes[nodes[root].l].val, nodes[nodes[root].r].val);
-    return root;
+      [](int m, const pair<int, int>& p) { return m < p.first; }) - up.begin();
+    lc = upd_batch(t[pre].l, b, mid, up, ql, sp - 1);
+    rc = upd_batch(t[pre].r, mid + 1, e, up, sp, qr);
+    pull(cur);
+    return cur;
   }
-  T get(int l, int r, int v) { return _get(version[v], 0, n - 1, l, r); }
-  T _get(int u, int tl, int tr, int l, int r) {
-    if (l > tr || r < tl) return identity;
-    if (l <= tl && r >= tr) return nodes[u].val;
-    int mid = (tl + tr) / 2;
-    return merge(_get(nodes[u].l, tl, mid, l, r),
-      _get(nodes[u].r, mid + 1, tr, l, r));
+  // Range query on a single version
+  int query(int cur, int b, int e, int l, int r) {
+    if (!cur || l > e || r < b) return 0; // Identity value (0 for sum, INF for min)
+    if (l <= b && e <= r) return t[cur].val;
+    int mid = b + e >> 1;
+    return combine(query(lc, b, mid, l, r), query(rc, mid + 1, e, l, r));
   }
-  // version is 1 indexed (0 is the initial before updates)
-  T get_kth(int ver_l, int ver_r, int k) {
-    return _get_kth(version[ver_l - 1], version[ver_r], 0, n - 1, k);
+  // Query k-th smallest element between versions pre and cur
+  int query_kth(int pre, int cur, int b, int e, int k) {
+    if (b == e) return b;
+    int cnt = t[lc].val - t[t[pre].l].val;
+    int mid = b + e >> 1;
+    if (cnt >= k) return query_kth(t[pre].l, lc, b, mid, k);
+    else return query_kth(t[pre].r, rc, mid + 1, e, k - cnt);
   }
-  int _get_kth(int u, int v, int l, int r, int k) {
-    if (l == r) return l;
-    int mid = (l + r) / 2;
-    T kl = nodes[nodes[v].l].val - nodes[nodes[u].l].val;
-    if (kl >= k)
-      return _get_kth(nodes[u].l, nodes[v].l, l, mid, k);
-    else
-      return _get_kth(nodes[u].r, nodes[v].r, mid + 1, r, k - kl);
-  }
+#undef lc
+#undef rc
 };

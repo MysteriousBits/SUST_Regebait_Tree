@@ -17,6 +17,33 @@
 \usepackage{xparse}
 \usepackage{wrapfig}
 
+\usepackage{listings}
+\usepackage{xcolor}
+
+% For colorful output.
+% Color definitions
+\definecolor{cpcomment}{RGB}{34, 139, 34}      % Green
+\definecolor{cpkeyword}{RGB}{0, 0, 255}        % Blue
+\definecolor{cpstring}{RGB}{163, 21, 21}       % Red/Brown
+\definecolor{cpnumber}{RGB}{120, 120, 120}     % Gray
+
+\lstset{
+    language=C++,
+    basicstyle=\ttfamily\scriptsize,           % Compact code size
+    keywordstyle=\color{cpkeyword}\bfseries,
+    commentstyle=\color{cpcomment}\itshape,
+    stringstyle=\color{cpstring},
+    numberstyle=\tiny\color{cpnumber},
+    numbers=left,
+    numbersep=5pt,
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    showstringspaces=false,
+    keepspaces=true,
+    columns=flexible
+}
+
 % Define a color for codes
 \definecolor{codecolor}{rgb}{0.1,0.1,0.1}
 

@@ -1,46 +1,50 @@
 #define MAXN 4000005 // > 31 * N
-int trie[MAXN][2], triesz[MAXN], nodes = 0, bitsz = 30;
+int trie[MAXN][2], tsz[MAXN], nodes = 0, bitsz = 30;
+
 void insert(int x) {
   int cur = 0;
   for (int i = bitsz; i >= 0; --i) {
-    int child = x & (1 << i) ? 1 : 0;
-    if (!trie[cur][child]) trie[cur][child] = ++nodes;
-    triesz[cur]++;
-    cur = trie[cur][child];
+    int ch = (x >> i) & 1;
+    if (!trie[cur][ch]) trie[cur][ch] = ++nodes;
+    tsz[cur]++;
+    cur = trie[cur][ch];
   }
-  triesz[cur]++;
+  tsz[cur]++;
 }
 void erase(int x) {
   int cur = 0;
   for (int i = bitsz; i >= 0; --i) {
-    int child = x & (1 << i) ? 1 : 0;
-    if (!triesz[cur] || !trie[cur][child]) return;
-    triesz[cur]--;
-    cur = trie[cur][child];
+    int ch = (x >> i) & 1;
+    if (!tsz[cur] || !trie[cur][ch]) return;
+    tsz[cur]--;
+    cur = trie[cur][ch];
   }
-  triesz[cur]--;
+  tsz[cur]--;
 }
-// max xor with x
 int get_kth(int x, int k = 1) {
   int cur = 0, ans = 0;
   for (int i = bitsz; i >= 0; --i) {
-    int child = (x >> i) & 1;
-    child = 1 - child;  // remove for kth_min()
-    if (!trie[cur][child]) child = 1 - child;
-    else if(triesz[trie[cur][child]] < k)
-      k -= triesz[trie[cur][child]], child = 1 - child;
-    cur = trie[cur][child];
-    ans |= child << i;
+    int ch = (x >> i) & 1;
+    ch = 1 - ch;  // remove for kth_min()
+    if (!trie[cur][ch]) ch = 1 - ch;
+    else if (tsz[trie[cur][ch]] < k)
+      k -= tsz[trie[cur][ch]], ch = 1 - ch;
+    cur = trie[cur][ch];
+    ans |= ch << i;
   }
   return ans ^ x;
+}
+void dfs(int u = 0, int depth = 0) {
+  // custom logic
+  if (trie[u][0]) dfs(trie[u][0], depth + 1);
+  if (trie[u][1]) dfs(trie[u][1], depth + 1);
 }
 void deleteall(int root) {
   if (trie[root][0]) deleteall(trie[root][0]);
   if (trie[root][1]) deleteall(trie[root][1]);
   trie[root][0] = trie[root][1] = 0;
-  triesz[root] = 0;
+  tsz[root] = 0;
 }
-
 void cleanup() {
   nodes = 0;
   deleteall(0);
