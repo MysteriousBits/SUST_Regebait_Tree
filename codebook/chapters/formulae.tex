@@ -90,6 +90,17 @@
           \[Q(n)=\sum_{k=0}^{n}(-1)^{k}{n \choose k} \cdot P(k)\]
 \end{enumerate}
 
+\subsection{More useful identities added later}
+\begin{enumerate}
+      \item ways to arrange i pairs of brackets into j valid non-empty blocks $dp[i][j] = \left( j \cdot \binom{2i-j}{i-j} \cdot (2i-j)^{-1} \right) \pmod M$
+      \item $\sum_{k=1}^{n} k^p = \frac{1}{p+1} \sum_{r=0}^{p} \binom{p+1}{r} B_r^+ n^{p+1-r}$
+      \item Prefix sum of nCr: $2B(l, r, n) = \binom{n}{l} + \binom{n}{r} - \binom{n+1}{l} + B(l, r, n+1)$
+      \item $(q+p)^k - (q-p)^k = 2 \cdot \sum_{j \text{ odd}} \binom{k}{j} p^j q^{k-j}$
+      \item $\sum_{i=1}^{n} i^{\underline{j}} = \frac{(n+1)^{\underline{j+1}}}{j+1}$
+      \item $\sum_{i=0}^{n} i \binom{n}{i} = n 2^{n-1}$
+      \item $\binom{n}{r} \pmod 2 \neq 0 \iff (n \mathbin{\&} r) == r$ \quad
+\end{enumerate}
+
 
 \subsection{Inclusion-Exclusion Principle}
 Let $S_j$ be the sum of sizes of all intersections of exactly $j$ properties:
@@ -158,6 +169,7 @@ If intersections depend only on the number of sets $j$, precompute $S_j = \binom
 
 \begin{enumerate}[resume]
     \item Stirling number of the second kind is the number of ways to partition a set of n objects into k non-empty subsets.
+    \item $S(n, k) = \frac{1}{k!} \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^n$
     \item $S(n,k)=k \cdot S(n-1,k)+S(n-1,k-1)$,
           \(where \; S(0,0)=1,S(n,0)=S(0,n)=0\)
     \item $S(n,2)=2^{n-1}-1$
@@ -510,18 +522,18 @@ Typically these type of problem requires a range of x,y $(x \in [minx, maxx], y 
     \item \textbf{Sector Area:} $\frac{1}{2}r^2\theta$ ($\theta$ in rads)
     \item \textbf{Segment Area (Cut by chord):} $\frac{1}{2}r^2(\theta - \sin\theta)$
 \end{itemize}
-\subsection{Points and 2D Line}
-\begin{itemize}[leftmargin=*]
-    \item \textbf{Dist. point $(x_1, y_1)$ to line $ax+by+c=0$:}
-          \[ d = \frac{|ax_1+by_1+c|}{\sqrt{a^2+b^2}} \]
-    \item \textbf{Dist. between parallel lines:} $d = \frac{|c_1-c_2|}{\sqrt{a^2+b^2}}$
-    \item \textbf{Shoelace Area:} $\frac{1}{2} | \sum (x_i y_{i+1} - x_{i+1} y_i) |$
-    \item \textbf{foot of Perpendicular $(h,k)$}:
-          \[ \frac{h-x_1}{a} = \frac{k-y_1}{b} = -\frac{ax_1+by_1+c}{a^2+b^2} \]
-    \item \textbf{Reflection $(h,k)$:} Replace $- (...)$ with $-2 (...)$ above.
-    \item \textbf{Rotation of Axes (CCW $\theta$):}
-          $x = X\cos\theta - Y\sin\theta, \quad y = X\sin\theta + Y\cos\theta$
-\end{itemize}
+% \subsection{Points and 2D Line}
+% \begin{itemize}[leftmargin=*]
+%     \item \textbf{Dist. point $(x_1, y_1)$ to line $ax+by+c=0$:}
+%           \[ d = \frac{|ax_1+by_1+c|}{\sqrt{a^2+b^2}} \]
+%     \item \textbf{Dist. between parallel lines:} $d = \frac{|c_1-c_2|}{\sqrt{a^2+b^2}}$
+%     \item \textbf{Shoelace Area:} $\frac{1}{2} | \sum (x_i y_{i+1} - x_{i+1} y_i) |$
+%     \item \textbf{foot of Perpendicular $(h,k)$}:
+%           \[ \frac{h-x_1}{a} = \frac{k-y_1}{b} = -\frac{ax_1+by_1+c}{a^2+b^2} \]
+%     \item \textbf{Reflection $(h,k)$:} Replace $- (...)$ with $-2 (...)$ above.
+%     \item \textbf{Rotation of Axes (CCW $\theta$):}
+%           $x = X\cos\theta - Y\sin\theta, \quad y = X\sin\theta + Y\cos\theta$
+% \end{itemize}
 \subsection{Vector}
 \begin{itemize}[leftmargin=*]
     \item \textbf{Direction Cosines:} $l=\cos\alpha, m=\cos\beta, n=\cos\gamma$. $l^2+m^2+n^2=1$.
@@ -531,18 +543,18 @@ Typically these type of problem requires a range of x,y $(x \in [minx, maxx], y 
     \item \textbf{Scalar Triple (Vol):} $[\mathbf{a}\mathbf{b}\mathbf{c}] = \mathbf{a} \cdot (\mathbf{b} \times \mathbf{c})$. Tet Vol $= \frac{1}{6}|[\dots]|$.
     \item \textbf{Vector Triple:} $\mathbf{a} \times (\mathbf{b} \times \mathbf{c}) = (\mathbf{a}\cdot\mathbf{c})\mathbf{b} - (\mathbf{a}\cdot\mathbf{b})\mathbf{c}$
 \end{itemize}
-\subsection{3D Line}
-Line 1: $\mathbf{r} = \mathbf{a}_1 + \lambda\mathbf{b}_1$. Line 2: $\mathbf{r} = \mathbf{a}_2 + \mu\mathbf{b}_2$.
-\begin{itemize}[leftmargin=*]
-    \item \textbf{Angle Between Lines:} $\cos \theta = \frac{|\mathbf{b}_1 \cdot \mathbf{b}_2|}{|\mathbf{b}_1||\mathbf{b}_2|}$
-    \item \textbf{Condition for Intersection:} Scalar Triple Product $[\mathbf{a}_2-\mathbf{a}_1, \mathbf{b}_1, \mathbf{b}_2] = 0$.
-    \item \textbf{Intersection Point:} Solve $\mathbf{a}_1 + \lambda\mathbf{b}_1 = \mathbf{a}_2 + \mu\mathbf{b}_2$ for $\lambda, \mu$.
-    \item \textbf{Shortest Dist (Skew):} $D = \left| \frac{(\mathbf{a}_2 - \mathbf{a}_1) \cdot (\mathbf{b}_1 \times \mathbf{b}_2)}{|\mathbf{b}_1 \times \mathbf{b}_2|} \right|$
-    \item \textbf{Dist Between Parallel Lines:} $D = \frac{|(\mathbf{a}_2 - \mathbf{a}_1) \times \mathbf{b}|}{|\mathbf{b}|}$
-    \item \textbf{Dist Point $P$ to Line:} $D = \frac{|(\mathbf{p} - \mathbf{a}) \times \mathbf{b}|}{|\mathbf{b}|}$
-    \item \textbf{Foot of Perp $F$ from $P$:} $\mathbf{f} = \mathbf{a} + \left( \frac{(\mathbf{p}-\mathbf{a})\cdot \mathbf{b}}{|\mathbf{b}|^2} \right)\mathbf{b}$
-    \item \textbf{Image $P'$ in Line:} $\mathbf{p'} = 2\mathbf{f} - \mathbf{p}$.
-\end{itemize}
+% \subsection{3D Line}
+% Line 1: $\mathbf{r} = \mathbf{a}_1 + \lambda\mathbf{b}_1$. Line 2: $\mathbf{r} = \mathbf{a}_2 + \mu\mathbf{b}_2$.
+% \begin{itemize}[leftmargin=*]
+%     \item \textbf{Angle Between Lines:} $\cos \theta = \frac{|\mathbf{b}_1 \cdot \mathbf{b}_2|}{|\mathbf{b}_1||\mathbf{b}_2|}$
+%     \item \textbf{Condition for Intersection:} Scalar Triple Product $[\mathbf{a}_2-\mathbf{a}_1, \mathbf{b}_1, \mathbf{b}_2] = 0$.
+%     \item \textbf{Intersection Point:} Solve $\mathbf{a}_1 + \lambda\mathbf{b}_1 = \mathbf{a}_2 + \mu\mathbf{b}_2$ for $\lambda, \mu$.
+%     \item \textbf{Shortest Dist (Skew):} $D = \left| \frac{(\mathbf{a}_2 - \mathbf{a}_1) \cdot (\mathbf{b}_1 \times \mathbf{b}_2)}{|\mathbf{b}_1 \times \mathbf{b}_2|} \right|$
+%     \item \textbf{Dist Between Parallel Lines:} $D = \frac{|(\mathbf{a}_2 - \mathbf{a}_1) \times \mathbf{b}|}{|\mathbf{b}|}$
+%     \item \textbf{Dist Point $P$ to Line:} $D = \frac{|(\mathbf{p} - \mathbf{a}) \times \mathbf{b}|}{|\mathbf{b}|}$
+%     \item \textbf{Foot of Perp $F$ from $P$:} $\mathbf{f} = \mathbf{a} + \left( \frac{(\mathbf{p}-\mathbf{a})\cdot \mathbf{b}}{|\mathbf{b}|^2} \right)\mathbf{b}$
+%     \item \textbf{Image $P'$ in Line:} $\mathbf{p'} = 2\mathbf{f} - \mathbf{p}$.
+% \end{itemize}
 \subsection{Plane}
 Through $\mathbf{a}$, normal $\mathbf{n}$. Eq: $(\mathbf{r} - \mathbf{a}) \cdot \mathbf{n} = 0$.
 \begin{itemize}[leftmargin=*]
@@ -583,6 +595,23 @@ Through $\mathbf{a}$, normal $\mathbf{n}$. Eq: $(\mathbf{r} - \mathbf{a}) \cdot 
     \item $2\tan^{-1}x = \tan^{-1}\left(\frac{2x}{1-x^2}\right) = \sin^{-1}\left(\frac{2x}{1+x^2}\right) = \cos^{-1}\left(\frac{1-x^2}{1+x^2}\right)$
     \item $\tan^{-1}x + \cot^{-1}x = \frac{\pi}{2}$
 \end{itemize}
+\subsection{Complex Numbers}
+\begin{enumerate}
+      \item $|z| = \sqrt{a^2 + b^2} = \sqrt{\text{Re}(z)^2 + \text{Im}(z)^2}$
+      \item $|z|^2 = z \cdot \bar{z}$
+      \item $\frac{1}{z} = \frac{\bar{z}}{|z|^2} \quad (z \neq 0)$
+      \item $|z| = 1 \iff \bar{z} = \frac{1}{z}$
+      \item $\left| \frac{z}{|z|} \right| = 1 \quad (\text{Projection onto unit circle})$
+      \item $|z| = |\bar{z}| = |-z| = |-\bar{z}| = |i z|$
+      \item $|z_1 \cdot z_2| = |z_1| \cdot |z_2|$
+      \item $\left| \frac{z_1}{z_2} \right| = \frac{|z_1|}{|z_2|}$
+      \item $|z^n| = |z|^n$
+      \item $|z_1 \pm z_2|^2 = |z_1|^2 + |z_2|^2 \pm 2\text{Re}(z_1 \bar{z}_2)$
+      \item $\text{Re}(z) = \frac{z + \bar{z}}{2}, \quad \text{Im}(z) = \frac{z - \bar{z}}{2i}$
+      \item $|z_1 + z_2| \le |z_1| + |z_2| \quad (\text{equality iff } \arg(z_1) = \arg(z_2))$
+      \item $\big| |z_1| - |z_2| \big| \le |z_1 - z_2| \quad (\text{Reverse Triangle Inequality})$
+      \item $|z_1 + z_2|^2 + |z_1 - z_2|^2 = 2(|z_1|^2 + |z_2|^2) \quad (\text{Parallelogram Law})$
+\end{enumerate}
 
 \section{Miscellaneous}
 \begin{enumerate}[resume]
