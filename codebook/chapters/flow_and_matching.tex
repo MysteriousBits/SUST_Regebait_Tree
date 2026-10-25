@@ -20,6 +20,12 @@
 \code{General Matching - Mucha Sankowski}{flow_matching/general_matching.cpp}
 
 \code{Max-Clique Bron-Kerbosch}{flow_matching/bron_kerbosch.cpp}
+\codeWithDescription{Max-Clique and MIS}{flow_matching/maximum_clique.cpp}
+[
+  Given a graph as a symmetric $bitset matrix$ (without any self edges), Finds the maximum clique.
+  Can be used to find the maximum independent set by finding a clique of the complement graph.
+  Runs in about $1s$ for $n=155$, and faster for sparse graphs. 0 indexed
+]
 
 % \codeWithDescription{HopcroftKarp}{flow_matching/hopcroft.cpp}
 % [Fast bipartite matching. \texttt{n} and \texttt{m} are size of left and right partitions. \texttt{g} is the \textbf{1 based indexed} adjacency list of the left partition. \texttt{l} is a vector of 0s of size \texttt{n + 1};
