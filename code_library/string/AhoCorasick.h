@@ -1,66 +1,55 @@
 struct AhoCorasick {
-  enum {alpha = 26, first = 'A'}; // change this!
+  static const int alpha = 26; char first = 'a'; // change this
   struct Node {
-    // (nmatches is optional)
-    int back, next[alpha], start = -1, end = -1, nmatches = 0;
-    Node(int v) { memset(next, v, sizeof(next)); }
+    int link = 0, out = 0, cnt = 0, nxt[alpha]{};
+    vector<int> end;
   };
-  vector<Node> N;
-  vector<int> backp;
-  void insert(string& s, int j) {
-    assert(!s.empty());
-    int n = 0;
+  vector<Node> trie;
+  AhoCorasick(vector<string>& pat) {
+    trie.emplace_back();
+    for (int i = 0; i < (int)pat.size(); i++) insert(pat[i], i);
+    queue<int> q; q.push(0);
+    while (!q.empty()) {
+      int u = q.front(); q.pop();
+      for (int i = 0; i < alpha; i++) if (trie[u].nxt[i]) {
+        int v = trie[u].nxt[i], p = trie[u].link;
+        while (p && !trie[p].nxt[i]) p = trie[p].link;
+        if (trie[p].nxt[i] != v) trie[v].link = trie[p].nxt[i];
+        trie[v].out = !trie[trie[v].link].end.empty() ? trie[v].link : trie[trie[v].link].out;
+        trie[v].cnt = trie[v].end.size() + trie[trie[v].out].cnt;
+        q.push(v);
+      }
+    }
+  }
+  void process(int pat_id, int end_pos) {} // process match, end_pos non-decreasing
+  void insert(string& s, int id) {
+    int u = 0;
     for (char c : s) {
-      int& m = N[n].next[c - first];
-      if (m == -1) { n = m = N.size(); N.emplace_back(-1); }
-      else n = m;
-    }
-    if (N[n].end == -1) N[n].start = j;
-    backp.push_back(N[n].end);
-    N[n].end = j;
-    N[n].nmatches++;
-  }
-  AhoCorasick(vector<string>& pat) : N(1, -1) {
-    for (int i = 0; i < (int)pat.size(); ++i) insert(pat[i], i);
-    N[0].back = N.size();
-    N.emplace_back(0);
-
-    queue<int> q;
-    for (q.push(0); !q.empty(); q.pop()) {
-      int n = q.front(), prev = N[n].back;
-      for (int i = 0; i < alpha; ++i) {
-        int &ed = N[n].next[i], y = N[prev].next[i];
-        if (ed == -1) ed = y;
-        else {
-          N[ed].back = y;
-          (N[ed].end == -1 ? N[ed].end : backp[N[ed].start]) = N[y].end;
-          N[ed].nmatches += N[y].nmatches;
-          q.push(ed);
-        }
+      if (!trie[u].nxt[c - first]) {
+        trie[u].nxt[c - first] = trie.size();
+        trie.emplace_back();
       }
+      u = trie[u].nxt[c - first];
+    }
+    trie[u].end.push_back(id);
+  }
+  void find(string& s) {
+    int u = 0;
+    for (int i = 0; i < (int)s.size(); i++) {
+      while (u && !trie[u].nxt[s[i] - first]) u = trie[u].link;
+      u = trie[u].nxt[s[i] - first];
+      for (int id : trie[u].end) process(id, i);
+      for (int o = trie[u].out; o; o = trie[o].out)
+        for (int id : trie[o].end) process(id, i);
     }
   }
-  vector<int> find(string word) {
-    int n = 0;
-    vector<int> res; // ll count = 0;
-    for (char c : word) {
-      n = N[n].next[c - first];
-      res.push_back(N[n].end);
-      // count += N[n].nmatches;
+  vector<int> count(string& s) { // total pattern matches ending at each index
+    int u = 0; vector<int> cnt(s.size());
+    for (int i = 0; i < (int)s.size(); i++) {
+      while (u && !trie[u].nxt[s[i] - first]) u = trie[u].link;
+      u = trie[u].nxt[s[i] - first];
+      cnt[i] = trie[u].cnt;
     }
-    return res;
-  }
-  vector<vector<int>> findAll(vector<string>& pat, string word) {
-    vector<int> r = find(word);
-    int n = word.size();
-    vector<vector<int>> res(n);
-    for (int i = 0; i < n; ++i) {
-      int ind = r[i];
-      while (ind != -1) {
-        res[i - pat[ind].size() + 1].push_back(ind);
-        ind = backp[ind];
-      }
-    }
-    return res;
+    return cnt;
   }
 };
