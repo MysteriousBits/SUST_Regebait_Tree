@@ -34,6 +34,7 @@ struct AhoCorasick {
         else {
           N[ed].back = y;
           (N[ed].end == -1 ? N[ed].end : backp[N[ed].start]) = N[y].end;
+          // N[ed].end = (N[ed].end != -1 ? N[ed].end : N[y].end); // for allPairRelation
           N[ed].nmatches += N[y].nmatches;
           q.push(ed);
         }
