@@ -1,46 +1,62 @@
 struct SuffixAutomaton {
-  struct node { int len, link, fpos; map<char, int> nxt; };
-  int sz = 1, last = 0;
-  vector<node> t;
-  vector<int> term;
-  vector<long long> dp;
-  vector<vector<int>> g;
+  enum {alpha = 26, first = 'a'}; // change this!
+  struct Node {
+    // term -> whether the longest substr of this node is a proper prefix
+    // end-occurance of the first position
+    int len = 0, link = -1, fpos = 0, term = 0;
+    long long occ = -1; // endpos size (occurance count)
+    int next[alpha];
+    Node(int v) { memset(next, v, sizeof(next)); }
+  };
+  vector<Node> N;
+  vector<vector<int>> g;  // fail tree adjacency list
+  int last = 0;
 
-  SuffixAutomaton(int n) : t(2 * n), term(2 * n, 0), dp(2 * n, -1), g(2 * n) {
-    t[0].link = -1;
-  }
-  void extend(char c) {
+  void extend(char ch) {
+    int c = ch - first;
     int p = last, q, clone, cur;
-    if (t[p].nxt.count(c)) {
-      q = t[p].nxt[c];
-      if (t[q].len == t[p].len + 1) { last = q; return; }
-      clone = sz++; t[clone] = t[q]; t[clone].len = t[p].len + 1;
-      t[q].link = last = clone;
-      while (p != -1 && t[p].nxt[c] == q) t[p].nxt[c] = clone, p = t[p].link;
+    if (N[p].next[c] != -1) {
+      q = N[p].next[c];
+      if (N[q].len == N[p].len + 1) { last = q; return; }
+      clone = N.size();
+      N.push_back(N[q]);
+      N[clone].len = N[p].len + 1;
+      N[clone].term = 0;
+      N[q].link = last = clone;
+      while (p != -1 && N[p].next[c] == q) N[p].next[c] = clone, p = N[p].link;
       return;
     }
-    cur = last = sz++;
-    t[cur].len = t[p].len + 1; t[cur].fpos = t[cur].len;
-    while (p != -1 && !t[p].nxt.count(c)) t[p].nxt[c] = cur, p = t[p].link;
-    if (p == -1) t[cur].link = 0;
+    cur = last = N.size();
+    N.emplace_back(-1);
+    N[cur].len = N[p].len + 1; N[cur].fpos = N[cur].len;
+    while (p != -1 && N[p].next[c] == -1) N[p].next[c] = cur, p = N[p].link;
+    if (p == -1) N[cur].link = 0;
     else {
-      q = t[p].nxt[c];
-      if (t[p].len + 1 == t[q].len) t[cur].link = q;
+      q = N[p].next[c];
+      if (N[p].len + 1 == N[q].len) N[cur].link = q;
       else {
-        clone = sz++; t[clone] = t[q]; t[clone].len = t[p].len + 1;
-        while (p != -1 && t[p].nxt[c] == q) t[p].nxt[c] = clone, p = t[p].link;
-        t[q].link = t[cur].link = clone;
+        clone = N.size();
+        N.push_back(N[q]);
+        N[clone].len = N[p].len + 1;
+        N[clone].term = 0;
+        while (p != -1 && N[p].next[c] == q) N[p].next[c] = clone, p = N[p].link;
+        N[q].link = N[cur].link = clone;
       }
     }
   }
-  void build(const string &s) {
-    for (char x : s) extend(x), term[last] = 1;
-    for (int i = 1; i < sz; i++) g[t[i].link].push_back(i);
+  SuffixAutomaton(const string &s) : N(1, -1) {
+    for (char c : s) {
+      extend(c);
+      N[last].term = 1;
+    }
+    g.resize(N.size());
+    for (int i = 1; i < (int)N.size(); i++) g[N[i].link].push_back(i);
   }
-  long long cnt(int i) {
-    if (dp[i] != -1) return dp[i];
-    dp[i] = term[i];
-    for (int x : g[i]) dp[i] += cnt(x);
-    return dp[i];
+  // Computes the frequency of node[i]'s substrings
+  long long get_occ(int i) {
+    if (N[i].occ != -1) return N[i].occ;
+    N[i].occ = N[i].term;
+    for (int x : g[i]) N[i].occ += get_occ(x);
+    return N[i].occ;
   }
 };

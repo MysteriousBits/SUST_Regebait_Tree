@@ -22,6 +22,11 @@
 
 \code{Hashing}{string/hashing.h}
 
+\codeWithDescription{Min Lexical Rotation}{string/minlex.cpp}
+[
+    Finds the lexicographically smallest rotation of a string. \texttt{Time: O(N)}.
+][][ rotate(v.begin(), v.begin()+minRotation(v), v.end()); ]
+
 \codeWithDescription{Suffix Array}{string/SuffixArray.h}
 [Builds suffix array for a string. \texttt{sa[i]} is the starting index of the suffix which
  is $i$'th in the sorted suffix array. The returned vector is of size $n+1$, and \texttt{sa[0] = n}.
