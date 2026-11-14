@@ -20,6 +20,8 @@
 [ntt(a) computes $\hat f(k) = \sum_x a[x] g^{xk}$ for all $k$, where $g=\text{root}^{(mod-1)/N}$. $N$ must be a power of 2. Useful for convolution modulo specific nice primes. For manual convolution: NTT the inputs, multiply pointwise, divide by n, reverse(start+1, end), NTT back. Inputs must be in {$[0, mod)$}. \\
 \textbf{Time:} $O(N \log N)$]
 
+\code{Fast Multipoint Evaluation}{combinatorics/multipoint_shift.cpp}
+
 \codeWithDescription{FWHT}{numerical/fwht.cpp}
 [Transform to a basis with fast convolutions of the form
  $\displaystyle c[z] = \sum\nolimits_{z = x \oplus y} a[x] \cdot b[y]$,
@@ -28,4 +30,8 @@
 
 \code{GCD & LCM Convolution}{numerical/gcd_lcm_convolution.cpp}
 
+\code{Lagrange Interpolation}{numerical/lagrange.cpp}
 \code{Berlekamp Messey}{numerical/berlekamp_messey.cpp}
+
+\codeWithDescription{Fast Linear Recurrence}{numerical/kitamasa.cpp}
+[Kitamasa Bostan Mori method: Calculates the $N$-th term of a $K$-th order linear recurrence given the first $K$ terms and transition coefficients. Time: $O(K \log K \log N)$]

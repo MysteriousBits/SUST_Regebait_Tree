@@ -576,6 +576,25 @@ Through $\mathbf{a}$, normal $\mathbf{n}$. Eq: $(\mathbf{r} - \mathbf{a}) \cdot 
     \item \textbf{Circle of Intersection:} Radius $R = \sqrt{r^2 - d^2}$.
     \item \textbf{Spherical Cosine Rule:} $\cos a = \cos b \cos c + \sin b \sin c \cos A$.
 \end{itemize}
+
+\subsection{Equation}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Line (Intercept Form):} $\frac{x}{a} + \frac{y}{b} = 1$ ($x$-intercept $a$, $y$-intercept $b$).
+    \item \textbf{Line through Two Points $(x_1, y_1)$ \& $(x_2, y_2)$:} 
+          $a = y_2 - y_1,\;\; b = x_1 - x_2,\;\; c = -(ax_1 + by_1)$.
+    \item \textbf{Distance from Point $(x_0, y_0)$ to Line $ax + by + c = 0$:} 
+          \[ d = \frac{|ax_0 + by_0 + c|}{\sqrt{a^2 + b^2}} \]
+    \item \textbf{Intersection of Two Lines:} For $a_1x + b_1y + c_1 = 0$ and $a_2x + b_2y + c_2 = 0$:
+          \[ x = \frac{b_1c_2 - b_2c_1}{a_1b_2 - a_2b_1}, \quad y = \frac{c_1a_2 - c_2a_1}{a_1b_2 - a_2b_1} \]
+    \item \textbf{Angle Between Two Lines:} $\cos \theta = \frac{|aa' + bb'|}{\sqrt{a^2+b^2}\sqrt{a'^2+b'^2}}$ or via $\tan \theta = \left|\frac{m_1 - m_2}{1 + m_1 m_2}\right|$.
+    \item \textbf{Parallel / Perpendicular Lines:} 
+          Parallel: $\frac{a_1}{a_2} = \frac{b_1}{b_2} \neq \frac{c_1}{c_2}$. Perpendicular: $a_1a_2 + b_1b_2 = 0$.
+    \item \textbf{Circle Equation (Standard):} $(x - h)^2 + (y - k)^2 = r^2$ with center $(h, k)$.
+    \item \textbf{Circle Equation (General):} $x^2 + y^2 + Dx + Ey + F = 0$ (Center $\left(-\frac{D}{2}, -\frac{E}{2}\right)$, Radius $r = \frac{\sqrt{D^2 + E^2 - 4F}}{2}$).
+    \item \textbf{Circle through 3 Non-Collinear Points:} Solve the linear system for $D, E, F$ using $x_i^2 + y_i^2 + Dx_i + Ey_i + F = 0$ for each point.
+    \item \textbf{Soddy-Gosset Theorem ($n$-Dim Descartes):} $\left( \sum_{i=1}^{n+2} k_i \right)^2 = n \sum_{i=1}^{n+2} k_i^2$ ($n+2$ mutually tangent hyperspheres in $\mathbb{R}^n$ with curvatures $k_i = \frac{1}{R_i}$).
+\end{itemize}
+
 \subsection{Solid}
 \begin{itemize}[leftmargin=*]
     \item \textbf{Cone:} $V=\frac{1}{3}\pi r^2 h$, $SA = \pi r(r+l)$
