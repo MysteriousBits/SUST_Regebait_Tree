@@ -36,6 +36,12 @@ struct Point {
   P project(P p) const { return *this * ((double)dot(p) / dist2()); }
   double scalar_project(P p) const { return (double)dot(p) / dist(); }
   P reflect(P p) const { return project(p) * 2 - p; }
+  // projection of *this onto the line through s and e
+  P project(P s, P e) const {
+    P d = e - s;
+    return s + d * ((long double)(*this - s).dot(d) / d.dist2()); }
+  // reflection of *this across the line through s and e
+  P reflect(P s, P e) const { return project(s, e) * 2 - *this; }
   // Orientation test: >0 for left turn, <0 for right turn, 0 if collinear
   T side(P p1, P p2) const { return (p1 - *this).cross(p2 - *this); }
   friend ostream& operator<<(ostream& os, P p) {

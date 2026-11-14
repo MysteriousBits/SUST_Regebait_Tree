@@ -1,7 +1,7 @@
 // Usage: unordered_set<pair<int, int>, pointhash> st;
 struct pointhash {
-  size_t operator()(const pair<int, int>& p) const {
-    return hash<int>()(p.first) ^ (hash<int>()(p.second) << 1);
+  size_t operator()(pair<int,int> p) const {
+    return custom_hash()((p.first << 32ll) ^ (p.second & 0xffffffffll));
   }
 };
 struct custom_hash {
