@@ -2,4 +2,5 @@
 2. Sqrt tricks? Square Root Decomposition? MO's algo?
 3. Randomized/Probabilistic solution?
 4. Time complexity too high? Maybe not.
-5. Skill issue?
+5. TLE? pragma? different compiler?
+6. Skill issue?
