@@ -22,6 +22,7 @@ struct SuffixAutomaton {
       N.push_back(N[q]);
       N[clone].len = N[p].len + 1;
       N[clone].term = 0;
+      N[clone].link = N[q].link;
       N[q].link = last = clone;
       while (p != -1 && N[p].next[c] == q) N[p].next[c] = clone, p = N[p].link;
       return;
