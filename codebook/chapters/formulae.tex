@@ -165,6 +165,17 @@ If intersections depend only on the number of sets $j$, precompute $S_j = \binom
       \[
       S(n,k)=\frac{1}{k!}\sum_{j=0}^{k}(-1)^{k-j}\binom{k}{j}j^n
       \]
+      \[
+      S(n,k)=\sum_{j=0}^{k}
+      \frac{j^n}{j!}\cdot\frac{(-1)^{k-j}}{(k-j)!}
+      \]
+      Hence, all $S(n,k)$ for fixed $n$ can be computed using a single convolution:
+      \[
+      A[j]=\frac{j^n}{j!},\qquad B[j]=\frac{(-1)^j}{j!}
+      \]
+      \[
+      S(n,k)=(A*B)[k]
+      \]
     \item $S(n,k) \cdot k!$ = number of ways to color $n$ nodes using colors from $\displaystyle 1$ to $\displaystyle \displaystyle k$ such that each color is used at least once.
     \item An $r$-associated Stirling number of the second kind is the number of ways to partition a set of $n$ objects into $\displaystyle \displaystyle k$ subsets, with each subset containing at least $r$ elements. It is denoted by $S_r( n , k )$ and obeys the recurrence relation.
           $\displaystyle \displaystyle S_r(n+1,k) = k S_r(n,k) + \binom{n}{r-1} S_r(n-r+1,k-1)$
