@@ -1,54 +1,67 @@
-const long long MOD = 998244353, root = 3;
-void ntt(long long* x, long long* temp, long long* roots, int N, int skip) {
-  if (N == 1) return;
-  int n2 = N / 2;
-  ntt(x, temp, roots, n2, skip * 2);
-  ntt(x + skip, temp, roots, n2, skip * 2);
-  for (int i = 0; i < N; i++) temp[i] = x[i * skip];
-  for (int i = 0; i < n2; i++) {
-    long long s = temp[2 * i], t = temp[2 * i + 1] * roots[skip * i];
-    x[skip * i] = (s + t) % MOD;
-    x[skip * (i + n2)] = ((s - t) % MOD + MOD) % MOD;
-  }
-}
-void ntt(vector<long long>& x, bool inv = false) {
-  long long e = modpow(root, (MOD - 1) / x.size(), MOD);
-  if (inv) e = modpow(e, MOD - 2, MOD);
-  vector<long long> roots(x.size(), 1), temp = roots;
-  for (size_t i = 1; i < x.size(); i++) roots[i] = roots[i - 1]     * e % MOD;
-  ntt(&x[0], &temp[0], &roots[0], x.size(), 1);
-}
-vector<long long> conv(vector<long long> a, vector<long long> b) {
-  int s = a.size() + b.size() - 1;
-  if (s <= 0) return {};
-  int L = s > 1 ? 32 - __builtin_clz(s - 1) : 0, n = 1 << L;
-  if (s <= 200) {
-    vector<long long> c(s);
-    for (size_t i = 0; i < a.size(); i++) {
-      for (size_t j = 0; j < b.size(); j++) {
-        c[i + j] = (c[i + j] + a[i] * b[j]) % MOD;
-      }
+// mod: NTT prime < 2^31. Needs global modpow
+template<long long mod = 998244353, long long root = 3>
+struct NTT {
+  typedef unsigned u32; typedef unsigned long long u64;
+  static const u32 M = mod;
+  vector<u32> rt{0, 1}, irt{0, 1};
+  void init(int n) {
+    for (int len = rt.size(); len < n; len <<= 1) {
+      u64 w = modpow(root, (mod - 1) / (2 * len), mod);
+      u64 iw = modpow(w, mod - 2, mod);
+      rt.resize(2 * len); irt.resize(2 * len); rt[len] = irt[len] = 1;
+      for (int j = 1; j < len; j++)
+        rt[len + j] = rt[len + j - 1] * w % M, irt[len + j] = irt[len + j - 1] * iw % M;
     }
+  }
+  void fwd(u32* a, int n) {
+    for (int len = n >> 1; len; len >>= 1)
+      for (int i = 0; i < n; i += 2 * len) {
+        u32 *x = a + i, *y = x + len;
+        for (int j = 0; j < len; j++) {
+          u32 u = x[j], v = y[j], s = u + v;
+          x[j] = s >= M ? s - M : s;
+          y[j] = (u64)(u + M - v) * rt[len + j] % M;
+        }
+      }
+  }
+  void inv(u32* a, int n) {
+    for (int len = 1; len < n; len <<= 1)
+      for (int i = 0; i < n; i += 2 * len) {
+        u32 *x = a + i, *y = x + len;
+        for (int j = 0; j < len; j++) {
+          u32 u = x[j], v = (u64)y[j] * irt[len + j] % M, s = u + v, d = u + M - v;
+          x[j] = s >= M ? s - M : s;
+          y[j] = d >= M ? d - M : d;
+        }
+      }
+  }
+  vector<ll> conv(const vector<ll>& a, const vector<ll>& b) {
+    if (a.empty() || b.empty()) return {};
+    int s = a.size() + b.size() - 1, n = 1;
+    while (n < s) n <<= 1;
+    init(n);
+    vector<u32> fa(n), fb(n);
+    for (size_t i = 0; i < a.size(); i++) fa[i] = (a[i] % mod + mod) % mod;
+    for (size_t i = 0; i < b.size(); i++) fb[i] = (b[i] % mod + mod) % mod;
+    fwd(fa.data(), n); fwd(fb.data(), n);
+    u64 d = modpow(n, mod - 2, mod);
+    for (int i = 0; i < n; i++) fa[i] = (u64)fa[i] * fb[i] % M * d % M;
+    inv(fa.data(), n);
+    return vector<ll>(fa.begin(), fa.begin() + s);
+  }
+  vector<ll> mul(const vector<ll>& a, const vector<ll>& b, int n) {
+    vector<ll> c = conv(a, b);
+    if ((int)c.size() > n + 1) c.resize(n + 1);
     return c;
   }
-  a.resize(n); ntt(a);
-  b.resize(n); ntt(b);
-  vector<long long> c(n);
-  long long d = modpow(n, MOD - 2, MOD);
-  for (int i = 0; i < n; i++) c[i] = a[i] * b[i] % MOD * d % MOD;
-  ntt(c, true);
-  c.resize(s);
-  return c;
-}
-vector<long long> mul(const vector<long long>& a, const vector<long long>& b, int n) {
-  vector<long long> c = conv(a, b);
-  if ((int)c.size() > n + 1) c.resize(n + 1);
-  return c;
-}
-vector<long long> power(vector<long long> f, long long m, int n) {
-  vector<long long> r = {1};
-  if ((int)f.size() > n + 1) f.resize(n + 1);
-  for (; m > 0; m >>= 1, f = mul(f, f, n))
-  if (m & 1) r = mul(r, f, n);
-  return r;
-}
+  vector<ll> power(vector<ll> f, ll m, int n) {
+    vector<ll> r = {1};
+    if ((int)f.size() > n + 1) f.resize(n + 1);
+    while (m) {
+      if (m & 1) r = mul(r, f, n);
+      m >>= 1;
+      if (m) f = mul(f, f, n);
+    }
+    return r;
+  }
+};
