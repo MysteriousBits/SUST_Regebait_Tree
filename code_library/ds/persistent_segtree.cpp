@@ -1,17 +1,14 @@
 template <typename T>
-struct PST {
+struct PST { // 0-indexed
   struct node {
-    T val;
-    int l, r;
+    T val; int l, r;
   };
-  int n;
-  T identity = 0;  // 0 for sum, INF for min etc
+  int n; T identity = 0;  // 0 for sum, INF for min etc
   vector<node> nodes;
   vector<int> version;
   T merge(T x, T y) { return x + y; }
   PST() {}
-  PST(int sz) {
-    n = sz;
+  PST(int sz) : n(sz) {
     build(vector<T>(n, identity));
   }
   PST(vector<T>& a) {
