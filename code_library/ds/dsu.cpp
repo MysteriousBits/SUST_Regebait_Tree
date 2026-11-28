@@ -1,25 +1,27 @@
-
-struct dsu {
-  vector<int> parent, size;
-  dsu(int n) {
-    parent.resize(n + 1);
-    size.resize(n + 1);
-    for (int i = 1; i <= n; ++i) {
-      parent[i] = i;
-      size[i] = 1;
-    }
-  }
-  int find(int u) {
-    if (parent[u] == u) return u;
-    return parent[u] = find(parent[u]);
-  }
-  void merge(int u, int v) {
-    u = find(u);
-    v = find(v);
-    if (u != v) {
-      if (size[u] < size[v]) swap(u, v);
-      parent[v] = u;
-      size[u] += size[v];
-    }
-  }
+struct DSU {
+   vector<int> par,sz;
+   DSU(){}
+   DSU(int n){
+      init(n);
+   }
+   void init(int n){
+      par.resize(n);
+      iota(par.begin(),par.end(),0);
+      sz.assign(n,1);
+   }
+   int find(int v){
+      while(v!=par[v]){
+         v=par[v]=par[par[v]]; 
+      }
+      return v;
+   }
+   bool merge(int a,int b){
+      a=find(a);
+      b=find(b);
+      if(a==b) return false;
+      if(sz[a]<sz[b]) swap(a, b);
+      par[b]=a;
+      sz[a]+=sz[b];
+      return true;
+   }
 };

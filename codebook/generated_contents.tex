@@ -1,0 +1,333 @@
+% \chapter{Templates and Scripts}
+% \section{sublime}
+% \lstinputlisting[language=bash]{../code_library/scripts/cp.sublime-build}
+
+% \section{vs code}
+% \lstinputlisting[language=bash]{../code_library/scripts/tasks.json}
+
+% \section{Interactor}
+% \lstinputlisting[language=bash]{../code_library/scripts/interactor.sh}
+
+% \section{debug.h}
+% \lstinputlisting[language=C++]{../code_library/templates/debug.h}
+
+% \chapter{Number Theory}
+% \section{mini mod}
+% \lstinputlisting[language=C++]{../code_library/nt/minimod.cpp}
+
+% \section{Binomial Coeffecient}
+% \lstinputlisting[language=C++]{../code_library/nt/ncr.cpp}
+
+% \section{Sieve, SPF, Phi}
+% \lstinputlisting[language=C++]{../code_library/nt/sieve.cpp}
+
+% \section{Segmented Sieve}
+% \lstinputlisting[language=C++]{../code_library/nt/segmented_sieve.cpp}
+
+% \section{Safe LCM}
+% \codeWithDescription{Safe LCM}{../code_library/nt/safe_lcm.cpp}[
+% Finds lcm of $(a,b)$ where their lcm cannot go above $lim$. 
+% If it goes above $lim$, it simply returns $lim+1$.
+% ]
+
+% \section{Extended GCD}
+% \codeWithDescription{Extended GCD}{../code_library/nt/extgcd.cpp}[
+% Finds solutions $(x0, y0)$ in $ax+by = 1$. (Check formulae for more details)
+% ]
+
+% \section{CRT}
+% \codeWithDescription{CRT}{../code_library/nt/crt.cpp}[
+% Computes the unique solution $x$ to a system of congruences $x \equiv a_i \pmod{m_i}$ using the Chinese Remainder Theorem. Assumes all moduli are pairwise coprime and the answer fits in \texttt{ll}. \\
+% \textbf{Usage:} Store congruences as \texttt{\{remainder, modulus\}} pairs in \texttt{mods}. Call \texttt{crt(mods)} to obtain the smallest non-negative solution modulo the product of all moduli. Requires \texttt{extended\_gcd()} and \texttt{modinv()}. \\
+% \textbf{Time:} {$O(k \log M)$}
+% ]
+
+% \section{Diophantine Equation}
+% \codeWithDescription{Diophantine Equation}{../code_library/nt/diophantine.cpp}[
+% Solves $ax+by = c$ where $gcd(a,b) | c$. Find any solution returns $x \in [minx, maxx
+% ]
+
+% \section{Pollar Rho Factorization}
+% \codeWithDescription{Pollar Rho Factorization}{../code_library/nt/pollard_rho.cpp}[
+% Pollard-rho randomized factorization algorithm. Returns prime
+%  factors of a number, in arbitrary order (e.g. 2299 -> \{11, 19, 11\}).
+%  Time: $O(n^{1/4})$, less for numbers with small factors.
+% ]
+
+% \chapter{Dynamic Programming}
+% \section{SOS DP}
+% \lstinputlisting[language=C++]{../code_library/dp/sosDP.cpp}
+
+% \section{CHT}
+% \lstinputlisting[language=C++]{../code_library/dp/CHT.cpp}
+
+% \section{CHT Dynamic}
+% \lstinputlisting[language=C++]{../code_library/dp/cht_dynamic.cpp}
+
+% \chapter{Data Structure}
+% \section{Fenwick Tree}
+% \codeWithDescription{Fenwick Tree}{../code_library/ds/fenwick.cpp}[
+% Description: Computes partial sums a[0
+% ]
+
+% \section{Fenwick 2D (Compressed)}
+% \codeWithDescription{Fenwick 2D (Compressed)}{../code_library/ds/fenwick2d.cpp}[
+% Computes sums $a[i,j
+% ]
+
+% \section{BIT 2D}
+% \lstinputlisting[language=C++]{../code_library/ds/bit2d.cpp}
+
+% \section{Segment Tree}
+% \lstinputlisting[language=C++]{../code_library/ds/segtree.cpp}
+
+% \section{Lazy Propagation}
+% \lstinputlisting[language=C++]{../code_library/ds/segtree_lazy.cpp}
+
+% \section{Persistent Segment Tree}
+% \lstinputlisting[language=C++]{../code_library/ds/persistent_segtree.cpp}
+
+% \section{Merge Sort Tree}
+% \lstinputlisting[language=C++]{../code_library/ds/mst.cpp}
+
+% \section{Merse Sort Tree with Update}
+% \lstinputlisting[language=C++]{../code_library/ds/mst_with_update.cpp}
+
+% \section{Treap}
+% \lstinputlisting[language=C++]{../code_library/ds/treap.cpp}
+
+% \section{Segment Tree 2D (1 based)}
+% \lstinputlisting[language=C++]{../code_library/ds/segtree_2D.cpp}
+
+% \section{Segment Tree 2D (Index compression)}
+% \lstinputlisting[language=C++]{../code_library/ds/segtree_2D_index_comp.cpp}
+
+% \section{DSU}
+% \lstinputlisting[language=C++]{../code_library/ds/dsu.cpp}
+
+% \section{SQRT Decomposition}
+% \lstinputlisting[language=C++]{../code_library/ds/sqrt_decomposition.cpp}
+
+% \section{MOs Algorithm}
+% \lstinputlisting[language=C++]{../code_library/ds/normal_mo.cpp}
+
+% \section{MOs with updates}
+% \lstinputlisting[language=C++]{../code_library/ds/mos_with_updates.cpp}
+
+% \section{Implicit Treap}
+% \lstinputlisting[language=C++]{../code_library/ds/treap.cpp}
+
+% \section{Wavelet Tree}
+% \lstinputlisting[language=C++]{../code_library/ds/wavelet_tree.cpp}
+
+% \section{Sparse Table (RMQ)}
+% \lstinputlisting[language=C++]{../code_library/ds/sparse_table.cpp}
+
+% \section{Prefix Sum 2D}
+% \lstinputlisting[language=C++]{../code_library/ds/pref_sum_2D.cpp}
+
+% \section{Prefix Sum 3D}
+% \lstinputlisting[language=C++]{../code_library/ds/pref_sum_3D.cpp}
+
+% \chapter{Graph}
+% \section{Dijkstra}
+% \lstinputlisting[language=C++]{../code_library/graph/dijkstra.cpp}
+
+% \section{Bellmanford}
+% \codeWithDescription{Bellmanford}{../code_library/graph/bellmanford.cpp}[
+% Calculates shortest paths from $s$ in a graph that might have negative edge weights. Unreachable nodes get \texttt{dist = inf}; nodes reachable through negative-weight cycles get \texttt{dist = -inf}. Assumes $V^2 \max |w| < \infty$ to prevent overflow. \\
+% \textbf{Time:} {$O(VE)$}
+% ]
+
+% \section{BCC, Bridge, AP}
+% \codeWithDescription{BCC, Bridge, AP}{../code_library/graph/bcc.cpp}[
+% Finds biconnected components, bridges, and articulation points in a simple undirected graph. \\
+% \textbf{Usage:} Build graph using \texttt{g[u
+% ]
+
+% \section{2CC}
+% \lstinputlisting[language=C++]{../code_library/graph/2cc.cpp}
+
+% \section{LCA}
+% \lstinputlisting[language=C++]{../code_library/graph/lca.cpp}
+
+% \section{SCC}
+% \codeWithDescription{SCC}{../code_library/graph/kosaraju.cpp}[
+% Finds strongly connected components in a directed graph. 
+% If vertices $u, v$ belong to the same component, 
+% we can reach $u$ from $v$ and vice versa.
+% ]
+
+% \section{Kosaraju}
+% \lstinputlisting[language=C++]{../code_library/graph/kosaraju.cpp}
+
+% \section{HLD}
+% \lstinputlisting[language=C++]{../code_library/graph/hld.cpp}
+
+% \section{Centroid Decomposition}
+% \lstinputlisting[language=C++]{../code_library/graph/cd.cpp}
+
+% \section{Arpa's Trick}
+% \lstinputlisting[language=C++]{../code_library/graph/arpas_trick.cpp}
+
+% \chapter{Flow and Matching}
+% \section{Min Cost Max Flow}
+% \lstinputlisting[language=C++]{../code_library/flow_matching/mcmf.cpp}
+
+% \section{Dinic}
+% \codeWithDescription{Dinic}{../code_library/flow_matching/dinic.cpp}[
+% Flow algorithm with complexity $O(VE\log U)$ where $U = \max |\text{cap}|$. $O(\min(E^{1/2}, V^{2/3})E)$ if $U = 1$; $O(\sqrt{V}E)$ for bipartite matching. \\
+% \textbf{Time:} {$O(VE\log U)$}
+% ]
+
+% \section{Edmonds Karp}
+% \lstinputlisting[language=C++]{../code_library/flow_matching/edmond.cpp}
+
+% \section{HopcroftKarp}
+% \codeWithDescription{HopcroftKarp}{../code_library/flow_matching/hopcroft.cpp}[
+% Fast bipartite matching. \texttt{g} is the adjacency list of the left partition. \texttt{r} is a vector of -1s of size equal to the right partition; after the call, \texttt{r[i
+% ]
+
+% \chapter{String}
+% \section{Trie}
+% \lstinputlisting[language=C++]{../code_library/string/trie.cpp}
+
+% \section{Bit Trie}
+% \lstinputlisting[language=C++]{../code_library/string/bit_trie.cpp}
+
+% \section{Z Algorithm}
+% \lstinputlisting[language=C++]{../code_library/string/zalgo.cpp}
+
+% \section{KMP}
+% \codeWithDescription{KMP}{../code_library/string/KMP.h}[
+% pi[x
+% ]
+
+% \section{Suffix Array}
+% \codeWithDescription{Suffix Array}{../code_library/string/SuffixArray.h}[
+% Builds suffix array for a string. \texttt{sa[i
+% ]
+
+% \section{Suffix Automaton}
+% \lstinputlisting[language=C++]{../code_library/string/suffix_automation.cpp}
+
+% \section{Manacher}
+% \codeWithDescription{Manacher}{../code_library/string/Manacher.h}[
+% For each position in a string, computes p[0
+% ]
+
+% \section{Aho Corasick}
+% \codeWithDescription{Aho Corasick}{../code_library/string/AhoCorasick.h}[
+% Aho-Corasick automaton, used for multiple pattern matching. Initialize with 
+%     AhoCorasick ac(patterns); the automaton start node will be at index 0. find(word) returns 
+%     for each position the index of the longest word that ends there, or -1 if none. findAll($-$, word) 
+%     finds all words (up to $N \sqrt N$ many if no duplicate patterns) that start at each position 
+%     (shortest first). Duplicate patterns are allowed; empty patterns are not. To find the longest 
+%     words that start at each position, reverse all input. For large alphabets, split each symbol into 
+%     chunks, with sentinel bits for symbol boundaries. Time: construction takes $O(26N)$, 
+%     where $N =$ sum of length of patterns. find(x) is $O(N)$, where N = length of x. findAll is $O(NM)$
+% ]
+
+% \section{Min Lexic Rotation}
+% \lstinputlisting[language=C++]{../code_library/string/minlex.cpp}
+
+% \section{Longest Palindrome}
+% \lstinputlisting[language=C++]{../code_library/string/longest_palindrome.cpp}
+
+% \section{Wildcard Matching}
+% \lstinputlisting[language=C++]{../code_library/string/wildcard.cpp}
+
+% \section{Hashing}
+% \lstinputlisting[language=C++]{../code_library/string/hashing.h}
+
+% \section{2D Hash}
+% \input{../codebook/chapters/matrix.tex}
+
+% \chapter{Numerical}
+% \section{FFT}
+% \codeWithDescription{FFT}{../code_library/numerical/fft.cpp}[
+% fft(a) computes $\hat f(k) = \sum_x a[x
+% ]
+
+% \section{FFT With mod M}
+% \lstinputlisting[language=C++]{../code_library/numerical/fftmod.cpp}
+
+% \section{NTT}
+% \lstinputlisting[language=C++]{../code_library/numerical/ntt.cpp}
+
+% \section{FWHT}
+% \codeWithDescription{FWHT}{../code_library/numerical/fwht.cpp}[
+% Transform to a basis with fast convolutions of the form
+%  $\displaystyle c[z
+% ]
+
+% \chapter{Linear Algebra}
+% \section{The Matrix Class}
+% \lstinputlisting[language=C++]{../code_library/matrix/matrix_class.cpp}
+
+% \section{Gaussian Elimination}
+% \codeWithDescription{Gaussian Elimination}{../code_library/matrix/gaussian_elimination.cpp}[
+% Input : Mat a of size n x (m+1), where the last column is the RHS (b vector)
+%          i.e. a represents the augmented matrix [A | b
+% ]
+
+% \section{Determinant}
+% \codeWithDescription{Determinant}{../code_library/matrix/determinant.cpp}[
+% Determinant of a matrix.
+% ]
+
+% \section{Matrix Inverse}
+% \codeWithDescription{Matrix Inverse}{../code_library/matrix/matrix_inverse.cpp}[
+% Inverse of a matrix
+% ]
+
+% \section{Xor Basis}
+% \lstinputlisting[language=C++]{../code_library/matrix/xor_basis.cpp}
+
+\chapter{Geometry}
+\section{Full Template}
+\input{../codebook/chapters/geometry.tex}
+
+% \chapter{Miscellaneous}
+% \section{Interval Container}
+% \codeWithDescription{Interval Container}{../code_library/misc/IntervalContainer.h}[
+% Add and remove intervals from a set of disjoint intervals. Will merge the added interval with 
+%     any overlapping intervals in the set when adding. Intervals are {[inclusive, exclusive)}. Time: O(logN)
+% ]
+
+% \section{Efficient Mask Traversal}
+% \codeWithDescription{Efficient Mask Traversal}{../code_library/misc/mask_traversal.cpp}[
+% Traverses the mask with minimal changes in $2^n$ as opposed to the traditional $n2^n$ approach.
+%     If you don't care about time complexity, you can do a greedy brute force with $4^n$ time complexity.
+% ]
+
+% \section{Generationg Permutations}
+% \lstinputlisting[language=C++]{../code_library/misc/perm.cpp}
+
+% \section{Iterating over Submasks}
+% \lstinputlisting[language=C++]{../code_library/misc/submask.cpp}
+
+% \section{Random}
+% \lstinputlisting[language=C++]{../code_library/misc/rand.cpp}
+
+% \section{Index compression}
+% \lstinputlisting[language=C++]{../code_library/misc/index_compression.cpp}
+
+% \section{pbds}
+% \lstinputlisting[language=C++]{../code_library/misc/pbds.cpp}
+
+% \section{Bitset}
+% \lstinputlisting[language=C++]{../code_library/misc/bitset.cpp}
+
+% \section{Primes}
+% \lstinputlisting[language=C++]{../code_library/misc/primes.cpp}
+
+% \section{Digit Range Sum}
+% \codeWithDescription{Digit Range Sum}{../code_library/misc/DigitRangeSum.h}[
+% Gives the digit sum of the numbers in the range [l,r
+% ]
+
+% \section{Custom Hash}
+% \lstinputlisting[language=C++]{../code_library/misc/custom_hash.cpp}
+
+% \input{../codebook/chapters/formulae.tex}

@@ -6,16 +6,22 @@
 \codeWithDescription{Fenwick Tree}{ds/fenwick_kactl.cpp}
 [Description: Computes partial sums a[0] + a[1] + ... + a[pos - 1], and updates single elements a[i], taking the difference between the old and new value. \textbf{Time:} Both operations are $O(\log N)$]
 
-\codeWithDescription{Fenwick Tree 2D}{ds/fenwick2d.cpp}
+\codeWithDescription{Fenwick 2D (Compressed)}{ds/fenwick2d.cpp}
 [Computes sums $a[i,j]$ for all $i<I, j<J$, and increases single elements $a[i,j]$. Requires that the elements to be updated are known in advance (call \texttt{fakeUpdate()} before \texttt{init()}). \\
 \textbf{Time:} {$O(\log^2 N)$}. (Use persistent segment trees for {$O(\log N)$})]
+
+\code{BIT 2D}{ds/bit2d.cpp}
 
 % \code{Segment Tree (1 based)}{ds/segtree_nahdi.cpp}
 % \code{Lazy Propagation (1 based)}{ds/lazy_propagation.cpp}
 
 % Modified version of Sohag vai
 \code{Segment Tree}{ds/segtree.cpp}
-\code{Lazy Propagation}{ds/segtree_lazy.cpp}
+
+% This template is a big buggy, so I am switching to the normal one.
+% \code{Lazy Propagation}{ds/segtree_lazy.cpp}
+
+\code{Lazy Propagation}{ds/lazy_propagation.cpp}
 
 \code{Persistent Segment Tree}{ds/persistent_segtree.cpp}
 
@@ -34,6 +40,9 @@
 \code{SQRT Decomposition}{ds/sqrt_decomposition.cpp} % Add code
 \code{MOs Algorithm}{ds/normal_mo.cpp}
 \code{MOs with updates}{ds/mos_with_updates.cpp} 
+
+\code{Treap}{ds/treap.cpp}
+\code{Wavelet Tree}{ds/wavelet_tree.cpp}
 
 % Mini data structures
 \code{Sparse Table (RMQ)}{ds/sparse_table.cpp}
