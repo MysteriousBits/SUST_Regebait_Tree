@@ -9,31 +9,17 @@ using namespace std;
 #define see(x)
 #endif
 typedef long long ll;
-typedef vector<int> VI;
-typedef vector<long long> VLL;
-typedef vector<bool> VB;
-typedef vector<vector<int>> VVI;
-typedef pair<int, int> PI;
-typedef pair<ll, ll> PLL;
-typedef vector<pair<int, int>> VPI;
 #define pb push_back
 #define ff first
 #define ss second
-#define mp make_pair
 #define all(a) a.begin(), a.end()
 #define revall(a) a.rbegin(), a.rend()
-#define loop(i, s, e) for (int i = s; i < e; ++i)
-#define inp(v) for (auto& x : v) cin >> x
-#define outp(v, st) for (int i = st, n = v.size(); i < n; ++i) cout << v[i] << " \n"[i == n - 1]
 #define nl "\n"
-#define yep cout << "YES\n"
-#define nope cout << "NO\n"
 #define INF (int)1e9
 #define INFL (ll)1e18
 #define EPS 1e-9
 #define MOD 998244353
-// #define MOD 1000000007
-#define MAXN 2002
+#define MAXN 200002
 
 void solve(int tc) {}
 int main() {
